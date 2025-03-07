@@ -7,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
+  redirectToAboutUs() {
+    console.log('');
+  }
 
+  redirectToAuthentication() {
+    console.log('');
+  }
+
+  redirectToHomepage() {
+    console.log('');
+  }
 }

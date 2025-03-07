@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+}
+
+body {
+    display: grid;
+    grid-gap: 1em;
+    grid-template-rows: auto;
+    min-height: 100vh;
+}

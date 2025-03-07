@@ -1,0 +1,60 @@
+.navbar {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(58, 130, 137);
+  padding: 2.5rem 4rem;
+}
+
+.navbar_left-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar_logo_div {
+  margin-right: 4rem;
+  color: rgb(8, 39, 49);
+}
+
+.navbar_left-section_links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+}
+
+.navbar_left-section_links li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  margin-right: 2rem;
+}
+
+.navbar_right-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar_right-section_login {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.navbar_right-section_login i {
+  margin-right: 0.5rem;
+}
+
+.navbar-option {
+  cursor: pointer;
+  color: rgb(250, 247, 245);
+}
+
+.navbar-option:hover {
+  cursor: pointer;
+  color: rgb(197, 193, 191);
+}
