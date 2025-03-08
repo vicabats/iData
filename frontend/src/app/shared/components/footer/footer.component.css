@@ -1,0 +1,13 @@
+.footer-wrapper {
+    background-color: var(--gray);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-wrapper p {
+    color: var(---darker-gray);
+    text-align: center;
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-xs) 0;
+}

@@ -5,12 +5,12 @@
       <h1>Logo iData</h1>
     </div>
     <ul class="navbar_left-section_links">
-      <li>
+      <li (click)="redirectToHomepage()">
         <p class="navbar-option">
           Home
         </p>
       </li>
-      <li>
+      <li (click)="redirectToAboutUs()">
         <p class="navbar-option">
           Sobre nós
         </p>
@@ -19,7 +19,7 @@
   </div>
 
   <div class="navbar_right-section">
-    <div class="navbar_right-section_login navbar-option">
+    <div class="navbar_right-section_login navbar-option" (click)="redirectToAuthentication()">
       <i class="fa-solid fa-user "></i>
       Login
     </div>

@@ -1,9 +1,12 @@
+@import 'styles/variables.css';
+
 * {
     margin: 0;
     padding: 0;
     border: 0;
-    font-family: "Rubik", sans-serif;
+    font-family: "Outfit", sans-serif;
     font-optical-sizing: auto;
+    font-style: normal;
 }
 
 body {
@@ -11,4 +14,7 @@ body {
     grid-gap: 1em;
     grid-template-rows: auto;
     min-height: 100vh;
+    background-color: var(--background-color);
+    color: (--text-color);
+    font-size: var(--font-size-md);
 }
