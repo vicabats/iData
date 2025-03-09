@@ -1,0 +1,9 @@
+.login-page {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.login-page_sign-in-section {
+  cursor: pointer;
+}

@@ -11,15 +11,15 @@ export class NavbarComponent {
 
   constructor(private router: Router) { }
 
-  redirectToAboutUs() {
+  redirectToAboutUs(): void {
     console.log('Redirecionar para sobre nós');
   }
 
-  redirectToAuthentication() {
-    console.log('Redirecionar para login');
+  redirectToLogin(): void {
+    this.router.navigate(['login']);
   }
 
-  redirectToHomepage() {
+  redirectToHomepage(): void {
     this.router.navigate(['/']);
   }
 }
