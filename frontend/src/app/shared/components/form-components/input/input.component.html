@@ -1,12 +1,17 @@
-<section class="example-full-width">
-  <mat-label>{{label}}:</mat-label>
-  <input type={{type}} matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
-    placeholder="Ex. pat@example.com">
-  <mat-hint>Errors appear instantly!</mat-hint>
-  @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
-  <mat-error>Please enter a valid email address</mat-error>
-  }
-  @if (emailFormControl.hasError('required')) {
-  <mat-error>Email is <strong>required</strong></mat-error>
-  }
+<section class="input-component">
+  <mat-form-field appearance="fill">
+    <mat-label>{{ label }}</mat-label>
+    <input
+      matInput
+      [type]="type"
+      [placeholder]="placeholder"
+      (input)="onInput($event)"
+    />
+
+    <ng-template [ngIf]="showError">
+      <mat-error class="input-component_error">
+        {{ errorMessage }}
+      </mat-error>
+    </ng-template>
+  </mat-form-field>
 </section>

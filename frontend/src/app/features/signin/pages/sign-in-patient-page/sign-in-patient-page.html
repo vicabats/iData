@@ -1,3 +1,25 @@
 <section class="sign-in-patient-page">
-  <app-input label="Nome" />
+  <form [formGroup]="patientForm" (ngSubmit)="trySignUp()">
+    <app-input
+      formControlName="name"
+      label="Nome completo"
+      [formControl]="patientForm.get('name')"
+      [errorMessage]="getErrorMessage('name')"
+    />
+
+    <!-- <app-input
+      label="CPF"
+      type="tel"
+      [formControl]="patientForm.get('cpf')"
+      placeholder="Formato: 000.000.000-00"
+      [errorMessage]="getErrorMessage('cpf')"
+      mask="000.000.000-00"
+    /> -->
+
+    <!-- <p>Data de nascimento</p> -->
+
+    <button mat-raised-button type="submit" [disabled]="patientForm.invalid">
+      Cadastrar
+    </button>
+  </form>
 </section>
