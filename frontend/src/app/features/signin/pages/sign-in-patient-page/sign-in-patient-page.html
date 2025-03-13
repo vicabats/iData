@@ -3,20 +3,51 @@
     <app-input
       formControlName="name"
       label="Nome completo"
-      [formControl]="patientForm.get('name')"
       [errorMessage]="getErrorMessage('name')"
     />
 
-    <!-- <app-input
+    <app-input
+      formControlName="cpf"
       label="CPF"
       type="tel"
-      [formControl]="patientForm.get('cpf')"
       placeholder="Formato: 000.000.000-00"
       [errorMessage]="getErrorMessage('cpf')"
       mask="000.000.000-00"
-    /> -->
+    />
 
-    <!-- <p>Data de nascimento</p> -->
+    <app-datepicker label="Data de nascimento" formControlName="birthDate" />
+
+    <app-input
+      formControlName="telephone"
+      label="Telefone"
+      type="tel"
+      placeholder="Formato: (00)00000 0000"
+      [errorMessage]="getErrorMessage('telephone')"
+      mask="(00) 00000-0000"
+    />
+
+    <!-- Google Address -->
+
+    <app-input
+      formControlName="email"
+      label="E-mail"
+      type="email"
+      [errorMessage]="getErrorMessage('email')"
+    />
+
+    <app-input
+      formControlName="password"
+      label="Senha"
+      type="password"
+      [errorMessage]="getErrorMessage('password')"
+    />
+
+    <app-input
+      formControlName="confirmPassword"
+      label="Confirme a senha"
+      type="password"
+      [errorMessage]="getErrorMessage('confirmPassword')"
+    />
 
     <button mat-raised-button type="submit" [disabled]="patientForm.invalid">
       Cadastrar

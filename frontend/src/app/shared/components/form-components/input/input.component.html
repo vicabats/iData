@@ -1,11 +1,12 @@
 <section class="input-component">
   <mat-form-field appearance="fill">
-    <mat-label>{{ label }}</mat-label>
+    <mat-label>{{ label }}:</mat-label>
     <input
       matInput
       [type]="type"
       [placeholder]="placeholder"
       (input)="onInput($event)"
+      [mask]="mask"
     />
 
     <ng-template [ngIf]="showError">

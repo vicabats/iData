@@ -31,11 +31,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
       useExisting: forwardRef(() => InputComponent),
       multi: true,
     },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => InputComponent),
-      multi: true,
-    },
   ],
 })
 export class InputComponent implements ControlValueAccessor, Validator {

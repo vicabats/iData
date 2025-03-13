@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
@@ -6,13 +7,23 @@ import {
   FormControl,
   FormsModule,
   ReactiveFormsModule,
+  AbstractControl,
+  ValidationErrors,
 } from '@angular/forms';
-import { InputComponent } from '../../../../shared/components/form-components/input/input.component';
 import { MatInputModule } from '@angular/material/input';
+import { InputComponent } from '../../../../shared/components/form-components/input/input.component';
+import { DatepickerComponent } from '../../../../shared/components/form-components/datepicker/datepicker.component';
 
 @Component({
   selector: 'app-sign-in-patient-page',
-  imports: [InputComponent, FormsModule, ReactiveFormsModule, MatInputModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    CommonModule,
+    InputComponent,
+    DatepickerComponent,
+  ],
   templateUrl: './sign-in-patient-page.html',
   styleUrl: './sign-in-patient-page.css',
 })
@@ -22,26 +33,50 @@ export class SignInPatientPage {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.patientForm = this.fb.group({
-      name: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^((?:[^\s]+(?:\s+|$)){2,})$/),
+    this.patientForm = this.fb.group(
+      {
+        name: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(/^((?:[^\s]+(?:\s+|$)){2,})$/),
+          ],
         ],
-      ],
-      // cpf: ['', [Validators.required, this.cpfValidator]],
-    });
+        cpf: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/),
+          ],
+        ],
+        birthDate: [''],
+        telephone: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(/^\(\d{2}\)\s\d{4,5}-\d{4}$/),
+          ],
+        ],
+        email: ['', [Validators.required, Validators.email]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/),
+          ],
+        ],
+        confirmPassword: ['', [Validators.required]],
+      },
+      { validators: this.passwordMatchValidator }
+    );
   }
 
-  // cpfValidator(control: FormControl): { [key: string]: boolean } | null {
-  //   const cpf = control.value;
-  //   const cpfPattern = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
-  //   if (cpf && !cpfPattern.test(cpf)) {
-  //     return { invalidCpf: true };
-  //   }
-  //   return null;
-  // }
+  passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
+    const password = group.get('password')?.value;
+    const confirmPassword = group.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { passwordMismatch: true };
+  }
 
   getErrorMessage(controlName: string): string {
     const control = this.patientForm.get(controlName);
@@ -49,7 +84,6 @@ export class SignInPatientPage {
       if (control.errors?.['required']) {
         return 'Este campo é obrigatório';
       } else if (control.errors?.['pattern']) {
-        console.log(control.errors);
         return 'Formato inválido';
       }
     }

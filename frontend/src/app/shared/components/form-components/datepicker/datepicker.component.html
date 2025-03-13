@@ -1,0 +1,8 @@
+<section>
+  <mat-form-field>
+    <mat-label>{{ label }}:</mat-label>
+    <input matInput [matDatepicker]="dp" type="text" />
+    <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp></mat-datepicker>
+  </mat-form-field>
+</section>
