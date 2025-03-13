@@ -1,4 +1,4 @@
-package com.fatecipiranga.idata.infrastructure;
+package com.fatecipiranga.idata.infrastructure.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

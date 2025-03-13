@@ -2,17 +2,13 @@ package com.fatecipiranga.idata.api.converter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
 import org.springframework.stereotype.Component;
-
 import com.fatecipiranga.idata.api.request.EnderecoRequestDTO;
 import com.fatecipiranga.idata.api.request.UsuarioRequestDTO;
-import com.fatecipiranga.idata.infrastructure.EnderecoEntity;
-import com.fatecipiranga.idata.infrastructure.UsuarioEntity;
-
+import com.fatecipiranga.idata.infrastructure.entity.EnderecoEntity;
+import com.fatecipiranga.idata.infrastructure.entity.UsuarioEntity;
 import lombok.RequiredArgsConstructor;
 
-@SuppressWarnings("unused")
 @Component
 @RequiredArgsConstructor
 public class UsuarioConverter {

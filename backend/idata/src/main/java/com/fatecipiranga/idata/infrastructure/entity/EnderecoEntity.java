@@ -1,7 +1,7 @@
-package com.fatecipiranga.idata.infrastructure;
+package com.fatecipiranga.idata.infrastructure.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
-
+import org.springframework.data.annotation.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +16,7 @@ import lombok.Setter;
 @Builder
 
 public class EnderecoEntity {
+    @Id
     private String id;
     private String userId;
     private String street;

@@ -2,6 +2,7 @@ package com.fatecipiranga.idata.api.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
@@ -9,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode
+@Component
 public class UsuarioRequestDTO {
 
     private String name;

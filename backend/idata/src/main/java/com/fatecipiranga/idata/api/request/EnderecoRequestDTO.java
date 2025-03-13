@@ -1,5 +1,7 @@
 package com.fatecipiranga.idata.api.request;
 
+import org.springframework.stereotype.Component;
+
 import lombok.*;
 
 @Getter
@@ -8,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
+@Component
 public class EnderecoRequestDTO {
 
     private String street;
