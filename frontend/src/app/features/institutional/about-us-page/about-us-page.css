@@ -1,0 +1,92 @@
+.aboutus-page_header {
+    text-align: center;
+    padding: 3rem 0;
+    background-color: var(--primary-color);
+    color: black;
+}
+
+.aboutus-page_title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.aboutus-page_content {
+    padding: 2rem;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    text-align: justify;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.aboutus-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+}
+
+.team-title {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin: 2rem 0;
+}
+
+.team-members {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 2rem;
+}
+
+.team-member {
+    text-align: center;
+    width: 250px;
+    height: 350px; /* Altura fixa para o card */
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza os itens horizontalmente */
+    justify-content: flex-start; /* Alinha os itens no topo */
+    position: relative; /* Para posicionamento relativo */
+}
+
+.team-photo {
+    width: 150px; /* Largura fixa para a foto */
+    height: 150px; /* Altura fixa para a foto */
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--secondary-color);
+    margin-bottom: 1rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute; /* Posicionamento absoluto */
+    top: 20px; /* Distância do topo */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Ajuste fino para centralização */
+}
+
+.team-member:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.team-member mat-card-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-top: 180px; /* Espaço para a foto */
+}
+
+.team-member mat-card-subtitle {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-top: 0.5rem; /* Espaçamento após o título */
+}
