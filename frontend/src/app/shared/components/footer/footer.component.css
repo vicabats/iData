@@ -1,6 +1,5 @@
 .footer-wrapper {
     background-color: var(--gray);
-    position: absolute;
     bottom: 0;
     width: 100%;
 }

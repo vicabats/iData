@@ -1,20 +1,50 @@
 @import 'styles/variables.css';
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
 
 * {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-family: "Outfit", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Outfit", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
 body {
-    display: grid;
-    grid-gap: 1em;
-    grid-template-rows: auto;
-    min-height: 100vh;
-    background-color: var(--background-color);
-    color: (--text-color);
-    font-size: var(--font-size-sm);
+  display: grid;
+  grid-gap: 1em;
+  grid-template-rows: auto;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  color: (--text-color);
+  font-size: var(--font-size-sm);
+}
+
+/* Material style overrides */
+.mat-datepicker-toggle .mat-icon-button {
+  background-color: red;
+}
+
+.mat-calendar {
+  background-color: var(--white);
+}
+
+.mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+  border-color: var(--blue) !important;
+}
+
+.mat-datepicker-content-touch .mat-datepicker-content-container {
+  height: auto !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: var(--white) !important;
+}
+
+.mat-calendar-body-selected {
+  background-color: var(--blue) !important;
+}
+
+.mat-mdc-form-field {
+  width: 100% !important;
 }

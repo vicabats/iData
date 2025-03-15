@@ -12,7 +12,7 @@ export class NavbarComponent {
   constructor(private router: Router) { }
 
   redirectToAboutUs(): void {
-    console.log('Redirecionar para sobre nós');
+    this.router.navigate(['about-us']);
   }
 
   redirectToLogin(): void {

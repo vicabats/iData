@@ -1,17 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy } from '@angular/compiler';
 import { Component, forwardRef, Input } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
-  FormControl,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -42,6 +40,10 @@ import { MatInputModule } from '@angular/material/input';
   ],
 })
 export class DatepickerComponent implements ControlValueAccessor, Validator {
+  constructor(private dateAdapter: DateAdapter<any>) {
+    this.dateAdapter.setLocale('pt-BR');
+  }
+ 
   @Input() label!: string;
 
   private _value: any;
