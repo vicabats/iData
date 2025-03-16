@@ -2,10 +2,10 @@ import { Component, Input, forwardRef } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
-  NG_VALIDATORS,
   Validator,
   AbstractControl,
   ValidationErrors,
+  NG_VALIDATORS,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
@@ -28,6 +28,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => InputComponent),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
       useExisting: forwardRef(() => InputComponent),
       multi: true,
     },

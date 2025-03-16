@@ -1,5 +1,9 @@
 <section class="sign-in-patient-page">
-  <form class="sign-in-patient_form" [formGroup]="patientForm" (ngSubmit)="trySignUp()">
+  <form
+    class="sign-in-patient_form"
+    [formGroup]="patientForm"
+    (ngSubmit)="trySignUp()"
+  >
     <app-input
       formControlName="name"
       label="Nome completo"
@@ -15,7 +19,7 @@
       mask="000.000.000-00"
     />
 
-    <app-datepicker label="Data de nascimento" formControlName="birthDate" />
+    <app-datepicker label="Data de nascimento" />
 
     <app-input
       formControlName="telephone"
@@ -26,7 +30,10 @@
       mask="(00) 00000-0000"
     />
 
-    <!-- Google Address -->
+    <app-address-autocomplete
+      formControlName="address"
+      [errorMessage]="getErrorMessage('address')"
+    />
 
     <app-input
       formControlName="email"
