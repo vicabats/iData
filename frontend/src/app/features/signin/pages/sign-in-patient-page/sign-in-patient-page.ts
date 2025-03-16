@@ -12,6 +12,7 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { InputComponent } from '../../../../shared/components/form-components/input/input.component';
 import { DatepickerComponent } from '../../../../shared/components/form-components/datepicker/datepicker.component';
+import { AddressAutocompleteComponent } from '../../../../shared/components/form-components/address-autocomplete/address-autocomplete.component';
 
 @Component({
   selector: 'app-sign-in-patient-page',
@@ -22,6 +23,7 @@ import { DatepickerComponent } from '../../../../shared/components/form-componen
     CommonModule,
     InputComponent,
     DatepickerComponent,
+    AddressAutocompleteComponent,
   ],
   templateUrl: './sign-in-patient-page.html',
   styleUrl: './sign-in-patient-page.css',
@@ -34,41 +36,47 @@ export class SignInPatientPage {
   ngOnInit(): void {
     this.patientForm = this.fb.group(
       {
-        name: [
-          '',
-          [
-            Validators.required,
-            Validators.pattern(/^((?:[^\s]+(?:\s+|$)){2,})$/),
-          ],
-        ],
-        cpf: [
-          '',
-          [
-            Validators.required,
-            Validators.pattern(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/),
-          ],
-        ],
-        birthDate: [''],
+        name: ['', [Validators.required, this.getNameRegexValidator()]],
+        cpf: ['', [Validators.required, this.getCPFRegexValidator()]],
+        birthDate: ['', Validators.required],
         telephone: [
           '',
-          [
-            Validators.required,
-            Validators.pattern(/^\(\d{2}\)\s\d{4,5}-\d{4}$/),
-          ],
+          [Validators.required, this.getTelephoneRegexValidator()],
         ],
+        address: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
         password: [
           '',
           [
             Validators.required,
-            Validators.minLength(8),
-            Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/),
+            this.getPasswordMinLenghtValidator(),
+            this.getPasswordRegexValidator(),
           ],
         ],
         confirmPassword: ['', [Validators.required]],
       },
       { validators: this.passwordMatchValidator }
     );
+  }
+
+  getNameRegexValidator(): Validators {
+    return Validators.pattern(/^((?:[^\s]+(?:\s+|$)){2,})$/);
+  }
+
+  getCPFRegexValidator(): Validators {
+    return Validators.pattern(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/);
+  }
+
+  getTelephoneRegexValidator(): Validators {
+    return Validators.pattern(/^\(\d{2}\)\s\d{4,5}-\d{4}$/);
+  }
+
+  getPasswordMinLenghtValidator(): Validators {
+    return Validators.minLength(8);
+  }
+
+  getPasswordRegexValidator(): Validators {
+    return Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/);
   }
 
   passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
