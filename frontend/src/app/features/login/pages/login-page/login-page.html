@@ -1,6 +1,25 @@
 <section class="login-page">
-  <p>Experiência de Login ainda não implementada.</p>
-  <div class="login-page_sign-in-section" (click)="redirectToSignIn()">
-    <p>Criar nova conta</p>
+  <div class="login-container">
+    <h2>Fazer Login</h2>
+    <form class="login-form" [formGroup]="loginForm">
+      <app-input
+        label="CPF"
+        type="tel"
+        placeholder="Formato: 000.000.000-00"
+        [errorMessage]="getErrorMessage('cpf')"
+        mask="000.000.000-00"
+      ></app-input>
+
+      <app-input
+        formControlName="password"
+        label="Senha"
+        type="password"
+        [errorMessage]="getErrorMessage('password')"
+      ></app-input>
+
+      <button mat-raised-button color="primary" class="login-button">Fazer Login</button>
+    </form>
+
+    <p class="create-account">Criar nova conta</p>
   </div>
 </section>
