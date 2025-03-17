@@ -30,9 +30,13 @@
       mask="(00) 00000-0000"
     />
 
-    <app-address-autocomplete
-      formControlName="address"
-      [errorMessage]="getErrorMessage('address')"
+    <app-input
+      formControlName="telephone"
+      label="Telefone"
+      type="tel"
+      placeholder="Formato: (00)00000 0000"
+      [errorMessage]="getErrorMessage('telephone')"
+      mask="(00) 00000-0000"
     />
 
     <app-input

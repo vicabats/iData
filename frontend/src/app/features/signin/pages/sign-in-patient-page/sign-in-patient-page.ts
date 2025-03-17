@@ -12,7 +12,6 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { InputComponent } from '../../../../shared/components/form-components/input/input.component';
 import { DatepickerComponent } from '../../../../shared/components/form-components/datepicker/datepicker.component';
-import { AddressAutocompleteComponent } from '../../../../shared/components/form-components/address-autocomplete/address-autocomplete.component';
 
 @Component({
   selector: 'app-sign-in-patient-page',
@@ -23,7 +22,6 @@ import { AddressAutocompleteComponent } from '../../../../shared/components/form
     CommonModule,
     InputComponent,
     DatepickerComponent,
-    AddressAutocompleteComponent,
   ],
   templateUrl: './sign-in-patient-page.html',
   styleUrl: './sign-in-patient-page.css',
