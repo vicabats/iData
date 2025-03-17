@@ -82,6 +82,10 @@ export class InputComponent implements ControlValueAccessor, Validator {
     this.value = input.value;
   }
 
+  onBlur(): void {
+    this.onTouched();
+  }
+
   get showError(): boolean {
     return this.errorMessage !== '' && this.errorMessage.length > 0;
   }

@@ -12,9 +12,10 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { InputComponent } from '../../../../shared/components/form-components/input/input.component';
 import { DatepickerComponent } from '../../../../shared/components/form-components/datepicker/datepicker.component';
+import { CepService } from '../../../../shared/features/cep/services/cep.service';
 
 @Component({
-  selector: 'app-sign-in-patient-page',
+  selector: 'app-sign-up-patient-page',
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -23,13 +24,13 @@ import { DatepickerComponent } from '../../../../shared/components/form-componen
     InputComponent,
     DatepickerComponent,
   ],
-  templateUrl: './sign-in-patient-page.html',
-  styleUrl: './sign-in-patient-page.css',
+  templateUrl: './sign-up-patient-page.html',
+  styleUrl: './sign-up-patient-page.css',
 })
-export class SignInPatientPage {
+export class SignUpPatientPage {
   patientForm: FormGroup = new FormGroup({});
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private cepService: CepService) {}
 
   ngOnInit(): void {
     this.patientForm = this.fb.group(
@@ -41,7 +42,7 @@ export class SignInPatientPage {
           '',
           [Validators.required, this.getTelephoneRegexValidator()],
         ],
-        address: ['', [Validators.required]],
+        cep: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
         password: [
           '',
@@ -55,6 +56,23 @@ export class SignInPatientPage {
       },
       { validators: this.passwordMatchValidator }
     );
+  }
+
+  onCepBlur(): void {
+    console.log('oi');
+    const cepControl = this.patientForm.get('cep');
+    if (cepControl && cepControl.valid) {
+      const cepValue = cepControl.value.replace('-', '');
+      this.cepService.getAddress(cepValue).subscribe({
+        next: (data) => {
+          console.log('CEP data:', data);
+          // Atualize os campos do formulário com os dados do CEP, se necessário
+        },
+        error: (error) => {
+          console.error('Erro ao buscar CEP:', error);
+        },
+      });
+    }
   }
 
   getNameRegexValidator(): Validators {

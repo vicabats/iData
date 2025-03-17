@@ -1,6 +1,6 @@
-<section class="sign-in-patient-page">
+<section class="sign_up-patient-page">
   <form
-    class="sign-in-patient_form"
+    class="sign_up-patient_form"
     [formGroup]="patientForm"
     (ngSubmit)="trySignUp()"
   >
@@ -22,12 +22,13 @@
     <app-datepicker label="Data de nascimento" />
 
     <app-input
-      formControlName="telephone"
-      label="Telefone"
+      formControlName="cep"
+      label="CEP"
       type="tel"
-      placeholder="Formato: (00)00000 0000"
-      [errorMessage]="getErrorMessage('telephone')"
-      mask="(00) 00000-0000"
+      placeholder="Formato: 00000-000"
+      [errorMessage]="getErrorMessage('cep')"
+      mask="00000-000"
+      (blur)="onCepBlur()"
     />
 
     <app-input
