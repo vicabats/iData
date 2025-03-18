@@ -3,6 +3,7 @@ import { Component, forwardRef, Input } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
+  FormsModule,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
@@ -17,6 +18,7 @@ import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-datepicker',
+  standalone: true,
   imports: [
     MatInputModule,
     MatFormFieldModule,
@@ -25,6 +27,7 @@ import { NgxMaskDirective } from 'ngx-mask';
     ReactiveFormsModule,
     MatNativeDateModule,
     NgxMaskDirective,
+    FormsModule,
   ],
   templateUrl: './datepicker.component.html',
   styleUrl: './datepicker.component.css',
@@ -46,24 +49,25 @@ export class DatepickerComponent implements ControlValueAccessor, Validator {
     this.dateAdapter.setLocale('pt-BR');
   }
 
-  @Input() label!: string;
+  private _value: string | number = '';
 
-  private _value: any;
-  private onChange: (value: any) => void = () => {};
-  private onTouched: () => void = () => {};
-
-  get value(): any {
+  get value(): string | number {
     return this._value;
   }
 
-  set value(val: any) {
+  @Input()
+  set value(val: string | number) {
     this._value = val;
     this.onChange(val);
-    this.onTouched();
   }
+  @Input() label!: string;
+  @Input() errorMessage: string = 'Campo obrigatório';
+
+  private onChange: (value: any) => void = () => {};
+  private onTouched: () => void = () => {};
 
   writeValue(value: any): void {
-    this._value = value;
+    this.value = value;
   }
 
   registerOnChange(fn: any): void {
@@ -77,11 +81,17 @@ export class DatepickerComponent implements ControlValueAccessor, Validator {
   onInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
+    this.onChange(this.value);
+    this.onTouched();
   }
 
   validate(control: AbstractControl): ValidationErrors | null {
     return control.valid
       ? null
       : { invalidForm: { valid: false, message: 'Invalid form' } };
+  }
+
+  get showError(): boolean {
+    return this.errorMessage !== '' && this.errorMessage.length > 0;
   }
 }

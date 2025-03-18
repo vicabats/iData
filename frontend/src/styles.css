@@ -54,5 +54,8 @@ body {
 
 .mat-mdc-text-field-wrapper {
   border-radius: 20px !important;
-  /* border: solid 1px var(--gray) !important; */
+}
+
+.mat-raised-button {
+  font-size: var(--font-size-md) !important;
 }

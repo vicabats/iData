@@ -8,7 +8,7 @@
       <app-input
         formControlName="name"
         label="Nome completo"
-        [errorMessage]="getErrorMessage('name')"
+        [errorMessage]="getErrorMessage('name', 'nome e sobrenome(s)')"
         [value]="patientForm.get('name')?.value | titlecase"
       />
 
@@ -22,7 +22,13 @@
           mask="000.000.000-00"
         />
 
-        <app-datepicker label="Data de nascimento" />
+        <app-input
+          formControlName="birthDate"
+          label="Data de nascimento"
+          placeholder="Formato: dd/mm/aaaa"
+          [errorMessage]="getErrorMessage('birthDate', 'dd/mm/aaaa')"
+          mask="d0/M0/0000"
+        />
       </div>
     </div>
 
@@ -86,7 +92,7 @@
         label="Telefone"
         type="tel"
         placeholder="Formato: (00)00000 0000"
-        [errorMessage]="getErrorMessage('telephone')"
+        [errorMessage]="getErrorMessage('telephone', '(00) 00000-0000')"
         mask="(00) 00000-0000"
       />
 
@@ -104,7 +110,7 @@
         label="Senha"
         type="password"
         placeholder="Deve conter, no mínimo 6 caracteres, um número e um caracter especial."
-        [errorMessage]="getErrorMessage('password')"
+        [errorMessage]="getErrorMessage('password', 'mínimo 6 caracteres, um número e um caracter especial')"
       />
 
       <app-input
@@ -115,8 +121,16 @@
       />
     </div>
 
-    <button mat-raised-button type="submit" [disabled]="patientForm.invalid">
-      Cadastrar
-    </button>
+    <div class="sign_up-submit-section">
+      <button
+        mat-raised-button
+        type="submit"
+        class="submit_button"
+        [disabled]="patientForm.invalid"
+        [ngClass]="{ 'submit_button-enabled': !patientForm.invalid }"
+      >
+        Cadastrar
+      </button>
+    </div>
   </form>
 </section>
