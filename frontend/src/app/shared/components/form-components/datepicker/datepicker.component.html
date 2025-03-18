@@ -1,7 +1,7 @@
 <section>
   <mat-form-field color="accent" appearance="fill">
     <mat-label>{{ label }}:</mat-label>
-    <input matInput [matDatepicker]="dp" type="text" />
+    <input matInput [matDatepicker]="dp" type="text" mask="d0/M0/0000" />
     <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
     <mat-datepicker touchUi="true" #dp></mat-datepicker>
   </mat-form-field>

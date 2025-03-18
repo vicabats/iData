@@ -1,4 +1,4 @@
-@import 'styles/variables.css';
+@import "styles/variables.css";
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 
 * {
@@ -29,7 +29,9 @@ body {
   background-color: var(--white);
 }
 
-.mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+.mat-calendar-body-today:not(.mat-calendar-body-selected):not(
+    .mat-calendar-body-comparison-identical
+  ) {
   border-color: var(--blue) !important;
 }
 
@@ -47,4 +49,10 @@ body {
 
 .mat-mdc-form-field {
   width: 100% !important;
+  border-radius: 80px !important;
+}
+
+.mat-mdc-text-field-wrapper {
+  border-radius: 20px !important;
+  /* border: solid 1px var(--gray) !important; */
 }

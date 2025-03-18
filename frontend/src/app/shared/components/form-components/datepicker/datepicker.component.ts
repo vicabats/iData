@@ -9,10 +9,11 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { DateAdapter, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-datepicker',
@@ -23,6 +24,7 @@ import { MatInputModule } from '@angular/material/input';
     CommonModule,
     ReactiveFormsModule,
     MatNativeDateModule,
+    NgxMaskDirective,
   ],
   templateUrl: './datepicker.component.html',
   styleUrl: './datepicker.component.css',
@@ -43,7 +45,7 @@ export class DatepickerComponent implements ControlValueAccessor, Validator {
   constructor(private dateAdapter: DateAdapter<any>) {
     this.dateAdapter.setLocale('pt-BR');
   }
- 
+
   @Input() label!: string;
 
   private _value: any;

@@ -44,23 +44,13 @@ export class InputComponent implements ControlValueAccessor, Validator {
   @Input() placeholder: string = '';
   @Input() errorMessage: string = 'Campo obrigatório';
   @Input() mask?: string;
+  @Input() value: string | number = '';
 
-  private _value: any;
   private onChange: (value: any) => void = () => {};
   private onTouched: () => void = () => {};
 
-  get value(): any {
-    return this._value;
-  }
-
-  set value(val: any) {
-    this._value = val;
-    this.onChange(val);
-    this.onTouched();
-  }
-
   writeValue(value: any): void {
-    this._value = value;
+    this.value = value;
   }
 
   registerOnChange(fn: any): void {
@@ -80,9 +70,7 @@ export class InputComponent implements ControlValueAccessor, Validator {
   onInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
-  }
-
-  onBlur(): void {
+    this.onChange(this.value);
     this.onTouched();
   }
 

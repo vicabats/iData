@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
@@ -12,7 +12,6 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { InputComponent } from '../../../../shared/components/form-components/input/input.component';
 import { DatepickerComponent } from '../../../../shared/components/form-components/datepicker/datepicker.component';
-import { CepService } from '../../../../shared/features/cep/services/cep.service';
 
 @Component({
   selector: 'app-sign-up-patient-page',
@@ -23,26 +22,37 @@ import { CepService } from '../../../../shared/features/cep/services/cep.service
     CommonModule,
     InputComponent,
     DatepickerComponent,
+    TitleCasePipe,
   ],
   templateUrl: './sign-up-patient-page.html',
   styleUrl: './sign-up-patient-page.css',
 })
 export class SignUpPatientPage {
+  // Melhorias:
+  // - Adicionar validação de CPF
+  // - Mostrar mensagem de erro no input somente quando o usuário "sair" do input
+
   patientForm: FormGroup = new FormGroup({});
 
-  constructor(private fb: FormBuilder, private cepService: CepService) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.patientForm = this.fb.group(
       {
         name: ['', [Validators.required, this.getNameRegexValidator()]],
         cpf: ['', [Validators.required, this.getCPFRegexValidator()]],
-        birthDate: ['', Validators.required],
+        birthDate: ['', [Validators.required, this.getBirthdateValidator()]],
         telephone: [
           '',
           [Validators.required, this.getTelephoneRegexValidator()],
         ],
-        cep: ['', [Validators.required]],
+        street: ['', [Validators.required]],
+        zipCode: ['', [Validators.required, this.getZipCodeRegexValidator()]],
+        addressNumber: ['', [Validators.required]],
+        addressComplement: [''],
+        neighborhood: ['', [Validators.required]],
+        city: ['', [Validators.required]],
+        state: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
         password: [
           '',
@@ -58,25 +68,14 @@ export class SignUpPatientPage {
     );
   }
 
-  onCepBlur(): void {
-    console.log('oi');
-    const cepControl = this.patientForm.get('cep');
-    if (cepControl && cepControl.valid) {
-      const cepValue = cepControl.value.replace('-', '');
-      this.cepService.getAddress(cepValue).subscribe({
-        next: (data) => {
-          console.log('CEP data:', data);
-          // Atualize os campos do formulário com os dados do CEP, se necessário
-        },
-        error: (error) => {
-          console.error('Erro ao buscar CEP:', error);
-        },
-      });
-    }
-  }
-
   getNameRegexValidator(): Validators {
     return Validators.pattern(/^((?:[^\s]+(?:\s+|$)){2,})$/);
+  }
+
+  getBirthdateValidator(): Validators {
+    return Validators.pattern(
+      /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/
+    );
   }
 
   getCPFRegexValidator(): Validators {
@@ -87,8 +86,12 @@ export class SignUpPatientPage {
     return Validators.pattern(/^\(\d{2}\)\s\d{4,5}-\d{4}$/);
   }
 
+  getZipCodeRegexValidator(): Validators {
+    return Validators.pattern(/^\d{5}-\d{3}$/);
+  }
+
   getPasswordMinLenghtValidator(): Validators {
-    return Validators.minLength(8);
+    return Validators.minLength(6);
   }
 
   getPasswordRegexValidator(): Validators {
@@ -101,13 +104,13 @@ export class SignUpPatientPage {
     return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
-  getErrorMessage(controlName: string): string {
+  getErrorMessage(controlName: string, placeholder?: string): string {
     const control = this.patientForm.get(controlName);
     if (control && control.touched && control.invalid) {
       if (control.errors?.['required']) {
         return 'Este campo é obrigatório';
       } else if (control.errors?.['pattern']) {
-        return 'Formato inválido';
+        return 'Formato inválido. Siga o padrão ' + placeholder;
       }
     }
     return '';
