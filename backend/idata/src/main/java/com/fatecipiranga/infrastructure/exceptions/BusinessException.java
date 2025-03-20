@@ -1,4 +1,4 @@
-package com.fatecipiranga.idata.infrastructure.exceptions;
+package com.fatecipiranga.infrastructure.exceptions;
 
 public class BusinessException extends RuntimeException{
     @SuppressWarnings("unused")

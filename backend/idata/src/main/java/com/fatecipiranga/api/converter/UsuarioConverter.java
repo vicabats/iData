@@ -1,18 +1,17 @@
-package com.fatecipiranga.idata.api.converter;
+package com.fatecipiranga.api.converter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.fatecipiranga.idata.api.request.EnderecoRequestDTO;
-import com.fatecipiranga.idata.api.request.UsuarioRequestDTO;
-import com.fatecipiranga.idata.infrastructure.EnderecoEntity;
-import com.fatecipiranga.idata.infrastructure.UsuarioEntity;
+import com.fatecipiranga.api.request.EnderecoRequestDTO;
+import com.fatecipiranga.api.request.UsuarioRequestDTO;
+import com.fatecipiranga.infrastructure.EnderecoEntity;
+import com.fatecipiranga.infrastructure.UsuarioEntity;
 
 import lombok.RequiredArgsConstructor;
 
-@SuppressWarnings("unused")
 @Component
 @RequiredArgsConstructor
 public class UsuarioConverter {
@@ -20,11 +19,9 @@ public class UsuarioConverter {
     public UsuarioEntity paraUsuarioEntity(UsuarioRequestDTO usuarioDTO) {
         return UsuarioEntity.builder()
                 .userId(UUID.randomUUID().toString())
-                .name(usuarioDTO.getName())
+                .fullName(usuarioDTO.getFullName())
                 .cpf(usuarioDTO.getCpf())
                 .email(usuarioDTO.getEmail())
-                .password(usuarioDTO.getPassword())
-                .phone(usuarioDTO.getPhone())
                 .registrationDate(LocalDateTime.now())
                 .build();
 
@@ -35,10 +32,9 @@ public class UsuarioConverter {
                 .street(enderecoDTO.getStreet())
                 .number(enderecoDTO.getNumber())
                 .complement(enderecoDTO.getComplement())
-                .cep(enderecoDTO.getCep())
+                .zipCode(enderecoDTO.getZipCode())
                 .city(enderecoDTO.getCity())
                 .state(enderecoDTO.getState())
-                .country(enderecoDTO.getCountry())
                 .userId(userId)
                 .build();
     }

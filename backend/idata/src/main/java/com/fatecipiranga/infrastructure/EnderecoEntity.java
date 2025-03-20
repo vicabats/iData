@@ -1,4 +1,4 @@
-package com.fatecipiranga.idata.infrastructure;
+package com.fatecipiranga.infrastructure;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -22,8 +22,7 @@ public class EnderecoEntity {
     private String number;
     private String complement;
     private String neighborhood;
-    private String cep;
+    private String zipCode;
     private String city;
     private String state;
-    private String country;
 }

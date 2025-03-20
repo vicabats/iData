@@ -1,4 +1,4 @@
-package com.fatecipiranga.idata.api.request;
+package com.fatecipiranga.api.request;
 
 import lombok.*;
 
@@ -14,8 +14,7 @@ public class EnderecoRequestDTO {
     private String number;
     private String complement;
     private String neighborhood;
-    private String cep;
+    private String zipCode;
     private String city;
-    private String state;
-    private String country;
+    private String state; 
 }

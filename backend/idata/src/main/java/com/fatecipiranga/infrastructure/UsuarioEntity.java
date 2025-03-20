@@ -1,5 +1,4 @@
-package com.fatecipiranga.idata.infrastructure;
-
+package com.fatecipiranga.infrastructure;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
@@ -14,7 +13,8 @@ import lombok.*;
 public class UsuarioEntity {
     @Id
     private String userId;
-    private String name;
+    private String fullName;
+    private String birthdate;
     private String cpf;
     private String email;
     private String password;
