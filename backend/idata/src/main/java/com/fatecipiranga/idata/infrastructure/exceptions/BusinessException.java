@@ -1,7 +1,6 @@
 package com.fatecipiranga.idata.infrastructure.exceptions;
 
 public class BusinessException extends RuntimeException{
-    @SuppressWarnings("unused")
     private static final long servialVersionUID = 1L;
     public BusinessException(String message){
         super(message);
