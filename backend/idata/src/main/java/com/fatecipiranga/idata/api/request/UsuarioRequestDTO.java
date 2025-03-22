@@ -18,6 +18,8 @@ public class UsuarioRequestDTO {
 
     private String cpf;
 
+    private String birthDate;
+
     private EnderecoRequestDTO endereco;
 
     public String getPassword() {

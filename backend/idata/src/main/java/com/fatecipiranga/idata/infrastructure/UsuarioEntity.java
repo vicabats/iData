@@ -14,11 +14,12 @@ import lombok.*;
 public class UsuarioEntity {
     @Id
     private String userId;
-    private String name;
+    private String fullName;
     private String cpf;
     private String email;
     private String password;
-    private String phone;
+    private String telephone;
+    private String birthDate;
     private LocalDateTime registrationDate;
 }
 

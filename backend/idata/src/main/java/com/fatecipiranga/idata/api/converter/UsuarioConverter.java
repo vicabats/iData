@@ -20,11 +20,12 @@ public class UsuarioConverter {
     public UsuarioEntity paraUsuarioEntity(UsuarioRequestDTO usuarioDTO) {
         return UsuarioEntity.builder()
                 .userId(UUID.randomUUID().toString())
-                .name(usuarioDTO.getName())
+                .fullName(usuarioDTO.getName())
                 .cpf(usuarioDTO.getCpf())
                 .email(usuarioDTO.getEmail())
                 .password(usuarioDTO.getPassword())
-                .phone(usuarioDTO.getPhone())
+                .telephone(usuarioDTO.getPhone())
+                .birthDate(usuarioDTO.getBirthDate())
                 .registrationDate(LocalDateTime.now())
                 .build();
 

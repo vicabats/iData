@@ -22,8 +22,7 @@ public class EnderecoEntity {
     private String number;
     private String complement;
     private String neighborhood;
-    private String cep;
+    private String zipCode;
     private String city;
     private String state;
-    private String country;
 }
