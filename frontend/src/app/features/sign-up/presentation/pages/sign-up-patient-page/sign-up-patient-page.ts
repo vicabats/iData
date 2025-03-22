@@ -10,6 +10,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule } from '@angular/material/divider';
 import { InputComponent } from '../../../../../shared/components/form-components/input/input.component';
 import { PersonalUser } from '../../../../../shared/types/personal_user';
 import { UserAddress } from '../../../../../shared/types/user_address';
@@ -30,6 +31,7 @@ import {
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
+    MatDividerModule,
     CommonModule,
     InputComponent,
     TitleCasePipe,
