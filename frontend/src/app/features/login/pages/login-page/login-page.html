@@ -16,13 +16,17 @@
         type="password"
         [errorMessage]="getErrorMessage('password')"
       />
-      <a class="forgotten-password" (click)="redirectToForgotPassword()">Esqueceu a senha?</a>
+      <div class="forgotten-password-container">
+        <a class="forgotten-password" (click)="redirectToForgotPassword()">Esqueceu a senha?</a>
+      </div>
       <button mat-raised-button color="primary" class="login-button">
         Fazer Login
       </button>
     </form>
-    <div class="divider">
+    <div class="divider-with-text">
+      <mat-divider></mat-divider>
       <span class="divider-text">ou</span>
+      <mat-divider></mat-divider>
     </div>
     <button mat-stroked-button color="secondary" class="create-account" (click)="redirectToSignUp()">
       Criar nova conta

@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,6 +20,7 @@ import { Router } from '@angular/router';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
+    MatDividerModule,
     CommonModule,
     InputComponent,
   ],
