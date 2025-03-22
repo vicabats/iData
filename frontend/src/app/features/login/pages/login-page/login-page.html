@@ -16,7 +16,7 @@
         type="password"
         [errorMessage]="getErrorMessage('password')"
       />
-      <a class="forgotten-password" href="#">Esqueceu a senha?</a>
+      <a class="forgotten-password" (click)="redirectToForgotPassword()">Esqueceu a senha?</a>
       <button mat-raised-button color="primary" class="login-button">
         Fazer Login
       </button>

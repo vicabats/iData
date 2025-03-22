@@ -33,10 +33,10 @@
   width: 100%;
 }
 
-
 .forgotten-password {
   width: 100%;
   text-align: right;
+  cursor: pointer;
 }
 
 .divider {

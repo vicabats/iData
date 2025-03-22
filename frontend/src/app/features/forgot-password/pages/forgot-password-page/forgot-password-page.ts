@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login-page',
+  selector: 'app-forgot-password-page',
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -22,36 +22,28 @@ import { Router } from '@angular/router';
     CommonModule,
     InputComponent,
   ],
-  templateUrl: './login-page.html',
-  styleUrl: './login-page.css',
+  templateUrl: './forgot-password-page.html',
+  styleUrl: './forgot-password-page.css',
 })
-export class LoginPage {
-  loginForm: FormGroup = new FormGroup({});
+export class ForgotPasswordPage {
+  forgotPasswordForm: FormGroup = new FormGroup({});
 
   constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      cpf: [
+    this.forgotPasswordForm = this.fb.group({
+      email: [
         '',
         [
           Validators.required,
-          Validators.pattern(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/),
-        ],
-      ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/),
+          Validators.email,
         ],
       ],
     });
   }
 
   getErrorMessage(controlName: string): string {
-    const control = this.loginForm.get(controlName);
+    const control = this.forgotPasswordForm.get(controlName);
     if (control && control.touched && control.invalid) {
       if (control.errors?.['required']) {
         return 'Este campo é obrigatório';
@@ -62,11 +54,11 @@ export class LoginPage {
     return '';
   }
 
-  redirectToSignUp(): void {
-    this.router.navigate(['signup']);
+  redirectToLogin(): void {
+    this.router.navigate(['login']);
   }
   
-  redirectToForgotPassword(): void {
+  redirectToFortgotPassword(): void {
     this.router.navigate(['forgot-password']);
   }
 }
