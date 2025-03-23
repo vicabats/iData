@@ -1,15 +1,9 @@
-package com.fatecipiranga.idata.infrastructure.entity;
+package com.fatecipiranga.idata.api.response;
 
 import lombok.Data;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import lombok.Builder;
 @Data
-@Builder
-@Document(collection = "addresses")
-
-public class EnderecoEntity {
+public class EnderecoResponse {
     private String id;
     private String userId;
     private String street;

@@ -1,0 +1,131 @@
+# iData
+
+  API RESTful desenvolvida com Spring Boot para gerenciamento de usuários e seus endereços. O projeto utiliza MongoDB como banco de dados NoSQL para armazenar informações de usuários (coleção `users`) e endereços associados (coleção `addresses`). A aplicação permite criar, listar, buscar, atualizar e excluir usuários, integrando dados de endereço de forma eficiente com o uso do MapStruct para mapeamento de objetos.
+
+## Funcionalidades
+- **Criação de Usuários**: Adicione novos usuários com informações pessoais e endereço via endpoint POST.
+- **Listagem de Usuários**: Recupere todos os usuários registrados.
+- **Busca por Email**: Consulte detalhes de um usuário específico pelo email.
+- **Atualização de Usuários**: Modifique informações de usuários existentes.
+- **Exclusão de Usuários**: Remova usuários e seus endereços associados.
+
+## Tecnologias Utilizadas
+- **Java 17**: Linguagem principal do projeto.
+- **Spring Boot 3.2.4**: Framework para construção da API.
+- **MongoDB**: Banco de dados NoSQL para persistência.
+- **MapStruct 1.5.5**: Ferramenta de mapeamento de objetos.
+- **Lombok**: Biblioteca para redução de código boilerplate.
+- **Maven**: Gerenciamento de dependências e build.
+
+---
+
+## Como Iniciar o Projeto
+
+### Pré-requisitos
+- **Java 17**: Verifique a instalação:
+
+java -version
+
+- **Maven**: Verifique a instalação:
+
+mvn --version
+
+- **MongoDB**: Banco de dados local ou remoto em funcionamento.
+  - Para instalação local:
+    - Baixe e instale o MongoDB Community Server ([instruções](https://www.mongodb.com/docs/manual/installation/)).
+    - Inicie o MongoDB:
+
+mongod
+
+- Padrão: `localhost:27017`.
+
+### Passos para Startar
+1. **Clone o Repositório**:
+
+git clone https: https://github.com/vicabats/iData.git
+cd projetoiData
+
+
+2. **Configure o MongoDB**:
+Verifique se o arquivo `src/main/resources/application.yml` contém:
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/idata
+
+Se necessário, ajuste o `uri` para o endereço correto do seu MongoDB.
+
+3. **Baixe as dependências e compile o projeto**:
+
+mvn clean install
+
+
+4. **Inicie a Aplicação**:
+
+mvn spring-boot:run
+
+A API estará disponível em `http://localhost:8080`.
+
+5. **Testando os Endpoints**:
+Utilize o Postman ou outra ferramenta similar para testar a API. Exemplos:
+- **POST /api/user** - Criar um usuário:
+
+{
+    "name": "Carlos Souza",
+    "cpf": "456.789.123-00",
+    "email": "carlos.souza@example.com",
+    "password": "senha789",
+    "phone": "(31) 99876-5432",
+    "address": {
+        "street": "Rua das Palmeiras",
+        "number": "789",
+        "complement": "Bloco B",
+        "neighborhood": "Savassi",
+        "zipCode": "30123-456",
+        "city": "Belo Horizonte",
+        "state": "MG"
+    }
+}
+
+- **GET /api/user/carlos.souza@example.com** - Buscar usuário por email.
+
+### Verificando os dados no MongoDB
+Acesse o MongoDB shell:
+
+mongo
+use idata
+db.users.find()
+db.addresses.find()
+
+
+### Observações Importantes
+- **Segurança**: Atualmente o campo `password` é retornado nas respostas para simplicidade. Em produção, recomenda-se criptografar (por exemplo, utilizando BCrypt) e não retornar o campo nas respostas.
+- **Dependências**: Todas as dependências estão declaradas no `pom.xml` e são gerenciadas automaticamente pelo Maven.
+
+---
+
+## Contribuição
+Sinta-se à vontade para abrir issues ou enviar pull requests com sugestões e melhorias.
+
+---
+
+## Estrutura Recomendada
+- Certifique-se de que todos os arquivos (como `UsuarioEntity`, `UsuarioService`, `UsuarioMapper`, etc.) estejam corretamente no repositório.
+- Teste localmente antes de subir o projeto.
+
+### .gitignore recomendado:
+
+target/
+*.log
+.idea/
+*.iml
+
+
+## Comandos Úteis Resumo
+
+git clone https://https://github.com/vicabats/iData.git
+cd iData
+mvn clean install
+mongod
+mvn spring-boot:run

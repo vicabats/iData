@@ -3,4 +3,5 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database: usuario
+      database: idata
+      uri: mongodb://localhost:27017/idata
