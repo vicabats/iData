@@ -45,19 +45,19 @@
 .aboutus-text {
     flex: 1;
     padding-right: 20px;
-    text-align: justify; /* Texto justificado */
-    line-height: 1.6; /* Espaçamento entre linhas */
-    font-size: 1.1rem; /* Tamanho da fonte */
-    color: var(--text-color); /* Cor do texto */
+    text-align: justify;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    color: var(--text-color);
 }
 
 .aboutus-text p {
-    margin-bottom: 1.5rem; /* Espaçamento entre parágrafos */
-    text-indent: 2rem; /* Indentação do parágrafo (opcional) */
+    margin-bottom: 1.5rem;
+    text-indent: 2rem; 
 }
 
 .aboutus-text p:last-child {
-    margin-bottom: 0; /* Remove o espaçamento do último parágrafo */
+    margin-bottom: 0;
 }
 
 .aboutus-image {

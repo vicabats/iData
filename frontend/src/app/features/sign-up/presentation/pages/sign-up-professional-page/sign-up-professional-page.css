@@ -1,0 +1,31 @@
+.sign_up-professional_form {
+    padding: var(--spacing-lg) 0;
+  
+    .sign_up-form-section {
+      margin-top: var(--spacing-lg);
+    }
+  
+    .sign_up-submit-section {
+      display: flex;
+      justify-content: center;
+      margin-top: var(--spacing-lg);
+  
+      .submit_button {
+        font-size: var(--font-size-md);
+        padding: var(--spacing-sm);
+        border-radius: 20px;
+        width: 100%;
+        cursor: not-allowed;
+      }
+  
+      .submit_button-enabled {
+        background-color: var(--blue);
+        color: var(--white);
+        cursor: pointer;
+      }
+    }
+  }
+  
+  .divider {
+    margin: 24px;
+  }
