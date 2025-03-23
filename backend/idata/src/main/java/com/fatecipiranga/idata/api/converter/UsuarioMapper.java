@@ -1,21 +1,29 @@
 package com.fatecipiranga.idata.api.converter;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.springframework.stereotype.Component;
-
-import com.fatecipiranga.idata.api.response.UsuarioResponseDTO;
+import com.fatecipiranga.idata.api.request.UsuarioDTO;
+import com.fatecipiranga.idata.api.request.EnderecoDTO;
 import com.fatecipiranga.idata.infrastructure.entity.EnderecoEntity;
 import com.fatecipiranga.idata.infrastructure.entity.UsuarioEntity;
+import com.fatecipiranga.idata.api.response.EnderecoResponse;
+import com.fatecipiranga.idata.api.response.UsuarioResponse;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
-@Component
 @Mapper(componentModel = "spring")
 public interface UsuarioMapper {
 
-    @Mapping(target = "id", source = "usuario.id")
-    @Mapping(target = "name", source = "usuario.name")
-    @Mapping(target = "cpf", source = "usuario.cpf")
-    @Mapping(target = "endereco", source = "enderecoEntity")
-    UsuarioResponseDTO paraUsuarioResponseDTO(UsuarioEntity usuario, EnderecoEntity enderecoEntity);
+    UsuarioMapper INSTANCE = Mappers.getMapper(UsuarioMapper.class);
 
+    @Mapping(target = "userId", ignore = true) // Gerado no serviço
+    @Mapping(target = "registrationDate", ignore = true) // Gerado no serviço
+    @Mapping(target = "address", source = "address")
+    UsuarioEntity toEntity(UsuarioDTO usuarioDTO);
+
+    @Mapping(target = "address", source = "address")
+    UsuarioResponse toResponse(UsuarioEntity usuarioEntity);
+
+    EnderecoEntity toEnderecoEntity(EnderecoDTO enderecoDTO);
+
+    EnderecoResponse toEnderecoResponse(EnderecoEntity enderecoEntity);
 }

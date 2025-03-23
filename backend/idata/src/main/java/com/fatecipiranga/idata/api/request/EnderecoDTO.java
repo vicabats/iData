@@ -1,18 +1,11 @@
 package com.fatecipiranga.idata.api.request;
 
-import org.springframework.stereotype.Component;
+import lombok.Data;
 
-import lombok.*;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EqualsAndHashCode
-@Component
-public class EnderecoRequestDTO {
-
+@Data
+public class EnderecoDTO {
+    private String id;
+    private String userId;
     private String street;
     private String number;
     private String complement;
