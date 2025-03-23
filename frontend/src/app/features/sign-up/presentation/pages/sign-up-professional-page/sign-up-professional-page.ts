@@ -21,7 +21,7 @@ import {
   getNameRegexValidator,
   getPasswordMinLenghtValidator,
   getPasswordRegexValidator,
-  getTelephoneRegexValidator,
+  getPhoneRegexValidator,
   getZipCodeRegexValidator,
 } from '../../helpers/forms-validators';
 
@@ -64,7 +64,7 @@ export class SignUpProfessionalPage {
         neighborhood: ['', [Validators.required]],
         city: ['', [Validators.required]],
         state: ['', [Validators.required]],
-        telephone: ['', [Validators.required, getTelephoneRegexValidator()]],
+        telephone: ['', [Validators.required, getPhoneRegexValidator()]],
         email: ['', [Validators.required, Validators.email]],
         password: [
           '',
@@ -127,7 +127,7 @@ export class SignUpProfessionalPage {
       cpf: this.professionalForm.get('cpf')?.value,
       birthDate: this.professionalForm.get('birthDate')?.value,
       address: this.getUserAddress(),
-      telephone: this.professionalForm.get('telephone')?.value,
+      phone: this.professionalForm.get('phone')?.value,
       email: this.professionalForm.get('email')?.value,
       password: this.professionalForm.get('password')?.value,
     };

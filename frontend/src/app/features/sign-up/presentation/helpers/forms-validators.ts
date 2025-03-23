@@ -14,7 +14,7 @@ export function getCPFRegexValidator(): Validators {
   return Validators.pattern(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/);
 }
 
-export function getTelephoneRegexValidator(): Validators {
+export function getPhoneRegexValidator(): Validators {
   return Validators.pattern(/^\(\d{2}\)\s\d{4,5}-\d{4}$/);
 }
 

@@ -21,7 +21,7 @@ import {
   getNameRegexValidator,
   getPasswordMinLenghtValidator,
   getPasswordRegexValidator,
-  getTelephoneRegexValidator,
+  getPhoneRegexValidator,
   getZipCodeRegexValidator,
 } from '../../helpers/forms-validators';
 
@@ -64,7 +64,7 @@ export class SignUpPatientPage {
         neighborhood: ['', [Validators.required]],
         city: ['', [Validators.required]],
         state: ['', [Validators.required]],
-        telephone: ['', [Validators.required, getTelephoneRegexValidator()]],
+        phone: ['', [Validators.required, getPhoneRegexValidator()]],
         email: ['', [Validators.required, Validators.email]],
         password: [
           '',
@@ -127,7 +127,7 @@ export class SignUpPatientPage {
       cpf: this.patientForm.get('cpf')?.value,
       birthDate: this.patientForm.get('birthDate')?.value,
       address: this.getUserAddress(),
-      telephone: this.patientForm.get('telephone')?.value,
+      phone: this.patientForm.get('phone')?.value,
       email: this.patientForm.get('email')?.value,
       password: this.patientForm.get('password')?.value,
     };
