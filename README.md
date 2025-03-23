@@ -10,7 +10,9 @@ frontend: Aplicação desenvolvida em Angular 19, proporcionando uma interface i
 
 
 
+
 🚀 Funcionalidades Já Implementadas
+
 
 Cadastro e gerenciamento de usuários (usuário final, contato de segurança e profissional de saúde)
 
