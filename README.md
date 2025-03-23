@@ -12,10 +12,11 @@ frontend: Aplicação desenvolvida em Angular 19, proporcionando uma interface i
 
 /iData
   ├── /backend
-  │     └── README.md
+  │  
   ├── /frontend
-  │     └── README.md
-  ├── README.md (este arquivo)
+  │   
+  ├── README.md 
+
 
 🚀 Funcionalidades Já Implementadas
 
