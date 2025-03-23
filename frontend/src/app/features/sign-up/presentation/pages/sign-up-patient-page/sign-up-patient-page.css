@@ -26,6 +26,41 @@
   }
 }
 
+.flex-row {
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+  gap: 10px;
+}
+
+.cpf-input,
+.birthdate-input,
+.password-input {
+  width: 50%;
+}
+
+.birthdate-input {
+  width: 50%;
+}
+
+.address-number {
+  width: 20%;
+}
+
+.zip-code-input,
+.state-input {
+  width: 30%;
+}
+
+.complement-input {
+  width: 80%
+}
+
+.neighborhood-input,
+.city-input {
+  width: 70%
+}
+
 .divider {
   margin: 24px;
 }
