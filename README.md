@@ -8,14 +8,6 @@ backend: API RESTful desenvolvida em Java 17 utilizando Spring Boot, MongoDB e M
 
 frontend: Aplicação desenvolvida em Angular 19, proporcionando uma interface intuitiva, responsiva e de fácil usabilidade.
 
-📁 Estrutura do Repositório
-
-/iData
-  ├── /backend
-  │  
-  ├── /frontend
-  │   
-  ├── README.md 
 
 
 🚀 Funcionalidades Já Implementadas
