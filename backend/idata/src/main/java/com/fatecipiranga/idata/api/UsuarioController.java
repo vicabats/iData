@@ -21,38 +21,38 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
-    @PostMapping
+    @PostMapping(params = "type=personal")
     public ResponseEntity<UsuarioResponse> createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         UsuarioResponse createdUsuario = usuarioService.createUsuario(usuarioDTO);
         return new ResponseEntity<>(createdUsuario, HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping(params = "type=personal")
     public ResponseEntity<List<UsuarioResponse>> getAllUsuarios() {
         List<UsuarioResponse> usuarios = usuarioService.getAllUsuarios();
         return new ResponseEntity<>(usuarios, HttpStatus.OK);
     }
 
-    @GetMapping("/{email}")
+    @GetMapping(value = "/{email}", params = "type=personal")
     public ResponseEntity<UsuarioResponse> getUsuarioByEmail(@PathVariable String email) {
         UsuarioResponse usuario = usuarioService.getUsuarioByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
         return new ResponseEntity<>(usuario, HttpStatus.OK);
     }
 
-    @PutMapping("/{email}")
+    @PutMapping(value = "/{email}", params = "type=personal")
     public ResponseEntity<UsuarioResponse> updateUsuario(@PathVariable String email, @RequestBody UsuarioDTO usuarioDTO) {
         UsuarioResponse updatedUsuario = usuarioService.updateUsuario(email, usuarioDTO);
         return new ResponseEntity<>(updatedUsuario, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{email}")
+    @DeleteMapping(value = "/{email}", params = "type=personal")
     public ResponseEntity<Void> deleteUsuario(@PathVariable String email) {
         usuarioService.deleteUsuario(email);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/login")
+    @PostMapping(value = "/login", params = "type=personal")
     public ResponseEntity<UsuarioResponse> login(@RequestBody LoginDTO loginDTO) {
         UsuarioResponse usuario = usuarioService.login(loginDTO);
         return new ResponseEntity<>(usuario, HttpStatus.OK);
