@@ -1,4 +1,5 @@
-package com.fatecipiranga.idata.infrastructure.exceptions;
+package com.fatecipiranga.idata;
+
 
 public class UserManagementException extends RuntimeException {
     private final String errorCode;
