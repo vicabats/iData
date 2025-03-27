@@ -37,7 +37,7 @@ public class ProfessionalService {
         try {
             LOGGER.debug("Convertendo ProfessionalDTO para ProfessionalEntity");
             ProfessionalEntity professionalEntity = professionalMapper.toEntity(professionalDTO);
-            professionalEntity.setProfessionalId(UUID.randomUUID().toString());
+            professionalEntity.setId(UUID.randomUUID().toString());
             professionalEntity.setRegistrationDate(LocalDateTime.now());
             LOGGER.debug("ProfessionalEntity inicializado: {}", professionalEntity);
 
@@ -58,7 +58,7 @@ public class ProfessionalService {
             LOGGER.info("Profissional criado com sucesso: {}", professionalEntity.getCpf());
             return professionalMapper.toResponse(professionalEntity);
         } catch (Exception e) {
-            LOGGER.error("Erro ao criar profissional com CPF: {}. Detalhes: {}", professionalDTO.getCpf(), e.getMessage(), e);
+            LOGGER.error("Erro ao criar profissional com CPF: {}. Stacktrace: ", professionalDTO.getCpf(), e);
             throw new UserManagementException("Falha ao criar profissional com CPF: " + professionalDTO.getCpf(), "CREATE_PROFESSIONAL_ERROR", e);
         }
     }
@@ -74,15 +74,15 @@ public class ProfessionalService {
 
             ProfessionalEntity professional = professionalOpt.get();
             LOGGER.info("Profissional encontrado: {}", professional.getCpf());
-            if (!professional.getPassword().equals(loginDTO.getPassword())) {
-                LOGGER.warn("Senha inválida para CPF: {}", loginDTO.getCpf());
+            if (professional.getPassword() == null || !professional.getPassword().equals(loginDTO.getPassword())) {
+                LOGGER.warn("Senha inválida ou ausente para CPF: {}", loginDTO.getCpf());
                 throw new UserManagementException("Senha inválida", "INVALID_PASSWORD");
             }
 
             LOGGER.info("Login bem-sucedido para CPF: {}", loginDTO.getCpf());
             return professionalMapper.toResponse(professional);
         } catch (Exception e) {
-            LOGGER.error("Erro ao realizar login com CPF: {}. Detalhes: {}", loginDTO.getCpf(), e.getMessage(), e);
+            LOGGER.error("Erro ao realizar login com CPF: {}. Stacktrace: ", loginDTO.getCpf(), e);
             throw new UserManagementException("Falha ao realizar login com CPF: " + loginDTO.getCpf(), "LOGIN_ERROR", e);
         }
     }

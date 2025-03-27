@@ -2,6 +2,7 @@ package com.fatecipiranga.idata.api;
 
 import com.fatecipiranga.idata.api.request.LoginDTO;
 import com.fatecipiranga.idata.api.request.UsuarioDTO;
+import com.fatecipiranga.idata.api.response.LoginResponse;
 import com.fatecipiranga.idata.api.response.UsuarioResponse;
 import com.fatecipiranga.idata.business.UsuarioService;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
@@ -53,8 +55,10 @@ public class UsuarioController {
     }
 
     @PostMapping(value = "/login", params = "type=personal")
-    public ResponseEntity<UsuarioResponse> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<LoginResponse<UsuarioResponse>> login(@RequestBody LoginDTO loginDTO) {
         UsuarioResponse usuario = usuarioService.login(loginDTO);
-        return new ResponseEntity<>(usuario, HttpStatus.OK);
+        String token = UUID.randomUUID().toString();
+        LoginResponse<UsuarioResponse> response = new LoginResponse<>(usuario, token);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
