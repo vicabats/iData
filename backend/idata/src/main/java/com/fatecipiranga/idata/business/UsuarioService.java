@@ -1,19 +1,21 @@
 package com.fatecipiranga.idata.business;
 
-import com.fatecipiranga.idata.api.request.UsuarioDTO;
-import com.fatecipiranga.idata.api.response.UsuarioResponse;
-import com.fatecipiranga.idata.api.converter.UsuarioMapper;
-import com.fatecipiranga.idata.infrastructure.entity.EnderecoEntity;
-import com.fatecipiranga.idata.infrastructure.entity.UsuarioEntity;
-import com.fatecipiranga.idata.infrastructure.exceptions.UserManagementException;
-import com.fatecipiranga.idata.infrastructure.repository.UsuarioRepository;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import com.fatecipiranga.idata.api.converter.UsuarioMapper;
+import com.fatecipiranga.idata.api.request.LoginDTO;
+import com.fatecipiranga.idata.api.request.UsuarioDTO;
+import com.fatecipiranga.idata.api.response.UsuarioResponse;
+import com.fatecipiranga.idata.infrastructure.entity.EnderecoEntity;
+import com.fatecipiranga.idata.infrastructure.entity.UsuarioEntity;
+import com.fatecipiranga.idata.infrastructure.exceptions.UserManagementException;
+import com.fatecipiranga.idata.infrastructure.repository.UsuarioRepository;
 
 @Service
 public class UsuarioService {
@@ -101,4 +103,19 @@ public class UsuarioService {
         enderecoService.deleteEndereco(userId);
         return true;
     }
+
+    public UsuarioResponse login(LoginDTO loginDTO) {
+        Optional<UsuarioEntity> usuarioOpt = usuarioRepository.findByCpf(loginDTO.getCpf());
+        if (usuarioOpt.isEmpty()) {
+            throw new UserManagementException("Usuário não encontrado", "USER_NOT_FOUND");
+        }
+
+        UsuarioEntity usuario = usuarioOpt.get();
+        if (!usuario.getPassword().equals(loginDTO.getPassword())) {
+            throw new UserManagementException("Senha inválida", "INVALID_PASSWORD");
+        }
+
+        return usuarioMapper.toResponse(usuario);
+    }
+
 }
