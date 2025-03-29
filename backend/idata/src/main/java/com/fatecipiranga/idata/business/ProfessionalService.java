@@ -21,7 +21,6 @@ import java.util.UUID;
 public class ProfessionalService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProfessionalService.class);
-
     private final ProfessionalRepository professionalRepository;
     private final FacilityRepository facilityRepository;
     private final ProfessionalMapper professionalMapper;
@@ -35,25 +34,21 @@ public class ProfessionalService {
     public ProfessionalResponse createProfessional(ProfessionalDTO professionalDTO) {
         LOGGER.info("Iniciando criação de profissional com CPF: {}", professionalDTO.getCpf());
         try {
-            LOGGER.debug("Convertendo ProfessionalDTO para ProfessionalEntity");
+            if (professionalRepository.findByEmail(professionalDTO.getEmail()).isPresent()) {
+                throw new UserManagementException("Email já cadastrado", "EMAIL_ALREADY_EXISTS");
+            }
+
             ProfessionalEntity professionalEntity = professionalMapper.toEntity(professionalDTO);
             professionalEntity.setId(UUID.randomUUID().toString());
             professionalEntity.setRegistrationDate(LocalDateTime.now());
-            LOGGER.debug("ProfessionalEntity inicializado: {}", professionalEntity);
 
             if (professionalDTO.getFacility() != null) {
-                LOGGER.debug("Criando FacilityEntity para: {}", professionalDTO.getFacility().getName());
-                FacilityEntity facility = new FacilityEntity();
+                FacilityEntity facility = professionalMapper.facilityDtoToEntity(professionalDTO.getFacility());
                 facility.setId(UUID.randomUUID().toString());
-                facility.setName(professionalDTO.getFacility().getName());
-                LOGGER.debug("Convertendo AddressDTO para AddressEntity");
-                facility.setAddress(professionalMapper.addressDtoToEntity(professionalDTO.getFacility().getAddress()));
-                LOGGER.debug("Salvando FacilityEntity: {}", facility);
                 facilityRepository.save(facility);
                 professionalEntity.setFacility(facility);
             }
 
-            LOGGER.debug("Salvando ProfessionalEntity no repositório");
             professionalEntity = professionalRepository.save(professionalEntity);
             LOGGER.info("Profissional criado com sucesso: {}", professionalEntity.getCpf());
             return professionalMapper.toResponse(professionalEntity);

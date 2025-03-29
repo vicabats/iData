@@ -2,6 +2,7 @@ package com.fatecipiranga.idata.business;
 
 
 import org.springframework.stereotype.Service;
+
 import com.fatecipiranga.idata.infrastructure.entity.EnderecoEntity;
 import com.fatecipiranga.idata.infrastructure.exceptions.UserManagementException;
 import com.fatecipiranga.idata.infrastructure.repository.EnderecoRepository;

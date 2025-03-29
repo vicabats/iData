@@ -5,3 +5,18 @@ spring:
       port: 27017
       database: idata
       uri: mongodb://localhost:27017/idata
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: juliana.haddado@gmail.com
+    password: pjfe kgww lrnu dpuv
+    properties:
+      mail:
+        smtp:
+          "[auth]": true
+          starttls:
+            "[enable]": true
+logging:
+  level:
+    org.springframework: DEBUG
+    org.springframework.mail: DEBUG

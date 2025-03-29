@@ -1,4 +1,4 @@
-package com.fatecipiranga.idata.api;
+package com.fatecipiranga.idata.api.controller;
 
 import com.fatecipiranga.idata.api.request.LoginDTO;
 import com.fatecipiranga.idata.api.request.UsuarioDTO;

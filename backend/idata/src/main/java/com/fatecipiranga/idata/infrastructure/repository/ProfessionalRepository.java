@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface ProfessionalRepository extends MongoRepository<ProfessionalEntity, String> {
     Optional<ProfessionalEntity> findByCpf(String cpf);
+    Optional<ProfessionalEntity> findByEmail(String email);
 }
