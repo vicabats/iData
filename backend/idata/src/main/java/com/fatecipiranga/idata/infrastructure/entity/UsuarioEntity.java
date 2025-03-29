@@ -10,9 +10,10 @@ import java.time.LocalDateTime;
 @Document(collection = "users")
 public class UsuarioEntity {
     @Id
-    private String userId;
+    private String id;
     private String name;
     private String cpf;
+    private String birthdate;
     private String email;
     private String password;
     private String phone;

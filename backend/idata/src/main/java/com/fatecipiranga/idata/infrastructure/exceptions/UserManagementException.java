@@ -8,6 +8,11 @@ public class UserManagementException extends RuntimeException {
         this.errorCode = errorCode;
     }
 
+    public UserManagementException(String message, String errorCode, Throwable cause) {
+        super(message, cause);
+        this.errorCode = errorCode;
+    }
+
     public String getErrorCode() {
         return errorCode;
     }

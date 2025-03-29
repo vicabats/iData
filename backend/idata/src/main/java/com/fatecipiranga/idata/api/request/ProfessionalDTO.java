@@ -2,13 +2,16 @@ package com.fatecipiranga.idata.api.request;
 
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
-public class UsuarioDTO {
+public class ProfessionalDTO {
     private String name;
     private String cpf;
-    private String birthdate;
     private String email;
     private String password;
     private String phone;
-    private EnderecoDTO address;
+    private LocalDate birthdate;
+    private String professionalLicense;
+    private FacilityDTO facility;
 }

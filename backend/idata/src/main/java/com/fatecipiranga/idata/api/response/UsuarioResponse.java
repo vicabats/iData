@@ -6,9 +6,10 @@ import java.time.LocalDateTime;
 
 @Data
 public class UsuarioResponse {
-    private String userId;
+    private String id;
     private String name;
     private String cpf;
+    private String birthdate;
     private String email;
     private String phone;
     private LocalDateTime registrationDate;

@@ -1,22 +1,25 @@
 package com.fatecipiranga.idata.business;
 
-import com.fatecipiranga.idata.api.request.UsuarioDTO;
-import com.fatecipiranga.idata.api.response.UsuarioResponse;
-import com.fatecipiranga.idata.api.converter.UsuarioMapper;
-import com.fatecipiranga.idata.infrastructure.entity.EnderecoEntity;
-import com.fatecipiranga.idata.infrastructure.entity.UsuarioEntity;
-import com.fatecipiranga.idata.infrastructure.exceptions.UserManagementException;
-import com.fatecipiranga.idata.infrastructure.repository.UsuarioRepository;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import com.fatecipiranga.idata.api.converter.UsuarioMapper;
+import com.fatecipiranga.idata.api.request.LoginDTO;
+import com.fatecipiranga.idata.api.request.UsuarioDTO;
+import com.fatecipiranga.idata.api.response.UsuarioResponse;
+import com.fatecipiranga.idata.infrastructure.entity.EnderecoEntity;
+import com.fatecipiranga.idata.infrastructure.entity.UsuarioEntity;
+import com.fatecipiranga.idata.infrastructure.exceptions.UserManagementException;
+import com.fatecipiranga.idata.infrastructure.repository.UsuarioRepository;
 
 @Service
 public class UsuarioService {
+
+    private static final String USER_NOT_FOUND = "USER_NOT_FOUND";
 
     private final UsuarioRepository usuarioRepository;
     private final EnderecoService enderecoService;
@@ -34,12 +37,12 @@ public class UsuarioService {
         }
 
         UsuarioEntity usuarioEntity = usuarioMapper.toEntity(usuarioDTO);
-        usuarioEntity.setUserId(UUID.randomUUID().toString());
+        usuarioEntity.setId(UUID.randomUUID().toString());
         usuarioEntity.setRegistrationDate(LocalDateTime.now());
 
         if (usuarioDTO.getAddress() != null) {
             EnderecoEntity enderecoEntity = usuarioMapper.toEnderecoEntity(usuarioDTO.getAddress());
-            enderecoEntity.setUserId(usuarioEntity.getUserId());
+            enderecoEntity.setUserId(usuarioEntity.getId());
             enderecoEntity = enderecoService.createEndereco(enderecoEntity);
             usuarioEntity.setAddress(enderecoEntity);
         }
@@ -55,13 +58,13 @@ public class UsuarioService {
         }
         return usuarios.stream()
                 .map(usuarioMapper::toResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public Optional<UsuarioResponse> getUsuarioByEmail(String email) {
         Optional<UsuarioEntity> usuario = usuarioRepository.findByEmail(email);
         if (usuario.isEmpty()) {
-            throw new UserManagementException("Usuário não encontrado", "USER NOT FOUND");
+            throw new UserManagementException("Usuário não encontrado", USER_NOT_FOUND);
         }
         return Optional.of(usuarioMapper.toResponse(usuario.get()));
     }
@@ -69,7 +72,7 @@ public class UsuarioService {
     public UsuarioResponse updateUsuario(String email, UsuarioDTO usuarioDTO) {
         Optional<UsuarioEntity> existingUsuario = usuarioRepository.findByEmail(email);
         if (existingUsuario.isEmpty()) {
-            throw new UserManagementException("Usuário não encontrado para atualização", "USER NOT FOUND");
+            throw new UserManagementException("Usuário não encontrado para atualização", USER_NOT_FOUND);
         }
 
         UsuarioEntity usuarioEntity = existingUsuario.get();
@@ -81,8 +84,8 @@ public class UsuarioService {
 
         if (usuarioDTO.getAddress() != null) {
             EnderecoEntity enderecoEntity = usuarioMapper.toEnderecoEntity(usuarioDTO.getAddress());
-            enderecoEntity.setUserId(usuarioEntity.getUserId());
-            enderecoEntity = enderecoService.updateEndereco(usuarioEntity.getUserId(), enderecoEntity);
+            enderecoEntity.setUserId(usuarioEntity.getId());
+            enderecoEntity = enderecoService.updateEndereco(usuarioEntity.getId(), enderecoEntity);
             usuarioEntity.setAddress(enderecoEntity);
         }
 
@@ -93,12 +96,26 @@ public class UsuarioService {
     public boolean deleteUsuario(String email) {
         Optional<UsuarioEntity> usuario = usuarioRepository.findByEmail(email);
         if (usuario.isEmpty()) {
-            throw new UserManagementException("Usuário não encontrado para exclusão", "USER_NOT_FOUND");
+            throw new UserManagementException("Usuário não encontrado para exclusão", USER_NOT_FOUND);
         }
 
-        String userId = usuario.get().getUserId();
+        String id = usuario.get().getId();
         usuarioRepository.delete(usuario.get());
-        enderecoService.deleteEndereco(userId);
+        enderecoService.deleteEndereco(id);
         return true;
+    }
+
+    public UsuarioResponse login(LoginDTO loginDTO) {
+        Optional<UsuarioEntity> usuarioOpt = usuarioRepository.findByCpf(loginDTO.getCpf());
+        if (usuarioOpt.isEmpty()) {
+            throw new UserManagementException("Usuário não encontrado", USER_NOT_FOUND);
+        }
+
+        UsuarioEntity usuario = usuarioOpt.get();
+        if (!usuario.getPassword().equals(loginDTO.getPassword())) {
+            throw new UserManagementException("Senha inválida", "INVALID_PASSWORD");
+        }
+
+        return usuarioMapper.toResponse(usuario);
     }
 }
