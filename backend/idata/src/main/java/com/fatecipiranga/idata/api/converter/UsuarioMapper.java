@@ -15,8 +15,8 @@ public interface UsuarioMapper {
 
     UsuarioMapper INSTANCE = Mappers.getMapper(UsuarioMapper.class);
 
-    @Mapping(target = "userId", ignore = true) // Gerado no serviço
-    @Mapping(target = "registrationDate", ignore = true) // Gerado no serviço
+    @Mapping(target = "userId", ignore = true)
+    @Mapping(target = "registrationDate", ignore = true)
     @Mapping(target = "address", source = "address")
     UsuarioEntity toEntity(UsuarioDTO usuarioDTO);
 
