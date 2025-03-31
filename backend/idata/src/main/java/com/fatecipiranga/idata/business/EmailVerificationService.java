@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -21,6 +22,18 @@ public class EmailVerificationService {
     private final JavaMailSender mailSender;
     private static final Random RANDOM = new Random();
 
+    public EmailVerificationService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+        LOGGER.info("JavaMailSender injetado: {}", mailSender != null ? "Sim" : "Não");
+        if (mailSender instanceof JavaMailSenderImpl impl) {
+            LOGGER.info("SMTP Host: {}", impl.getHost());
+            LOGGER.info("SMTP Port: {}", impl.getPort());
+            LOGGER.info("SMTP Username: {}", impl.getUsername());
+            LOGGER.info("SMTP Password: {}", impl.getPassword());
+            LOGGER.info("SMTP Properties: {}", impl.getJavaMailProperties());
+        }
+    }
+
     private final Cache<String, String> verificationCodes = Caffeine.newBuilder()
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .maximumSize(1000)
@@ -30,11 +43,6 @@ public class EmailVerificationService {
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .maximumSize(1000)
             .build();
-
-    public EmailVerificationService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-        LOGGER.info("JavaMailSender injetado: {}", mailSender != null ? "Sim" : "Não");
-    }
 
     public void sendVerificationCode(String email, ProfessionalDTO professionalDTO) {
         String code = generateCode();
@@ -78,8 +86,8 @@ public class EmailVerificationService {
             mailSender.send(message);
             LOGGER.debug("E-mail enviado com sucesso para: {}", email);
         } catch (MailException e) {
-            LOGGER.error("Erro ao enviar e-mail para: {}. Mensagem: {}. Classe da exceção: {}. Stacktrace: ", 
-                         email, e.getMessage(), e.getClass().getName(), e);
+            LOGGER.error("Erro ao enviar e-mail para: {}. Mensagem: {}. Classe da exceção: {}. Stacktrace: ",
+                    email, e.getMessage(), e.getClass().getName(), e);
             String errorMessage = e.getMessage() != null ? e.getMessage() : "Erro desconhecido no envio do e-mail";
             throw new EmailVerificationException("Falha ao enviar código de verificação: " + errorMessage, "EMAIL_SEND_ERROR", e);
         }
