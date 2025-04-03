@@ -55,7 +55,7 @@ export class SignUpPatientPage {
       {
         name: ['', [Validators.required, getNameRegexValidator()]],
         cpf: ['', [Validators.required, getCPFRegexValidator()]],
-        birthDate: ['', [Validators.required, getBirthdateRegexValidator()]],
+        birthdate: ['', [Validators.required, getBirthdateRegexValidator()]],
 
         street: ['', [Validators.required]],
         addressNumber: ['', [Validators.required]],
@@ -108,7 +108,7 @@ export class SignUpPatientPage {
 
   async registerUser(): Promise<void> {
     const user = this.getPersonalUserObject();
-    this.signUpService.register(user).subscribe({
+    this.signUpService.registerPersonalUser(user).subscribe({
       next: (response) => {
         console.log('Cadastro realizado com sucesso:', response);
         window.alert('Cadastro realizado com sucesso!');
@@ -123,9 +123,9 @@ export class SignUpPatientPage {
 
   getPersonalUserObject(): PersonalUser {
     const personalUser: PersonalUser = {
-      full_name: this.patientForm.get('name')?.value,
+      name: this.patientForm.get('name')?.value,
       cpf: this.patientForm.get('cpf')?.value,
-      birthDate: this.patientForm.get('birthDate')?.value,
+      birthdate: this.patientForm.get('birthDate')?.value,
       address: this.getUserAddress(),
       phone: this.patientForm.get('phone')?.value,
       email: this.patientForm.get('email')?.value,

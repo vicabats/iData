@@ -24,11 +24,18 @@
         />
 
         <app-input
+          formControlName="professionalLicense"
+          label="Registro profissional"
+          placeholder="Exemplo: CRM/SP 12345"
+          [errorMessage]="getErrorMessage('professionalLicense', 'CRM/SP 12345')"
+        />
+
+        <app-input
           class="birthdate-input"
-          formControlName="birthDate"
+          formControlName="birthdate"
           label="Data de nascimento"
           placeholder="Formato: dd/mm/aaaa"
-          [errorMessage]="getErrorMessage('birthDate', 'dd/mm/aaaa')"
+          [errorMessage]="getErrorMessage('birthdate', 'dd/mm/aaaa')"
           mask="d0/M0/0000"
         />
       </div>
@@ -37,7 +44,7 @@
     <div class="sign_up-form-section">
       <app-input
         formControlName="street"
-        label="Endereço"
+        label="Endereço da clínica ou consultório"
         [errorMessage]="getErrorMessage('address')"
       />
 
