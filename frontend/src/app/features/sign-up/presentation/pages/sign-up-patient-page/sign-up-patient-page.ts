@@ -24,6 +24,9 @@ import {
   getPhoneRegexValidator,
   getZipCodeRegexValidator,
 } from '../../helpers/forms-validators';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-sign-up-patient-page',
@@ -40,15 +43,15 @@ import {
   styleUrl: './sign-up-patient-page.css',
 })
 export class SignUpPatientPage {
-  // Melhorias:
-  // - Adicionar validação de CPF
-  // - Utilizar o componente Datepicker para a data de nascimento
-  // - Mostrar mensagem de erro no input somente quando o usuário "sair" do input
-  // - Criptografar a senha ao enviá-la pro backend
-
   patientForm: FormGroup = new FormGroup({});
+  _isSubmitting = false;
 
-  constructor(private fb: FormBuilder, private signUpService: SignUpService) {}
+  constructor(
+    private fb: FormBuilder,
+    private signUpService: SignUpService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.patientForm = this.fb.group(
@@ -108,16 +111,49 @@ export class SignUpPatientPage {
 
   async registerUser(): Promise<void> {
     const user = this.getPersonalUserObject();
+    this._isSubmitting = true;
     this.signUpService.registerPersonalUser(user).subscribe({
-      next: (response) => {
-        console.log('Cadastro realizado com sucesso:', response);
-        window.alert('Cadastro realizado com sucesso!');
+      next: () => {
+        this._isSubmitting = false;
         this.patientForm.reset();
+        this.handleSuccessfulRegistration();
       },
-      error: (error) => {
-        console.error('Erro ao realizar cadastro:', error);
-        window.alert('Erro ao realizar cadastro. Por favor, tente novamente.');
+
+      error: (_) => {
+        this._isSubmitting = false;
+        this.handleFailedRegistration();
       },
+    });
+  }
+
+  private handleFailedRegistration() {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
+      data: {
+        message: 'Seu cadastro não pode ser efetuado. Tente novamente.',
+        type: 'error',
+      },
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['error-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.router.navigate(['/signup']);
+    });
+  }
+
+  private handleSuccessfulRegistration() {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
+      data: { message: 'Cadastro realizado com sucesso!', type: 'success' },
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['success-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.router.navigate(['/login']);
     });
   }
 

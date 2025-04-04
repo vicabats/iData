@@ -137,7 +137,7 @@
         mat-raised-button
         type="submit"
         class="submit_button"
-        [disabled]="patientForm.invalid"
+        [disabled]="patientForm.invalid || _isSubmitting"
         [ngClass]="{ 'submit_button-enabled': !patientForm.invalid }"
       >
         Cadastrar
