@@ -23,6 +23,7 @@ import {
   getPasswordRegexValidator,
   getPhoneRegexValidator,
   getZipCodeRegexValidator,
+  passwordMatchValidator,
 } from '../../helpers/forms-validators';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -37,7 +38,6 @@ import { SnackBarComponent } from '../../../../../shared/components/snack-bar/sn
     MatDividerModule,
     CommonModule,
     InputComponent,
-    TitleCasePipe,
   ],
   templateUrl: './sign-up-patient-page.html',
   styleUrl: './sign-up-patient-page.css',
@@ -79,14 +79,8 @@ export class SignUpPatientPage {
         ],
         confirmPassword: ['', [Validators.required]],
       },
-      { validators: this.passwordMatchValidator }
+      { validators: passwordMatchValidator }
     );
-  }
-
-  passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
-    const password = group.get('password')?.value;
-    const confirmPassword = group.get('confirmPassword')?.value;
-    return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
   getErrorMessage(controlName: string, placeholder?: string): string {
@@ -105,7 +99,8 @@ export class SignUpPatientPage {
     if (this.patientForm.valid) {
       await this.registerUser();
     } else {
-      window.alert('Por favor, corrija os campos do formulário.');
+      this.handleFailure('Preencha todos os campos corretamente');
+      this._isSubmitting = false;
     }
   }
 
@@ -113,23 +108,23 @@ export class SignUpPatientPage {
     const user = this.getPersonalUserObject();
     this._isSubmitting = true;
     this.signUpService.registerPersonalUser(user).subscribe({
-      next: () => {
+      next: (_) => {
         this._isSubmitting = false;
         this.patientForm.reset();
         this.handleSuccessfulRegistration();
       },
 
-      error: (_) => {
+      error: (error: String) => {
         this._isSubmitting = false;
-        this.handleFailedRegistration();
+        this.handleFailure(error);
       },
     });
   }
 
-  private handleFailedRegistration() {
+  private handleFailure(errorMessage: String) {
     const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
       data: {
-        message: 'Seu cadastro não pode ser efetuado. Tente novamente.',
+        message: errorMessage,
         type: 'error',
       },
       duration: 3000,
@@ -157,7 +152,7 @@ export class SignUpPatientPage {
     });
   }
 
-  getPersonalUserObject(): PersonalUser {
+  private getPersonalUserObject(): PersonalUser {
     const personalUser: PersonalUser = {
       name: this.patientForm.get('name')?.value,
       cpf: this.patientForm.get('cpf')?.value,
@@ -170,7 +165,7 @@ export class SignUpPatientPage {
     return personalUser;
   }
 
-  getUserAddress(): UserAddress {
+  private getUserAddress(): UserAddress {
     const userAddress: UserAddress = {
       street: this.patientForm.get('street')?.value,
       number: this.patientForm.get('addressNumber')?.value,

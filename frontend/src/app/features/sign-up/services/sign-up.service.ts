@@ -10,15 +10,17 @@ import { ProfessionalUser } from '../../../shared/types/professional_user';
 export class SignUpService {
   constructor(private http: HttpClient) {}
 
-  registerPersonalUser(user: PersonalUser): Observable<any> {
+  registerPersonalUser(user: PersonalUser): Observable<String> {
     const apiUrl = 'http://localhost:8080/api/user/login?type=personal';
 
-    return this.http.post<any>(apiUrl, user);
+    return this.http.post<String>(apiUrl, user);
   }
 
-  registerProfessionalUser(user: ProfessionalUser): Observable<any> {
+  registerProfessionalUser(user: ProfessionalUser): Observable<String> {
     const apiUrl = 'http://localhost:8080/api/user/login?type=professional';
 
-    return this.http.post<any>(apiUrl, user);
+    return this.http.post<String>(apiUrl, user);
   }
+
+  verify2FACode() {}
 }

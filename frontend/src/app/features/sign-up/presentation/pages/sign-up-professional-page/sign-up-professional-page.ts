@@ -22,6 +22,7 @@ import {
   getPasswordRegexValidator,
   getPhoneRegexValidator,
   getZipCodeRegexValidator,
+  passwordMatchValidator,
 } from '../../helpers/forms-validators';
 import { ProfessionalUser } from '../../../../../shared/types/professional_user';
 import { Router } from '@angular/router';
@@ -79,14 +80,8 @@ export class SignUpProfessionalPage {
         ],
         confirmPassword: ['', [Validators.required]],
       },
-      { validators: this.passwordMatchValidator }
+      { validators: passwordMatchValidator }
     );
-  }
-
-  passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
-    const password = group.get('password')?.value;
-    const confirmPassword = group.get('confirmPassword')?.value;
-    return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
   getErrorMessage(controlName: string, placeholder?: string): string {
@@ -105,7 +100,8 @@ export class SignUpProfessionalPage {
     if (this.professionalForm.valid) {
       await this.registerUser();
     } else {
-      window.alert('Por favor, corrija os campos do formulário.');
+      this.handleFailure('Preencha todos os campos corretamente');
+      this._isSubmitting = false;
     }
   }
 
@@ -118,17 +114,17 @@ export class SignUpProfessionalPage {
         this.professionalForm.reset();
         this.handleSuccessfulRegistration();
       },
-      error: (error) => {
+      error: (error: String) => {
         this._isSubmitting = true;
-        this.handleFailedRegistration();
+        this.handleFailure(error);
       },
     });
   }
 
-  private handleFailedRegistration() {
+  private handleFailure(errorMessage: String) {
     const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
       data: {
-        message: 'Seu cadastro não pode ser efetuado. Tente novamente.',
+        message: errorMessage,
         type: 'error',
       },
       duration: 3000,

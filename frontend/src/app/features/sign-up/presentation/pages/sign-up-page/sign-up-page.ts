@@ -7,7 +7,13 @@ import { SignUpProfessionalPage } from '../sign-up-professional-page/sign-up-pro
 
 @Component({
   selector: 'app-signup-page',
-  imports: [CommonModule, MatTabsModule, MatIconModule, SignUpPatientPage, SignUpProfessionalPage],
+  imports: [
+    CommonModule,
+    MatTabsModule,
+    MatIconModule,
+    SignUpPatientPage,
+    SignUpProfessionalPage,
+  ],
   templateUrl: './sign-up-page.html',
   styleUrl: './sign-up-page.css',
 })

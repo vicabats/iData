@@ -1,0 +1,76 @@
+.login-professional-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color);
+  padding: var(--spacing-xl) 0;
+}
+
+.login-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.create-account {
+  color: var(--primary-color);
+  cursor: pointer;
+  width: 100%;
+}
+
+.forgotten-password-container {
+  display: inline-block;
+  text-align: right;
+  width: 100%;
+}
+
+.forgotten-password {
+  cursor: pointer;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.forgotten-password:hover {
+  color: #0056b3;
+}
+
+.divider-with-text {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.mat-divider {
+  flex: 1;
+  border-top-color: #ccc;
+  border-top-width: 1px;
+}
+
+.divider-text {
+  padding: 0 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.login-button {
+  margin-top: 1rem;
+  cursor: not-allowed;
+  font-size: var(--font-size-md);
+}
+
+.login_button-enabled {
+  background-color: var(--blue);
+  color: var(--white);
+  cursor: pointer;
+}

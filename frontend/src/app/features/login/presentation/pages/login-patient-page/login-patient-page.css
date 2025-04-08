@@ -1,9 +1,9 @@
-.login-page {
+.login-patient-page {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   background-color: var(--background-color);
+  padding: var(--spacing-xl) 0;
 }
 
 .login-container {
@@ -22,10 +22,6 @@
   gap: 0.5rem;
 }
 
-.login-button {
-  margin-top: 1rem;
-}
-
 .create-account {
   color: var(--primary-color);
   cursor: pointer;
@@ -34,7 +30,7 @@
 
 .forgotten-password-container {
   display: inline-block;
-  text-align: right; 
+  text-align: right;
   width: 100%;
 }
 
@@ -62,7 +58,19 @@
 }
 
 .divider-text {
-  padding: 0 10px; 
+  padding: 0 10px;
   font-size: 14px;
   color: #666;
+}
+
+.login-button {
+  margin-top: 1rem;
+  cursor: not-allowed;
+  font-size: var(--font-size-md);
+}
+
+.login_button-enabled {
+  background-color: var(--blue);
+  color: var(--white);
+  cursor: pointer;
 }
