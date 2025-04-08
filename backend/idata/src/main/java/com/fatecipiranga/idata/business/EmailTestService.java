@@ -12,14 +12,14 @@ public class EmailTestService {
         this.mailSender = mailSender;
     }
 
-    public void testEmail() {
+    public void testEmail(String toEmail) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("josenascimentoprofessional@gmail.com");
+        message.setTo(toEmail);
         message.setSubject("Teste de E-mail");
         message.setText("Este é um teste de envio de e-mail.");
         try {
             mailSender.send(message);
-            System.out.println("E-mail enviado com sucesso!");
+            System.out.println("E-mail enviado com sucesso para: " + toEmail);
         } catch (Exception e) {
             e.printStackTrace();
         }

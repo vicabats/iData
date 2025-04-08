@@ -33,6 +33,10 @@ export class LoginPage {
   constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
+    this.initializeLoginForm();
+  }
+
+  private initializeLoginForm() {
     this.loginForm = this.fb.group({
       cpf: [
         '',
@@ -67,7 +71,7 @@ export class LoginPage {
   redirectToSignUp(): void {
     this.router.navigate(['signup']);
   }
-  
+
   redirectToForgotPassword(): void {
     this.router.navigate(['forgot-password']);
   }

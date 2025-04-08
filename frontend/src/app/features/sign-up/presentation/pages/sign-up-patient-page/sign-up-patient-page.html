@@ -25,10 +25,10 @@
 
         <app-input
           class="birthdate-input"
-          formControlName="birthDate"
+          formControlName="birthdate"
           label="Data de nascimento"
           placeholder="Formato: dd/mm/aaaa"
-          [errorMessage]="getErrorMessage('birthDate', 'dd/mm/aaaa')"
+          [errorMessage]="getErrorMessage('birthdate', 'dd/mm/aaaa')"
           mask="d0/M0/0000"
         />
       </div>
@@ -137,7 +137,7 @@
         mat-raised-button
         type="submit"
         class="submit_button"
-        [disabled]="patientForm.invalid"
+        [disabled]="patientForm.invalid || _isSubmitting"
         [ngClass]="{ 'submit_button-enabled': !patientForm.invalid }"
       >
         Cadastrar

@@ -32,8 +32,12 @@ public class UsuarioService {
     }
 
     public UsuarioResponse createUsuario(UsuarioDTO usuarioDTO) {
+        // Verificar unicidade de CPF e e-mail na coleção Usuario
+        if (usuarioRepository.findByCpf(usuarioDTO.getCpf()).isPresent()) {
+            throw new UserManagementException("CPF já cadastrado como usuário", "CPF_ALREADY_EXISTS");
+        }
         if (usuarioRepository.findByEmail(usuarioDTO.getEmail()).isPresent()) {
-            throw new UserManagementException("Email já cadastrado", "EMAIL_ALREADY_EXISTS");
+            throw new UserManagementException("Email já cadastrado como usuário", "EMAIL_ALREADY_EXISTS");
         }
 
         UsuarioEntity usuarioEntity = usuarioMapper.toEntity(usuarioDTO);
@@ -73,6 +77,16 @@ public class UsuarioService {
         Optional<UsuarioEntity> existingUsuario = usuarioRepository.findByEmail(email);
         if (existingUsuario.isEmpty()) {
             throw new UserManagementException("Usuário não encontrado para atualização", USER_NOT_FOUND);
+        }
+
+        // Verificar unicidade de CPF e e-mail (exceto para o próprio usuário sendo atualizado)
+        Optional<UsuarioEntity> usuarioByCpf = usuarioRepository.findByCpf(usuarioDTO.getCpf());
+        if (usuarioByCpf.isPresent() && !usuarioByCpf.get().getId().equals(existingUsuario.get().getId())) {
+            throw new UserManagementException("CPF já cadastrado como outro usuário", "CPF_ALREADY_EXISTS");
+        }
+        Optional<UsuarioEntity> usuarioByEmail = usuarioRepository.findByEmail(usuarioDTO.getEmail());
+        if (usuarioByEmail.isPresent() && !usuarioByEmail.get().getId().equals(existingUsuario.get().getId())) {
+            throw new UserManagementException("Email já cadastrado como outro usuário", "EMAIL_ALREADY_EXISTS");
         }
 
         UsuarioEntity usuarioEntity = existingUsuario.get();

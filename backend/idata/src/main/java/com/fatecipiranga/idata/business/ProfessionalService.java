@@ -31,13 +31,18 @@ public class ProfessionalService {
         this.professionalMapper = professionalMapper;
     }
 
+    @SuppressWarnings("java:S2139")
     public ProfessionalResponse createProfessional(ProfessionalDTO professionalDTO) {
         LOGGER.info("Iniciando criação de profissional com CPF: {}", professionalDTO.getCpf());
-        try {
-            if (professionalRepository.findByEmail(professionalDTO.getEmail()).isPresent()) {
-                throw new UserManagementException("Email já cadastrado", "EMAIL_ALREADY_EXISTS");
-            }
+        // Verificar unicidade de CPF e e-mail na coleção Professional
+        if (professionalRepository.findByCpf(professionalDTO.getCpf()).isPresent()) {
+            throw new UserManagementException("CPF já cadastrado como profissional", "CPF_ALREADY_EXISTS");
+        }
+        if (professionalRepository.findByEmail(professionalDTO.getEmail()).isPresent()) {
+            throw new UserManagementException("Email já cadastrado como profissional", "EMAIL_ALREADY_EXISTS");
+        }
 
+        try {
             ProfessionalEntity professionalEntity = professionalMapper.toEntity(professionalDTO);
             professionalEntity.setId(UUID.randomUUID().toString());
             professionalEntity.setRegistrationDate(LocalDateTime.now());
@@ -52,14 +57,86 @@ public class ProfessionalService {
             professionalEntity = professionalRepository.save(professionalEntity);
             LOGGER.info("Profissional criado com sucesso: {}", professionalEntity.getCpf());
             return professionalMapper.toResponse(professionalEntity);
+        } catch (IllegalArgumentException e) {
+            LOGGER.error("Dados inválidos ao criar profissional com CPF: {}. Detalhes: {}", professionalDTO.getCpf(), e.getMessage(), e);
+            throw new UserManagementException("Dados inválidos fornecidos para criar profissional com CPF: " + professionalDTO.getCpf() + ". Detalhes: " + e.getMessage(), "INVALID_INPUT", e);
         } catch (Exception e) {
-            LOGGER.error("Erro ao criar profissional com CPF: {}. Stacktrace: ", professionalDTO.getCpf(), e);
-            throw new UserManagementException("Falha ao criar profissional com CPF: " + professionalDTO.getCpf(), "CREATE_PROFESSIONAL_ERROR", e);
+            LOGGER.error("Erro inesperado ao criar profissional com CPF: {}. Detalhes: {}", professionalDTO.getCpf(), e.getMessage(), e);
+            throw new UserManagementException("Erro interno ao criar profissional com CPF: " + professionalDTO.getCpf() + ". Contate o suporte. Erro: " + e.getClass().getSimpleName() + " - " + e.getMessage(), "CREATE_PROFESSIONAL_ERROR", e);
         }
     }
 
+    public Optional<ProfessionalResponse> getProfessionalByEmail(String email) {
+        LOGGER.info("Buscando profissional pelo email: {}", email);
+        Optional<ProfessionalEntity> professional = professionalRepository.findByEmail(email);
+        if (professional.isEmpty()) {
+            LOGGER.warn("Profissional não encontrado para email: {}", email);
+            throw new UserManagementException("Profissional não encontrado", "PROFESSIONAL_NOT_FOUND");
+        }
+        return Optional.of(professionalMapper.toResponse(professional.get()));
+    }
+
+    public ProfessionalResponse updateProfessional(String email, ProfessionalDTO professionalDTO) {
+        LOGGER.info("Atualizando profissional com email: {}", email);
+        Optional<ProfessionalEntity> existingProfessional = professionalRepository.findByEmail(email);
+        if (existingProfessional.isEmpty()) {
+            throw new UserManagementException("Profissional não encontrado para atualização", "PROFESSIONAL_NOT_FOUND");
+        }
+
+        // Verificar unicidade de CPF e e-mail (exceto para o próprio profissional sendo atualizado)
+        Optional<ProfessionalEntity> professionalByCpf = professionalRepository.findByCpf(professionalDTO.getCpf());
+        if (professionalByCpf.isPresent() && !professionalByCpf.get().getId().equals(existingProfessional.get().getId())) {
+            throw new UserManagementException("CPF já cadastrado como outro profissional", "CPF_ALREADY_EXISTS");
+        }
+        Optional<ProfessionalEntity> professionalByEmail = professionalRepository.findByEmail(professionalDTO.getEmail());
+        if (professionalByEmail.isPresent() && !professionalByEmail.get().getId().equals(existingProfessional.get().getId())) {
+            throw new UserManagementException("Email já cadastrado como outro profissional", "EMAIL_ALREADY_EXISTS");
+        }
+
+        ProfessionalEntity professionalEntity = existingProfessional.get();
+        professionalEntity.setName(professionalDTO.getName());
+        professionalEntity.setCpf(professionalDTO.getCpf());
+        professionalEntity.setEmail(professionalDTO.getEmail());
+        professionalEntity.setPassword(professionalDTO.getPassword());
+        professionalEntity.setPhone(professionalDTO.getPhone());
+        professionalEntity.setProfessionalLicense(professionalDTO.getProfessionalLicense());
+
+        if (professionalDTO.getFacility() != null) {
+            FacilityEntity facility = professionalMapper.facilityDtoToEntity(professionalDTO.getFacility());
+            facility.setId(professionalEntity.getFacility() != null ? professionalEntity.getFacility().getId() : UUID.randomUUID().toString());
+            facilityRepository.save(facility);
+            professionalEntity.setFacility(facility);
+        }
+
+        professionalEntity = professionalRepository.save(professionalEntity);
+        LOGGER.info("Profissional atualizado com sucesso: {}", professionalEntity.getCpf());
+        return professionalMapper.toResponse(professionalEntity);
+    }
+
+    public boolean deleteProfessional(String email) {
+        LOGGER.info("Deletando profissional com email: {}", email);
+        Optional<ProfessionalEntity> professional = professionalRepository.findByEmail(email);
+        if (professional.isEmpty()) {
+            throw new UserManagementException("Profissional não encontrado para exclusão", "PROFESSIONAL_NOT_FOUND");
+        }
+
+        ProfessionalEntity professionalEntity = professional.get();
+        professionalRepository.delete(professionalEntity);
+        if (professionalEntity.getFacility() != null) {
+            facilityRepository.deleteById(professionalEntity.getFacility().getId());
+        }
+        LOGGER.info("Profissional deletado com sucesso: {}", email);
+        return true;
+    }
+
+    @SuppressWarnings("java:S2139")
     public ProfessionalResponse login(LoginDTO loginDTO) {
         LOGGER.info("Tentando login de profissional com CPF: {}", loginDTO.getCpf());
+        if (loginDTO.getCpf() == null || loginDTO.getPassword() == null) {
+            LOGGER.error("CPF ou senha ausentes no login");
+            throw new UserManagementException("Dados de login inválidos: CPF ou senha ausentes", "INVALID_INPUT");
+        }
+
         try {
             Optional<ProfessionalEntity> professionalOpt = professionalRepository.findByCpf(loginDTO.getCpf());
             if (professionalOpt.isEmpty()) {
@@ -76,9 +153,12 @@ public class ProfessionalService {
 
             LOGGER.info("Login bem-sucedido para CPF: {}", loginDTO.getCpf());
             return professionalMapper.toResponse(professional);
+        } catch (IllegalArgumentException e) {
+            LOGGER.error("Dados inválidos ao realizar login com CPF: {}. Detalhes: {}", loginDTO.getCpf(), e.getMessage(), e);
+            throw new UserManagementException("Dados inválidos fornecidos para login com CPF: " + loginDTO.getCpf() + ". Detalhes: " + e.getMessage(), "INVALID_INPUT", e);
         } catch (Exception e) {
-            LOGGER.error("Erro ao realizar login com CPF: {}. Stacktrace: ", loginDTO.getCpf(), e);
-            throw new UserManagementException("Falha ao realizar login com CPF: " + loginDTO.getCpf(), "LOGIN_ERROR", e);
+            LOGGER.error("Erro inesperado ao realizar login com CPF: {}. Detalhes: {}", loginDTO.getCpf(), e.getMessage(), e);
+            throw new UserManagementException("Erro interno ao realizar login com CPF: " + loginDTO.getCpf() + ". Contate o suporte. Erro: " + e.getClass().getSimpleName() + " - " + e.getMessage(), "LOGIN_ERROR", e);
         }
     }
 }

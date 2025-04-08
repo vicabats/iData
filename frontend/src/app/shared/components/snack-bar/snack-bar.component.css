@@ -1,0 +1,17 @@
+.snackbar {
+  padding: 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+}
+
+.success {
+  --mdc-snackbar-container-color: var(--light-green);
+  --mat-mdc-snack-bar-button-color: white;
+}
+
+.error {
+  color: var(--warning);
+}

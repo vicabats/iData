@@ -4,9 +4,10 @@
   --darker-gray: rgb(104, 102, 102);
   --blue: rgb(18, 64, 81);
   --light-blue: rgb(80, 136, 157);
-  --darker-blue: #2D3D73;
-  --light-green: #DCF2F3;
+  --darker-blue: #2d3d73;
+  --light-green: #dcf2f3;
   --warning: rgb(241, 108, 122);
+  --success: rgb(84, 183, 87);
 
   --spacing-xs: 8px;
   --spacing-sm: 16px;
