@@ -77,7 +77,7 @@ export class LoginPatientPage {
   async registerUser(): Promise<void> {
     const user = this.getLoginUser();
     this._isSubmitting = true;
-    this.loginService.loginProfessionalUser(user).subscribe({
+    this.loginService.loginPersonalUser(user).subscribe({
       next: (_) => {
         this.authFlowGuardService.setLoginFlowStarted(true);
         this._isSubmitting = false;
