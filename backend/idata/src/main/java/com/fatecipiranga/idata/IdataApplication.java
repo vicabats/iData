@@ -16,4 +16,5 @@ public class IdataApplication {
             LOGGER.info("MongoDB URI: {}", mongoUri);
         }
     }
+    
 }

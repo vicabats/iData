@@ -1,19 +1,20 @@
 package com.fatecipiranga.idata.api.controller;
 
-import java.util.UUID;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import com.fatecipiranga.idata.api.request.CodeVerificationDTO;
+import com.fatecipiranga.idata.api.request.CpfDTO;
 import com.fatecipiranga.idata.api.request.LoginDTO;
 import com.fatecipiranga.idata.api.request.UsuarioDTO;
 import com.fatecipiranga.idata.api.response.LoginResponse;
 import com.fatecipiranga.idata.api.response.UsuarioResponse;
 import com.fatecipiranga.idata.business.EmailVerificationService;
 import com.fatecipiranga.idata.business.UsuarioService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
@@ -29,41 +30,66 @@ public class UsuarioController {
         this.emailVerificationService = emailVerificationService;
     }
 
-    @PostMapping(params = "type=personal")
-    public ResponseEntity<UsuarioResponse> createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-        UsuarioResponse createdUsuario = usuarioService.createUsuario(usuarioDTO);
-        return new ResponseEntity<>(createdUsuario, HttpStatus.CREATED);
+    @PostMapping(value = "/register", params = "type=personal")
+    public ResponseEntity<String> createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+        try {
+            UsuarioResponse response = usuarioService.createUsuario(usuarioDTO);
+            return ResponseEntity.ok("Usuário registrado com sucesso: " + response.getCpf());
+        } catch (RuntimeException e) {
+            LOGGER.error("Erro ao registrar usuário para: {}. Detalhes: {}", usuarioDTO.getEmail(), e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao registrar usuário: " + e.getMessage());
+        }
     }
 
     @GetMapping(params = "type=personal")
-    public ResponseEntity<UsuarioResponse> getUsuario(@RequestParam("email") String email) {
-        UsuarioResponse usuario = usuarioService.getUsuarioByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-        return new ResponseEntity<>(usuario, HttpStatus.OK);
+    public ResponseEntity<UsuarioResponse> getUsuario(@RequestBody CpfDTO cpfDTO) {
+        try {
+            UsuarioResponse usuario = usuarioService.getUsuarioByCpf(cpfDTO.getCpf())
+                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+            return new ResponseEntity<>(usuario, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            LOGGER.error("Erro ao buscar usuário com CPF: {}. Detalhes: {}", cpfDTO.getCpf(), e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
-    @PutMapping(value = "/{email}", params = "type=personal")
-    public ResponseEntity<UsuarioResponse> updateUsuario(@PathVariable String email, @RequestBody UsuarioDTO usuarioDTO) {
-        UsuarioResponse updatedUsuario = usuarioService.updateUsuario(email, usuarioDTO);
-        return new ResponseEntity<>(updatedUsuario, HttpStatus.OK);
+    @PutMapping(params = "type=personal")
+    public ResponseEntity<UsuarioResponse> updateUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+        try {
+            UsuarioResponse updatedUsuario = usuarioService.updateUsuario(usuarioDTO.getCpf(), usuarioDTO);
+            return new ResponseEntity<>(updatedUsuario, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            LOGGER.error("Erro ao atualizar usuário com CPF: {}. Detalhes: {}", usuarioDTO.getCpf(), e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
-    @DeleteMapping(value = "/{email}", params = "type=personal")
-    public ResponseEntity<String> initiateDeleteUsuario(@PathVariable String email) {
-        usuarioService.getUsuarioByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-        emailVerificationService.sendVerificationCode(email, null);
-        return ResponseEntity.ok("Código de verificação enviado para " + email + ". Confirme para excluir sua conta.");
+    @DeleteMapping(params = "type=personal")
+    public ResponseEntity<String> initiateDeleteUsuario(@RequestBody LoginDTO loginDTO) {
+        try {
+            usuarioService.verifyCredentials(loginDTO.getCpf(), loginDTO.getPassword());
+            String email = usuarioService.getEmailByCpf(loginDTO.getCpf());
+            emailVerificationService.sendVerificationCode(email, null);
+            return ResponseEntity.ok("Código de verificação enviado para " + email + ". Confirme para excluir sua conta.");
+        } catch (RuntimeException e) {
+            LOGGER.error("Erro ao iniciar exclusão para CPF: {}. Detalhes: {}", loginDTO.getCpf(), e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao iniciar exclusão: " + e.getMessage());
+        }
     }
 
     @PostMapping(value = "/confirm-delete", params = "type=personal")
     public ResponseEntity<String> confirmDeleteUsuario(@RequestBody CodeVerificationDTO request) {
-        boolean isValid = emailVerificationService.verifyCode(request.getEmail(), request.getCode());
-        if (isValid) {
-            usuarioService.deleteUsuario(request.getEmail());
-            return ResponseEntity.ok("Conta excluída com sucesso.");
+        try {
+            boolean isValid = emailVerificationService.verifyCode(request.getEmail(), request.getCode());
+            if (isValid) {
+                usuarioService.deleteUsuario(request.getEmail());
+                return ResponseEntity.ok("Conta excluída com sucesso.");
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Código de verificação inválido ou expirado");
+        } catch (RuntimeException e) {
+            LOGGER.error("Erro ao confirmar exclusão para: {}. Detalhes: {}", request.getEmail(), e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao confirmar exclusão: " + e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Código de verificação inválido ou expirado");
     }
 
     @PostMapping(value = "/login", params = "type=personal")
@@ -73,7 +99,7 @@ public class UsuarioController {
             emailVerificationService.sendVerificationCode(usuario.getEmail(), null);
             return ResponseEntity.ok("Código de verificação enviado para " + usuario.getEmail());
         } catch (RuntimeException e) {
-            LOGGER.error("Erro ao realizar login para CPF: {}. Detalhes: {}", loginDTO.getCpf(), e.getMessage());
+            LOGGER.error("Erro ao realizar login para CPF: {}. Detalhes: {}", loginDTO.getCpf(), e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Erro ao realizar login: " + e.getMessage());
         }
     }
@@ -94,7 +120,7 @@ public class UsuarioController {
                         .body(new LoginResponse<>(null, null, "Código de verificação inválido ou expirado"));
             }
         } catch (RuntimeException e) {
-            LOGGER.error("Erro ao verificar código 2FA para: {}. Detalhes: {}", request.getEmail(), e.getMessage());
+            LOGGER.error("Erro ao verificar código 2FA para: {}. Detalhes: {}", request.getEmail(), e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new LoginResponse<>(null, null, "Erro ao verificar código 2FA: " + e.getMessage()));
         }

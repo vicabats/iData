@@ -4,29 +4,18 @@ import lombok.Data;
 
 @Data
 public class LoginResponse<T> {
-    private final T userData;
-    private final String token;
-    private final String errorMessage;
+    private T user;
+    private String token;
+    private String error;
 
-    public LoginResponse(T userData, String token) {
-        this(userData, token, null);
-    }
-
-    public LoginResponse(T userData, String token, String errorMessage) {
-        this.userData = userData;
+    public LoginResponse(T user, String token) {
+        this.user = user;
         this.token = token;
-        this.errorMessage = errorMessage;
     }
 
-    public T getUserData() {
-        return userData;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
+    public LoginResponse(T user, String token, String error) {
+        this.user = user;
+        this.token = token;
+        this.error = error;
     }
 }

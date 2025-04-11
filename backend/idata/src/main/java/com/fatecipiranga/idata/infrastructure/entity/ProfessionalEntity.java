@@ -14,7 +14,7 @@ public class ProfessionalEntity {
     private String phone;
     private String birthdate;
     private String professionalLicense;
-    private FacilityEntity facility;
+    private AddressEntity address;
     private LocalDateTime registrationDate;
 
     public String getId() {
@@ -81,12 +81,12 @@ public class ProfessionalEntity {
         this.professionalLicense = professionalLicense;
     }
 
-    public FacilityEntity getFacility() {
-        return facility;
+    public AddressEntity getAddress() {
+        return address;
     }
 
-    public void setFacility(FacilityEntity facility) {
-        this.facility = facility;
+    public void setAddress(AddressEntity address) {
+        this.address = address;
     }
 
     public LocalDateTime getRegistrationDate() {

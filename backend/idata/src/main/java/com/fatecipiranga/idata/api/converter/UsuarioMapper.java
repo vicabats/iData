@@ -1,6 +1,6 @@
 package com.fatecipiranga.idata.api.converter;
 
-import com.fatecipiranga.idata.api.request.EnderecoDTO;
+import com.fatecipiranga.idata.api.request.AddressDTO;
 import com.fatecipiranga.idata.api.request.UsuarioDTO;
 import com.fatecipiranga.idata.api.response.EnderecoResponse;
 import com.fatecipiranga.idata.api.response.UsuarioResponse;
@@ -8,12 +8,10 @@ import com.fatecipiranga.idata.infrastructure.entity.EnderecoEntity;
 import com.fatecipiranga.idata.infrastructure.entity.UsuarioEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Named;
 
 @Mapper(componentModel = "spring")
 public interface UsuarioMapper {
-
-    UsuarioMapper INSTANCE = Mappers.getMapper(UsuarioMapper.class);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "registrationDate", ignore = true)
@@ -21,10 +19,28 @@ public interface UsuarioMapper {
     @Mapping(target = "address", source = "address")
     UsuarioEntity toEntity(UsuarioDTO usuarioDTO);
 
-    @Mapping(target = "address", source = "address")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "cpf", source = "cpf")
+    @Mapping(target = "birthdate", source = "birthdate")
+    @Mapping(target = "email", source = "email")
+    @Mapping(target = "phone", source = "phone")
+    @Mapping(target = "registrationDate", source = "registrationDate")
+    @Mapping(target = "address", source = "address", qualifiedByName = "toEnderecoResponse")
     UsuarioResponse toResponse(UsuarioEntity usuarioEntity);
 
-    EnderecoEntity toEnderecoEntity(EnderecoDTO enderecoDTO);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "userId", ignore = true)
+    EnderecoEntity toEnderecoEntity(AddressDTO enderecoDTO);
 
+    @Named("toEnderecoResponse")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "street", source = "street")
+    @Mapping(target = "number", source = "number")
+    @Mapping(target = "complement", source = "complement")
+    @Mapping(target = "neighborhood", source = "neighborhood")
+    @Mapping(target = "zipCode", source = "zipCode")
+    @Mapping(target = "city", source = "city")
+    @Mapping(target = "state", source = "state")
     EnderecoResponse toEnderecoResponse(EnderecoEntity enderecoEntity);
 }

@@ -5,7 +5,6 @@ import lombok.Data;
 @Data
 public class EnderecoResponse {
     private String id;
-    private String userId;
     private String street;
     private String number;
     private String complement;
