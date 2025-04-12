@@ -4,7 +4,6 @@ import com.fatecipiranga.idata.api.request.CodeVerificationDTO;
 import com.fatecipiranga.idata.api.request.CpfDTO;
 import com.fatecipiranga.idata.api.request.LoginDTO;
 import com.fatecipiranga.idata.api.request.UsuarioDTO;
-import com.fatecipiranga.idata.api.response.LoginResponse;
 import com.fatecipiranga.idata.api.response.UsuarioResponse;
 import com.fatecipiranga.idata.business.EmailVerificationService;
 import com.fatecipiranga.idata.business.UsuarioService;
@@ -13,8 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
+import com.fatecipiranga.idata.api.response.UpdateResponse;
 
 @RestController
 @RequestMapping("/api/user")
@@ -54,10 +52,11 @@ public class UsuarioController {
     }
 
     @PutMapping(params = "type=personal")
-    public ResponseEntity<UsuarioResponse> updateUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+    public ResponseEntity<UpdateResponse<UsuarioResponse>> updateUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         try {
             UsuarioResponse updatedUsuario = usuarioService.updateUsuario(usuarioDTO.getCpf(), usuarioDTO);
-            return new ResponseEntity<>(updatedUsuario, HttpStatus.OK);
+            UpdateResponse<UsuarioResponse> response = new UpdateResponse<>("Registro atualizado com sucesso", updatedUsuario);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (RuntimeException e) {
             LOGGER.error("Erro ao atualizar usuário com CPF: {}. Detalhes: {}", usuarioDTO.getCpf(), e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -105,24 +104,19 @@ public class UsuarioController {
     }
 
     @PostMapping(value = "/verify-2fa", params = "type=personal")
-    public ResponseEntity<LoginResponse<UsuarioResponse>> verify2FA(@RequestBody CodeVerificationDTO request) {
+    public ResponseEntity<String> verify2FA(@RequestBody CodeVerificationDTO request) {
         try {
             boolean isValid = emailVerificationService.verifyCode(request.getEmail(), request.getCode());
             if (isValid) {
-                UsuarioResponse usuario = usuarioService.getUsuarioByEmail(request.getEmail())
-                        .orElseThrow(() -> new RuntimeException("Usuário não encontrado após verificação"));
-                String token = UUID.randomUUID().toString();
-                LoginResponse<UsuarioResponse> response = new LoginResponse<>(usuario, token);
                 LOGGER.info("Login concluído com sucesso para: {}", request.getEmail());
-                return ResponseEntity.ok(response);
+                return ResponseEntity.ok("Login realizado com sucesso");
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(new LoginResponse<>(null, null, "Código de verificação inválido ou expirado"));
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Código de verificação inválido ou expirado");
             }
         } catch (RuntimeException e) {
             LOGGER.error("Erro ao verificar código 2FA para: {}. Detalhes: {}", request.getEmail(), e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new LoginResponse<>(null, null, "Erro ao verificar código 2FA: " + e.getMessage()));
+                    .body("Erro ao verificar código 2FA: " + e.getMessage());
         }
     }
 }
