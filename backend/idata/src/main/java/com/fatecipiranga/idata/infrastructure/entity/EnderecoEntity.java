@@ -1,14 +1,10 @@
 package com.fatecipiranga.idata.infrastructure.entity;
 
 import lombok.Data;
-
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.Builder;
 @Data
-@Builder
 @Document(collection = "addresses")
-
 public class EnderecoEntity {
     private String id;
     private String userId;

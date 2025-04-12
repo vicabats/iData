@@ -23,7 +23,11 @@ import {
   getPasswordRegexValidator,
   getPhoneRegexValidator,
   getZipCodeRegexValidator,
+  passwordMatchValidator,
 } from '../../helpers/forms-validators';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-sign-up-patient-page',
@@ -34,28 +38,27 @@ import {
     MatDividerModule,
     CommonModule,
     InputComponent,
-    TitleCasePipe,
   ],
   templateUrl: './sign-up-patient-page.html',
   styleUrl: './sign-up-patient-page.css',
 })
 export class SignUpPatientPage {
-  // Melhorias:
-  // - Adicionar validação de CPF
-  // - Utilizar o componente Datepicker para a data de nascimento
-  // - Mostrar mensagem de erro no input somente quando o usuário "sair" do input
-  // - Criptografar a senha ao enviá-la pro backend
-
   patientForm: FormGroup = new FormGroup({});
+  _isSubmitting = false;
 
-  constructor(private fb: FormBuilder, private signUpService: SignUpService) {}
+  constructor(
+    private fb: FormBuilder,
+    private signUpService: SignUpService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.patientForm = this.fb.group(
       {
         name: ['', [Validators.required, getNameRegexValidator()]],
         cpf: ['', [Validators.required, getCPFRegexValidator()]],
-        birthDate: ['', [Validators.required, getBirthdateRegexValidator()]],
+        birthdate: ['', [Validators.required, getBirthdateRegexValidator()]],
 
         street: ['', [Validators.required]],
         addressNumber: ['', [Validators.required]],
@@ -76,14 +79,8 @@ export class SignUpPatientPage {
         ],
         confirmPassword: ['', [Validators.required]],
       },
-      { validators: this.passwordMatchValidator }
+      { validators: passwordMatchValidator }
     );
-  }
-
-  passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
-    const password = group.get('password')?.value;
-    const confirmPassword = group.get('confirmPassword')?.value;
-    return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
   getErrorMessage(controlName: string, placeholder?: string): string {
@@ -102,30 +99,64 @@ export class SignUpPatientPage {
     if (this.patientForm.valid) {
       await this.registerUser();
     } else {
-      window.alert('Por favor, corrija os campos do formulário.');
+      this.handleFailure('Preencha todos os campos corretamente');
+      this._isSubmitting = false;
     }
   }
 
   async registerUser(): Promise<void> {
     const user = this.getPersonalUserObject();
-    this.signUpService.register(user).subscribe({
-      next: (response) => {
-        console.log('Cadastro realizado com sucesso:', response);
-        window.alert('Cadastro realizado com sucesso!');
+    this._isSubmitting = true;
+    this.signUpService.registerPersonalUser(user).subscribe({
+      next: (_) => {
+        this._isSubmitting = false;
         this.patientForm.reset();
+        this.handleSuccessfulRegistration();
       },
-      error: (error) => {
-        console.error('Erro ao realizar cadastro:', error);
-        window.alert('Erro ao realizar cadastro. Por favor, tente novamente.');
+
+      error: (error: String) => {
+        this._isSubmitting = false;
+        this.handleFailure(error);
       },
     });
   }
 
-  getPersonalUserObject(): PersonalUser {
+  private handleFailure(errorMessage: String) {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
+      data: {
+        message: errorMessage,
+        type: 'error',
+      },
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['error-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.router.navigate(['/signup']);
+    });
+  }
+
+  private handleSuccessfulRegistration() {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
+      data: { message: 'Cadastro realizado com sucesso!', type: 'success' },
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['success-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.router.navigate(['/login']);
+    });
+  }
+
+  private getPersonalUserObject(): PersonalUser {
     const personalUser: PersonalUser = {
-      full_name: this.patientForm.get('name')?.value,
+      name: this.patientForm.get('name')?.value,
       cpf: this.patientForm.get('cpf')?.value,
-      birthDate: this.patientForm.get('birthDate')?.value,
+      birthdate: this.patientForm.get('birthDate')?.value,
       address: this.getUserAddress(),
       phone: this.patientForm.get('phone')?.value,
       email: this.patientForm.get('email')?.value,
@@ -134,7 +165,7 @@ export class SignUpPatientPage {
     return personalUser;
   }
 
-  getUserAddress(): UserAddress {
+  private getUserAddress(): UserAddress {
     const userAddress: UserAddress = {
       street: this.patientForm.get('street')?.value,
       number: this.patientForm.get('addressNumber')?.value,

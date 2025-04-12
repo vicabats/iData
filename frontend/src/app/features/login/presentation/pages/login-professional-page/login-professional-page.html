@@ -1,9 +1,14 @@
-<section class="login-page">
+<section class="login-professional-page">
   <div class="login-container">
     <h2>Fazer Login</h2>
-    <form class="login-form" [formGroup]="loginForm">
+    <form
+      class="login-form"
+      [formGroup]="professionalLoginForm"
+      (ngSubmit)="tryLogin()"
+    >
       <app-input
         label="CPF"
+        formControlName="cpf"
         type="tel"
         placeholder="Formato: 000.000.000-00"
         [errorMessage]="getErrorMessage('cpf')"
@@ -17,9 +22,19 @@
         [errorMessage]="getErrorMessage('password')"
       />
       <div class="forgotten-password-container">
-        <a class="forgotten-password" (click)="redirectToForgotPassword()">Esqueceu a senha?</a>
+        <a class="forgotten-password" (click)="redirectToForgotPassword()"
+          >Esqueceu a senha?</a
+        >
       </div>
-      <button mat-raised-button color="primary" class="login-button">
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="login-button"
+        type="submit"
+        [disabled]="professionalLoginForm.invalid || _isSubmitting"
+        [ngClass]="{ 'login_button-enabled': !professionalLoginForm.invalid }"
+      >
         Fazer Login
       </button>
     </form>
@@ -28,7 +43,12 @@
       <span class="divider-text">ou</span>
       <mat-divider></mat-divider>
     </div>
-    <button mat-stroked-button color="secondary" class="create-account" (click)="redirectToSignUp()">
+    <button
+      mat-stroked-button
+      color="secondary"
+      class="create-account"
+      (click)="redirectToSignUp()"
+    >
       Criar nova conta
     </button>
   </div>

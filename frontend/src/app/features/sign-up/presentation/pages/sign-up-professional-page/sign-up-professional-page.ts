@@ -12,7 +12,6 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { InputComponent } from '../../../../../shared/components/form-components/input/input.component';
-import { PersonalUser } from '../../../../../shared/types/personal_user';
 import { UserAddress } from '../../../../../shared/types/user_address';
 import { SignUpService } from '../../../services/sign-up.service';
 import {
@@ -23,7 +22,12 @@ import {
   getPasswordRegexValidator,
   getPhoneRegexValidator,
   getZipCodeRegexValidator,
+  passwordMatchValidator,
 } from '../../helpers/forms-validators';
+import { ProfessionalUser } from '../../../../../shared/types/professional_user';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-sign-up-professional-page',
@@ -40,23 +44,23 @@ import {
   styleUrl: './sign-up-professional-page.css',
 })
 export class SignUpProfessionalPage {
-  // Melhorias:
-  // - Adicionar validação de CPF
-  // - Utilizar o componente Datepicker para a data de nascimento
-  // - Mostrar mensagem de erro no input somente quando o usuário "sair" do input
-  // - Criptografar a senha ao enviá-la pro backend
-
   professionalForm: FormGroup = new FormGroup({});
+  _isSubmitting = false;
 
-  constructor(private fb: FormBuilder, private signUpService: SignUpService) {}
+  constructor(
+    private fb: FormBuilder,
+    private signUpService: SignUpService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.professionalForm = this.fb.group(
       {
         name: ['', [Validators.required, getNameRegexValidator()]],
         cpf: ['', [Validators.required, getCPFRegexValidator()]],
-        birthDate: ['', [Validators.required, getBirthdateRegexValidator()]],
-
+        birthdate: ['', [Validators.required, getBirthdateRegexValidator()]],
+        professionalLicense: ['', [Validators.required]],
         street: ['', [Validators.required]],
         addressNumber: ['', [Validators.required]],
         addressComplement: [''],
@@ -64,7 +68,7 @@ export class SignUpProfessionalPage {
         neighborhood: ['', [Validators.required]],
         city: ['', [Validators.required]],
         state: ['', [Validators.required]],
-        telephone: ['', [Validators.required, getPhoneRegexValidator()]],
+        phone: ['', [Validators.required, getPhoneRegexValidator()]],
         email: ['', [Validators.required, Validators.email]],
         password: [
           '',
@@ -76,14 +80,8 @@ export class SignUpProfessionalPage {
         ],
         confirmPassword: ['', [Validators.required]],
       },
-      { validators: this.passwordMatchValidator }
+      { validators: passwordMatchValidator }
     );
-  }
-
-  passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
-    const password = group.get('password')?.value;
-    const confirmPassword = group.get('confirmPassword')?.value;
-    return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
   getErrorMessage(controlName: string, placeholder?: string): string {
@@ -102,36 +100,71 @@ export class SignUpProfessionalPage {
     if (this.professionalForm.valid) {
       await this.registerUser();
     } else {
-      window.alert('Por favor, corrija os campos do formulário.');
+      this.handleFailure('Preencha todos os campos corretamente');
+      this._isSubmitting = false;
     }
   }
 
   async registerUser(): Promise<void> {
-    const user = this.getPersonalUserObject();
-    this.signUpService.register(user).subscribe({
+    const user = this.getProfessionalUserObject();
+    this._isSubmitting = true;
+    this.signUpService.registerProfessionalUser(user).subscribe({
       next: (response) => {
-        console.log('Cadastro realizado com sucesso:', response);
-        window.alert('Cadastro realizado com sucesso!');
+        this._isSubmitting = false;
         this.professionalForm.reset();
+        this.handleSuccessfulRegistration();
       },
-      error: (error) => {
-        console.error('Erro ao realizar cadastro:', error);
-        window.alert('Erro ao realizar cadastro. Por favor, tente novamente.');
+      error: (error: String) => {
+        this._isSubmitting = true;
+        this.handleFailure(error);
       },
     });
   }
 
-  getPersonalUserObject(): PersonalUser {
-    const personalUser: PersonalUser = {
-      full_name: this.professionalForm.get('name')?.value,
+  private handleFailure(errorMessage: String) {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
+      data: {
+        message: errorMessage,
+        type: 'error',
+      },
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['error-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.router.navigate(['/signup']);
+    });
+  }
+
+  private handleSuccessfulRegistration() {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
+      data: { message: 'Cadastro realizado com sucesso!', type: 'success' },
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['success-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.router.navigate(['/login']);
+    });
+  }
+
+  getProfessionalUserObject(): ProfessionalUser {
+    const professionalUser: ProfessionalUser = {
+      name: this.professionalForm.get('name')?.value,
       cpf: this.professionalForm.get('cpf')?.value,
-      birthDate: this.professionalForm.get('birthDate')?.value,
-      address: this.getUserAddress(),
+      professionalLicense: this.professionalForm.get('professionalLicense')
+        ?.value,
+      birthdate: this.professionalForm.get('birthDate')?.value,
+      facility: this.getUserAddress(),
       phone: this.professionalForm.get('phone')?.value,
       email: this.professionalForm.get('email')?.value,
       password: this.professionalForm.get('password')?.value,
     };
-    return personalUser;
+    return professionalUser;
   }
 
   getUserAddress(): UserAddress {
