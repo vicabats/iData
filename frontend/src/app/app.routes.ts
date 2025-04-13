@@ -6,6 +6,8 @@ import { ForgotPasswordPage } from './features/forgot-password/pages/forgot-pass
 import { LoginPage } from './features/login/presentation/pages/login-page/login-page';
 import { VerifyCodePage } from './features/verify-code/presentation/pages/verify-code/verify-code.page';
 import { VerifyCodeGuardService } from './guards/verify-code-guard.service';
+import { LoggedUser } from './features/logged/presentation/pages/logged-user/logged-user';
+import { LoggedProfessional } from './features/logged/presentation/pages/logged-professional/logged-professional';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -18,4 +20,6 @@ export const routes: Routes = [
   { path: 'signup', component: SignUpPage },
   { path: 'about-us', component: AboutUsPage },
   { path: 'forgot-password', component: ForgotPasswordPage },
+  { path: 'logged-user', component: LoggedUser },
+  { path: 'logged-professional', component: LoggedProfessional },
 ];
