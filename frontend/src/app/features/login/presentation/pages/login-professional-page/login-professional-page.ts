@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InputComponent } from '../../../../../shared/components/form-components/input/input.component';
 import {
   FormBuilder,
@@ -15,6 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '../../../../../shared/types/user';
 import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
 import { AuthFlowGuardService } from '../../../../../core/auth/auth-flow-guard.service';
+import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-login-professional-page',
@@ -24,13 +25,14 @@ import { AuthFlowGuardService } from '../../../../../core/auth/auth-flow-guard.s
     ReactiveFormsModule,
     MatDividerModule,
     CommonModule,
+    LoadingComponent,
   ],
   templateUrl: './login-professional-page.html',
   styleUrl: './login-professional-page.css',
 })
-export class LoginProfessionalPage {
-  professionalLoginForm: FormGroup = new FormGroup({});
-  _isSubmitting = false;
+export class LoginProfessionalPage implements OnInit {
+  public professionalLoginForm: FormGroup = new FormGroup({});
+  public isSubmitting = false;
 
   constructor(
     private fb: FormBuilder,
@@ -66,27 +68,52 @@ export class LoginProfessionalPage {
 
   public async tryLogin() {
     if (this.professionalLoginForm.valid) {
-      this._isSubmitting = true;
+      this.isSubmitting = true;
       await this.registerUser();
     } else {
       this.handleFailure('Preencha todos os campos corretamente');
-      this._isSubmitting = false;
+      this.isSubmitting = false;
     }
   }
 
   async registerUser(): Promise<void> {
     const user = this.getLoginUser();
-    this._isSubmitting = true;
+    this.isSubmitting = true;
     this.loginService.loginProfessionalUser(user).subscribe({
-      next: (_) => {
-        this.authFlowGuardService.setLoginFlowStarted(true);
-        this._isSubmitting = false;
-        this.router.navigate(['verify-code']);
+      next: (successMessage: string) => {
+        this.handleSuccessfulLogin(successMessage);
       },
-      error: (error: String) => {
-        this._isSubmitting = false;
-        this.handleFailure(error);
+      error: (error: any) => {
+        const errorMessage = error?.error || 'Erro desconhecido ao logar';
+        this.handleFailure(errorMessage);
       },
+    });
+  }
+
+  private handleSuccessfulLogin(message: String) {
+    this.authFlowGuardService.setLoginFlowStarted(true);
+
+    this.isSubmitting = false;
+    this.router.navigate(['verify-code'], {
+      state: { successMessage: message },
+      queryParams: { type: 'personal', cpf: this.getLoginUser().cpf },
+    });
+  }
+
+  private handleFailure(errorMessage: String) {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
+      data: {
+        message: errorMessage,
+        type: 'error',
+      },
+      duration: 1500,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['error-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.isSubmitting = false;
     });
   }
 
@@ -96,19 +123,6 @@ export class LoginProfessionalPage {
       password: this.professionalLoginForm.get('password')?.value,
     };
     return loginUser;
-  }
-
-  private handleFailure(errorMessage: String) {
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: {
-        message: errorMessage,
-        type: 'error',
-      },
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-      panelClass: ['error-snackbar'],
-    });
   }
 
   public getErrorMessage(controlName: string): string {

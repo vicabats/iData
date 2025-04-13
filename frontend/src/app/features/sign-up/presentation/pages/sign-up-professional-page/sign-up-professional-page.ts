@@ -110,11 +110,9 @@ export class SignUpProfessionalPage {
     this._isSubmitting = true;
     this.signUpService.registerProfessionalUser(user).subscribe({
       next: (_) => {
-        this.professionalForm.reset();
         this.handleSuccessfulRegistration();
       },
       error: (error: any) => {
-        this._isSubmitting = false;
         const errorMessage =
           error?.error || 'Erro desconhecido ao registrar usuário';
         this.handleFailure(errorMessage);
@@ -128,30 +126,30 @@ export class SignUpProfessionalPage {
         message: errorMessage,
         type: 'error',
       },
-      duration: 3000,
+      duration: 2000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
       panelClass: ['error-snackbar'],
     });
 
     snackBarRef.afterDismissed().subscribe(() => {
-      this.router.navigate(['/signup']);
+      this._isSubmitting = false;
     });
   }
 
   private handleSuccessfulRegistration() {
     const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
       data: { message: 'Cadastro realizado com sucesso!', type: 'success' },
-      duration: 3000,
+      duration: 2000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
       panelClass: ['success-snackbar'],
     });
 
-    this._isSubmitting = false;
-
     snackBarRef.afterDismissed().subscribe(() => {
-      this.router.navigate(['/login']);
+      this._isSubmitting = false;
+      this.professionalForm.reset();
+      this.router.navigate(['login']);
     });
   }
 

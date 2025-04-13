@@ -74,3 +74,11 @@
   color: var(--white);
   cursor: pointer;
 }
+
+.login_button-disabled {
+  background-color: #ccc !important;
+  color: #888 !important;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+}
