@@ -75,3 +75,11 @@ body {
     --mdc-snackbar-supporting-text-color: #fff;
   }
 }
+
+.mat-mdc-snack-bar-container {
+  &.error-snackbar {
+    --mdc-snackbar-container-color: var(--warning);
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+}

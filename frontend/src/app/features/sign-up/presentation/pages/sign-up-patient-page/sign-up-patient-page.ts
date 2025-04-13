@@ -109,14 +109,15 @@ export class SignUpPatientPage {
     this._isSubmitting = true;
     this.signUpService.registerPersonalUser(user).subscribe({
       next: (_) => {
-        this._isSubmitting = false;
         this.patientForm.reset();
         this.handleSuccessfulRegistration();
       },
 
-      error: (error: String) => {
+      error: (error: any) => {
         this._isSubmitting = false;
-        this.handleFailure(error);
+        const errorMessage =
+          error?.error || 'Erro desconhecido ao registrar usuário';
+        this.handleFailure(errorMessage);
       },
     });
   }
@@ -146,6 +147,8 @@ export class SignUpPatientPage {
       verticalPosition: 'bottom',
       panelClass: ['success-snackbar'],
     });
+
+    this._isSubmitting = false;
 
     snackBarRef.afterDismissed().subscribe(() => {
       this.router.navigate(['/login']);
