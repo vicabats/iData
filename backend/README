@@ -1,131 +1,435 @@
-# iData
+iData
 
-  API RESTful desenvolvida com Spring Boot para gerenciamento de usuários e seus endereços. O projeto utiliza MongoDB como banco de dados NoSQL para armazenar informações de usuários (coleção `users`) e endereços associados (coleção `addresses`). A aplicação permite criar, listar, buscar, atualizar e excluir usuários, integrando dados de endereço de forma eficiente com o uso do MapStruct para mapeamento de objetos.
+iData é uma API RESTful desenvolvida com Spring Boot para gerenciamento seguro de dados clínicos e pessoais, com suporte a autenticação em dois fatores (2FA). O backend utiliza Java 17, Spring Boot, MongoDB, MapStruct e Lombok, com persistência em um banco NoSQL MongoDB. O projeto é containerizado com Docker, incluindo serviços para o backend, frontend (Angular) e MongoDB.
+Funcionalidades
+Cadastro de Usuários:
+Profissional: Inclui validação de licença profissional (ex.: CRM) e autenticação via e-mail.
 
-## Funcionalidades
-- **Criação de Usuários**: Adicione novos usuários com informações pessoais e endereço via endpoint POST.
-- **Listagem de Usuários**: Recupere todos os usuários registrados.
-- **Busca por Email**: Consulte detalhes de um usuário específico pelo email.
-- **Atualização de Usuários**: Modifique informações de usuários existentes.
-- **Exclusão de Usuários**: Remova usuários e seus endereços associados.
+Pessoal: Dados pessoais e endereço, sem licença profissional.
 
-## Tecnologias Utilizadas
-- **Java 17**: Linguagem principal do projeto.
-- **Spring Boot 3.2.4**: Framework para construção da API.
-- **MongoDB**: Banco de dados NoSQL para persistência.
-- **MapStruct 1.5.5**: Ferramenta de mapeamento de objetos.
-- **Lombok**: Biblioteca para redução de código boilerplate.
-- **Maven**: Gerenciamento de dependências e build.
+Autenticação 2FA: Login com verificação por código enviado ao e-mail.
 
----
+Consulta por CPF: Busca de dados de usuários (profissional ou pessoal).
 
-## Como Iniciar o Projeto
+Atualização de Dados: Alteração de informações cadastrais e endereço.
 
-### Pré-requisitos
-- **Java 17**: Verifique a instalação:
+Exclusão Segura: Remoção de contas com confirmação via e-mail.
 
-java -version
+Tecnologias Utilizadas
+Java 17 (compatível com OpenJDK 21)
 
-- **Maven**: Verifique a instalação:
+Spring Boot 3.4.4
 
-mvn --version
+MongoDB 6.0 (NoSQL)
 
-- **MongoDB**: Banco de dados local ou remoto em funcionamento.
-  - Para instalação local:
-    - Baixe e instale o MongoDB Community Server ([instruções](https://www.mongodb.com/docs/manual/installation/)).
-    - Inicie o MongoDB:
+MapStruct 1.5.5.Final (mapeamento de DTOs)
 
-mongod
+Lombok 1.18.32 (redução de boilerplate)
 
-- Padrão: `localhost:27017`.
+Caffeine Cache 3.1.8 (otimização de desempenho)
 
-### Passos para Startar
-1. **Clone o Repositório**:
+Maven 3.9.9 (gerenciamento de dependências)
 
-git clone https: https://github.com/vicabats/iData.git
-cd projetoiData
+Docker & Docker Compose (containerização)
 
+Pré-requisitos
+Para executar o projeto, você precisará de:
+Java 17+ (recomendado: OpenJDK 21)
 
-2. **Configure o MongoDB**:
-Verifique se o arquivo `src/main/resources/application.yml` contém:
+Maven 3.9.9+
 
-spring:
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/idata
+Docker e Docker Compose (para execução containerizada)
 
-Se necessário, ajuste o `uri` para o endereço correto do seu MongoDB.
+MongoDB (se rodar localmente sem Docker, porta padrão: 27017)
 
-3. **Baixe as dependências e compile o projeto**:
+Navegador ou cliente HTTP (ex.: Postman) para testar a API
 
+Endpoints Principais
+Usuário Pessoal
+Ação
+
+Método
+
+Endpoint
+
+Descrição
+
+Cadastro
+
+POST
+
+/api/user/register?type=personal
+
+Registra um novo usuário pessoal
+
+Login
+
+POST
+
+/api/user/login?type=personal
+
+Inicia o processo de login
+
+Verificação 2FA
+
+POST
+
+/api/user/verify-2fa?type=personal
+
+Confirma o login com código 2FA
+
+Consulta
+
+GET
+
+/api/user?type=personal
+
+Busca dados por CPF
+
+Atualização
+
+PUT
+
+/api/user?type=personal
+
+Atualiza dados do usuário
+
+Iniciar Exclusão
+
+DELETE
+
+/api/user?type=personal
+
+Inicia processo de exclusão
+
+Confirmar Exclusão
+
+POST
+
+/api/user/confirm-delete?type=personal
+
+Confirma exclusão com código
+
+Profissional
+Ação
+
+Método
+
+Endpoint
+
+Descrição
+
+Cadastro
+
+POST
+
+/api/user/register?type=professional
+
+Registra um novo profissional
+
+Login
+
+POST
+
+/api/user/login?type=professional
+
+Inicia o processo de login
+
+Verificação 2FA
+
+POST
+
+/api/user/verify-2fa?type=professional
+
+Confirma o login com código 2FA
+
+Consulta
+
+GET
+
+/api/user?type=professional
+
+Busca dados por CPF
+
+Atualização
+
+PUT
+
+/api/user?type=professional
+
+Atualiza dados do profissional
+
+Iniciar Exclusão
+
+DELETE
+
+/api/user?type=professional
+
+Inicia processo de exclusão
+
+Confirmar Exclusão
+
+POST
+
+/api/user/confirm-delete?type=professional
+
+Confirma exclusão com código
+
+Configuração e Execução
+Execução Local (Sem Docker)
+Clone o Repositório:
+bash
+
+git clone <URL_DO_REPOSITORIO>
+cd idata
+
+Configure o MongoDB:
+Certifique-se de que o MongoDB está rodando localmente na porta padrão (27017).
+
+Compile e Execute o Backend:
+bash
+
+cd backend/idata
 mvn clean install
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
+Acesse:
+Backend: http://localhost:8080
 
-4. **Inicie a Aplicação**:
+Frontend (se configurado): http://localhost:80
 
-mvn spring-boot:run
+Execução com Docker
+Clone o Repositório:
+bash
 
-A API estará disponível em `http://localhost:8080`.
+git clone <URL_DO_REPOSITORIO>
+cd idata
 
-5. **Testando os Endpoints**:
-Utilize o Postman ou outra ferramenta similar para testar a API. Exemplos:
-- **POST /api/user** - Criar um usuário:
+Execute com Docker Compose:
+bash
+
+docker compose up --build
+
+Acesse os Serviços:
+MongoDB: localhost:27017
+
+Backend: http://localhost:8080
+
+Frontend: http://localhost:80
+
+Parar os Serviços:
+bash
+
+docker compose down
+
+Estrutura do Docker Compose
+O arquivo docker-compose.yml define três serviços:
+yaml
+
+services:
+  mongodb:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    image: idata-backend:latest
+    depends_on:
+      - mongodb
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/idata
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+volumes:
+  mongo_data:
+
+Exemplos de Requisições
+Cadastro de Profissional
+Requisição:
+http
+
+POST http://localhost:8080/api/user/register?type=professional
+Content-Type: application/json
 
 {
-    "name": "Carlos Souza",
-    "cpf": "456.789.123-00",
-    "email": "carlos.souza@example.com",
-    "password": "senha789",
-    "phone": "(31) 99876-5432",
-    "address": {
-        "street": "Rua das Palmeiras",
-        "number": "789",
-        "complement": "Bloco B",
-        "neighborhood": "Savassi",
-        "zipCode": "30123-456",
-        "city": "Belo Horizonte",
-        "state": "MG"
-    }
+  "name": "Juliana Haddad",
+  "cpf": "45634572858",
+  "email": "juliana.haddad@gmail.com",
+  "password": "Juliana12345&",
+  "phone": "11912345678",
+  "birthdate": "15/09/1987",
+  "professionalLicense": "CRM 123456 SP",
+  "address": {
+    "street": "Rua Exemplo",
+    "number": "123",
+    "complement": "Apto 45",
+    "neighborhood": "Centro",
+    "zipCode": "12345-678",
+    "city": "São Paulo",
+    "state": "SP"
+  }
 }
 
-- **GET /api/user/carlos.souza@example.com** - Buscar usuário por email.
+Resposta (HTTP 200):
+json
 
-### Verificando os dados no MongoDB
-Acesse o MongoDB shell:
+"Profissional registrado com sucesso: 45634572858"
 
-mongo
-use idata
-db.users.find()
-db.addresses.find()
+Cadastro de Usuário Pessoal
+Requisição:
+http
 
+POST http://localhost:8080/api/user/register?type=personal
+Content-Type: application/json
 
-### Observações Importantes
-- **Segurança**: Atualmente o campo `password` é retornado nas respostas para simplicidade. Em produção, recomenda-se criptografar (por exemplo, utilizando BCrypt) e não retornar o campo nas respostas.
-- **Dependências**: Todas as dependências estão declaradas no `pom.xml` e são gerenciadas automaticamente pelo Maven.
+{
+  "name": "José Nascimento",
+  "cpf": "42089736856",
+  "email": "jose.nascimento@gmail.com",
+  "password": "Jose12345&",
+  "phone": "11945874322",
+  "birthdate": "20/01/1985",
+  "address": {
+    "street": "Rua das Flores",
+    "number": "854",
+    "complement": "Apto 88 Bloco B",
+    "neighborhood": "Moema",
+    "zipCode": "04208-001",
+    "city": "São Paulo",
+    "state": "SP"
+  }
+}
 
----
+Resposta (HTTP 200):
+json
 
-## Contribuição
-Sinta-se à vontade para abrir issues ou enviar pull requests com sugestões e melhorias.
+"Usuário registrado com sucesso: 42089736856"
 
----
+Login com 2FA (Profissional)
+Requisição - Login:
+http
 
-## Estrutura Recomendada
-- Certifique-se de que todos os arquivos (como `UsuarioEntity`, `UsuarioService`, `UsuarioMapper`, etc.) estejam corretamente no repositório.
-- Teste localmente antes de subir o projeto.
+POST http://localhost:8080/api/user/login?type=professional
+Content-Type: application/json
 
-### .gitignore recomendado:
+{
+  "cpf": "45634572858",
+  "password": "Juliana12345&"
+}
 
-target/
-*.log
-.idea/
-*.iml
+Resposta (HTTP 200):
+json
 
+"Código de verificação enviado para juliana.haddad@gmail.com"
 
-## Comandos Úteis Resumo
+Requisição - Verificação 2FA:
+http
 
-git clone https://https://github.com/vicabats/iData.git
-cd iData
-mvn clean install
-mongod
-mvn spring-boot:run
+POST http://localhost:8080/api/user/verify-2fa?type=professional
+Content-Type: application/json
+
+{
+  "email": "juliana.haddad@gmail.com",
+  "code": "<código recebido por e-mail>"
+}
+
+Resposta (HTTP 200):
+json
+
+"Login realizado com sucesso"
+
+Atualização de Profissional
+Requisição:
+http
+
+PUT http://localhost:8080/api/user?type=professional
+Content-Type: application/json
+
+{
+  "name": "Juliana Haddad",
+  "cpf": "45634572858",
+  "email": "juliana.haddad@gmail.com",
+  "password": "Juliana12345&",
+  "phone": "11987654321",
+  "birthdate": "15/09/1987",
+  "professionalLicense": "CRM 123456 SP",
+  "address": {
+    "street": "Rua Nova",
+    "number": "456",
+    "complement": "Apto 145 Bloco 2",
+    "neighborhood": "Centro",
+    "zipCode": "12345-678",
+    "city": "São Paulo",
+    "state": "SP"
+  }
+}
+
+Resposta (HTTP 200):
+json
+
+{
+  "message": "Registro atualizado com sucesso",
+  "data": {
+    "id": "<UUID>",
+    "name": "Juliana Haddad",
+    "cpf": "45634572858",
+    "email": "juliana.haddad@gmail.com",
+    "phone": "11987654321",
+    "birthdate": "15/09/1987",
+    "professionalLicense": "CRM 123456 SP",
+    "address": {
+      "id": "<UUID>",
+      "street": "Rua Nova",
+      "number": "456",
+      "complement": "Apto 145 Bloco 2",
+      "neighborhood": "Centro",
+      "zipCode": "12345-678",
+      "city": "São Paulo",
+      "state": "SP"
+    }
+  }
+}
+
+Exclusão de Conta (Pessoal)
+Requisição - Iniciar Exclusão:
+http
+
+DELETE http://localhost:8080/api/user?type=personal
+Content-Type: application/json
+
+{
+  "cpf": "42089736856",
+  "password": "Jose12345&"
+}
+
+Resposta (HTTP 200):
+json
+
+"Código de verificação enviado para jose.nascimento@gmail.com. Confirme para excluir sua conta."
+
+Requisição - Confirmar Exclusão:
+http
+
+POST http://localhost:8080/api/user/confirm-delete?type=personal
+Content-Type: application/json
+
+{
+  "email": "jose.nascimento@gmail.com",
+  "code": "<código recebido por e-mail>"
+}
+
+Resposta (HTTP 200):
+json
+
+"Conta excluída com sucesso."
+
