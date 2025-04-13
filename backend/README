@@ -1,4 +1,4 @@
-<h1><strong>iData</strong></h1>
+iData
 
 iData é uma API RESTful desenvolvida com Spring Boot para gerenciamento seguro de dados clínicos e pessoais, com suporte a autenticação em dois fatores (2FA). O backend utiliza Java 17, Spring Boot, MongoDB, MapStruct e Lombok, com persistência em um banco NoSQL MongoDB. O projeto é containerizado com Docker, incluindo serviços para o backend, frontend (Angular) e MongoDB.
 Funcionalidades
