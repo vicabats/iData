@@ -1,4 +1,6 @@
 <section class="login-patient-page">
+  <app-loading *ngIf="isSubmitting" />
+
   <div class="login-container">
     <h2>Fazer Login</h2>
     <form
@@ -26,14 +28,15 @@
           >Esqueceu a senha?</a
         >
       </div>
-
       <button
         mat-raised-button
         color="primary"
         class="login-button"
         type="submit"
-        [disabled]="patientLoginForm.invalid || _isSubmitting"
-        [ngClass]="{ 'login_button-enabled': !patientLoginForm.invalid }"
+        [ngClass]="{
+          'login_button-enabled': !patientLoginForm.invalid && !isSubmitting,
+          'login_button-disabled': patientLoginForm.invalid || isSubmitting
+        }"
       >
         Fazer Login
       </button>

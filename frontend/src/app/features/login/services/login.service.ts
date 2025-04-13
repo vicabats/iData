@@ -9,21 +9,21 @@ import { User } from '../../../shared/types/user';
 export class LoginService {
   constructor(private http: HttpClient) {}
 
-  loginPersonalUser(user: User): Observable<String> {
+  loginPersonalUser(user: User): Observable<string> {
     const apiUrl = 'http://localhost:8080/api/user/login?type=personal';
 
     let cpf = user.cpf;
     let password = user.password;
 
-    return this.http.post<String>(apiUrl, { cpf, password });
+    return this.http.post(apiUrl, { cpf, password }, { responseType: 'text' });
   }
 
-  loginProfessionalUser(user: User): Observable<String> {
+  loginProfessionalUser(user: User): Observable<string> {
     const apiUrl = 'http://localhost:8080/api/user/login?type=professional';
 
     let cpf = user.cpf;
     let password = user.password;
 
-    return this.http.post<String>(apiUrl, { cpf, password });
+    return this.http.post(apiUrl, { cpf, password }, { responseType: 'text' });
   }
 }

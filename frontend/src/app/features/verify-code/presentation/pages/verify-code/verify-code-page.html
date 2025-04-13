@@ -1,0 +1,26 @@
+<section class="verify-container">
+  <app-loading *ngIf="isSubmitting" />
+
+  <h2>Verificação de Código</h2>
+
+  <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+
+  <form [formGroup]="codeForm" (ngSubmit)="submitCode()">
+    <label for="code">Digite o código de 6 dígitos:</label>
+    <input
+      id="code"
+      formControlName="code"
+      maxlength="6"
+      type="text"
+      pattern="\d*"
+    />
+    <div
+      *ngIf="codeForm.get('code')?.invalid && codeForm.get('code')?.touched"
+      class="error"
+    >
+      Código inválido. Deve conter 6 dígitos numéricos.
+    </div>
+
+    <button type="submit" [disabled]="codeForm.invalid">Verificar</button>
+  </form>
+</section>

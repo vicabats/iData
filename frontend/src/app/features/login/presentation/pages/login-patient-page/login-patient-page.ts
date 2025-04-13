@@ -15,6 +15,7 @@ import { LoginService } from '../../../services/login.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
 import { AuthFlowGuardService } from '../../../../../core/auth/auth-flow-guard.service';
+import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-login-patient-page',
@@ -24,13 +25,14 @@ import { AuthFlowGuardService } from '../../../../../core/auth/auth-flow-guard.s
     ReactiveFormsModule,
     MatDividerModule,
     CommonModule,
+    LoadingComponent,
   ],
   templateUrl: './login-patient-page.html',
   styleUrl: './login-patient-page.css',
 })
 export class LoginPatientPage {
-  patientLoginForm: FormGroup = new FormGroup({});
-  _isSubmitting = false;
+  public patientLoginForm: FormGroup = new FormGroup({});
+  public isSubmitting = false;
 
   constructor(
     private fb: FormBuilder,
@@ -66,27 +68,51 @@ export class LoginPatientPage {
 
   public async tryLogin() {
     if (this.patientLoginForm.valid) {
-      this._isSubmitting = true;
+      this.isSubmitting = true;
       await this.registerUser();
     } else {
       this.handleFailure('Preencha todos os campos corretamente');
-      this._isSubmitting = false;
+      this.isSubmitting = false;
     }
   }
 
   async registerUser(): Promise<void> {
     const user = this.getLoginUser();
-    this._isSubmitting = true;
     this.loginService.loginPersonalUser(user).subscribe({
-      next: (_) => {
-        this.authFlowGuardService.setLoginFlowStarted(true);
-        this._isSubmitting = false;
-        this.router.navigate(['verify-code']);
+      next: (successMessage: string) => {
+        this.handleSuccessfulLogin(successMessage);
       },
-      error: (error: String) => {
-        this._isSubmitting = false;
-        this.handleFailure(error);
+      error: (error: any) => {
+        const errorMessage = error?.error || 'Erro desconhecido ao logar';
+        this.handleFailure(errorMessage);
       },
+    });
+  }
+
+  private handleSuccessfulLogin(message: String) {
+    this.authFlowGuardService.setLoginFlowStarted(true);
+
+    this.isSubmitting = false;
+    this.router.navigate(['verify-code'], {
+      state: { successMessage: message },
+      queryParams: { type: 'personal', cpf: this.getLoginUser().cpf },
+    });
+  }
+
+  private handleFailure(errorMessage: String) {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
+      data: {
+        message: errorMessage,
+        type: 'error',
+      },
+      duration: 1500,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['error-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.isSubmitting = false;
     });
   }
 
@@ -96,19 +122,6 @@ export class LoginPatientPage {
       password: this.patientLoginForm.get('password')?.value,
     };
     return loginUser;
-  }
-
-  private handleFailure(errorMessage: String) {
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: {
-        message: errorMessage,
-        type: 'error',
-      },
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-      panelClass: ['error-snackbar'],
-    });
   }
 
   public getErrorMessage(controlName: string): string {
