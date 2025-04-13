@@ -12,7 +12,6 @@
 
 body {
   display: grid;
-  grid-gap: 1em;
   grid-template-rows: auto;
   min-height: 100vh;
   background-color: var(--background-color);

@@ -26,6 +26,15 @@
   color: var(--primary-color);
   cursor: pointer;
   width: 100%;
+  padding: var(--spacing-sm);
+  text-align: center;
+  display: inline-block;
+  border-radius: 5px;
+  text-decoration: underline;
+}
+
+.create-account:hover {
+  color: #0056b3;
 }
 
 .forgotten-password-container {
@@ -67,10 +76,16 @@
   margin-top: 1rem;
   cursor: not-allowed;
   font-size: var(--font-size-md);
+  padding: var(--spacing-sm);
+  background-color: #ccc;
+  color: var(--white);
+  border-radius: 5px;
+  width: 100%;
 }
 
 .login_button-enabled {
   background-color: var(--blue);
   color: var(--white);
   cursor: pointer;
+  padding: var(--spacing-sm);
 }
