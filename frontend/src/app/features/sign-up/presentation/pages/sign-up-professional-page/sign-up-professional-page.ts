@@ -109,14 +109,15 @@ export class SignUpProfessionalPage {
     const user = this.getProfessionalUserObject();
     this._isSubmitting = true;
     this.signUpService.registerProfessionalUser(user).subscribe({
-      next: (response) => {
-        this._isSubmitting = false;
+      next: (_) => {
         this.professionalForm.reset();
         this.handleSuccessfulRegistration();
       },
-      error: (error: String) => {
-        this._isSubmitting = true;
-        this.handleFailure(error);
+      error: (error: any) => {
+        this._isSubmitting = false;
+        const errorMessage =
+          error?.error || 'Erro desconhecido ao registrar usuário';
+        this.handleFailure(errorMessage);
       },
     });
   }
@@ -146,6 +147,8 @@ export class SignUpProfessionalPage {
       verticalPosition: 'bottom',
       panelClass: ['success-snackbar'],
     });
+
+    this._isSubmitting = false;
 
     snackBarRef.afterDismissed().subscribe(() => {
       this.router.navigate(['/login']);

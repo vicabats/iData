@@ -13,5 +13,6 @@
 }
 
 .error {
-  color: var(--warning);
+  --mdc-snackbar-container-color: var(--warning);
+  --mat-mdc-snack-bar-button-color: white;
 }
