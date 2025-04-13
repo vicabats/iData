@@ -25,6 +25,4 @@ export class SignUpService {
       responseType: 'text',
     });
   }
-
-  verify2FACode() {}
 }

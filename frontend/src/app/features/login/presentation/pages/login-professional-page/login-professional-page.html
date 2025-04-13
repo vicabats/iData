@@ -1,4 +1,6 @@
 <section class="login-professional-page">
+  <app-loading *ngIf="isSubmitting" />
+
   <div class="login-container">
     <h2>Fazer Login</h2>
     <form
@@ -32,8 +34,11 @@
         color="primary"
         class="login-button"
         type="submit"
-        [disabled]="professionalLoginForm.invalid || _isSubmitting"
-        [ngClass]="{ 'login_button-enabled': !professionalLoginForm.invalid }"
+        [disabled]="!professionalLoginForm.invalid || isSubmitting"
+        [ngClass]="{
+          'login_button-enabled': !professionalLoginForm.invalid && !isSubmitting,
+          'login_button-disabled': professionalLoginForm.invalid || isSubmitting
+        }"
       >
         Fazer Login
       </button>
