@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { UserType } from '../../../shared/types/user_type';
 
 interface LoginParams {
-  type: string;
+  type: UserType;
   cpf: string;
   password: string;
 }
@@ -14,9 +15,9 @@ interface LoginParams {
 export class LoginService {
   constructor(private http: HttpClient) {}
 
-  login({ type, cpf, password }: LoginParams): Observable<string> {
-    const apiUrl = `http://localhost:8080/api/user/login?type=${type}`;
+  login({ type, cpf, password }: LoginParams): Observable<String> {
+    const apiUrl = `http://localhost:8080/api/user/login?type=${type.toString()}`;
 
-    return this.http.post(apiUrl, { cpf, password }, { responseType: 'text' });
+    return this.http.post<String>(apiUrl, { cpf, password });
   }
 }

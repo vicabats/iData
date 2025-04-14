@@ -84,13 +84,13 @@ export class LoginContentPage implements OnInit {
 
     const cpf = user.cpf;
     const password = user.password;
-    const type = this.userType.toString();
+    const type = this.userType;
 
     this.loginService.login({ cpf, password, type }).subscribe({
-      next: (successMessage: string) => {
+      next: (successMessage: String) => {
         this.handleSuccessfulLogin(successMessage);
       },
-      error: (error: any) => {
+      error: (error) => {
         const errorMessage = error?.error || 'Erro desconhecido ao logar';
         this.handleFailure(errorMessage);
       },

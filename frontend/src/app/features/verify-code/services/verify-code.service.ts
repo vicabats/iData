@@ -2,9 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { User } from '../../../shared/types/user';
+import { UserType } from '../../../shared/types/user_type';
 
 interface VerifyCodeParams {
-  type: string;
+  type: UserType;
   cpf: string;
   code: string;
 }
@@ -15,16 +16,9 @@ interface VerifyCodeParams {
 export class VerifyCodeService {
   constructor(private http: HttpClient) {}
 
-  public verifyCode({ type, cpf, code }: VerifyCodeParams): Observable<any> {
-    const apiUrl = `http://localhost:8080/api/user/verify-2fa?type=${type}`;
-    const email = 'batistoti.v@gmail.com';
+  public verifyCode({ type, cpf, code }: VerifyCodeParams): Observable<User> {
+    const apiUrl = `http://localhost:8080/api/user/verify-2fa?type=${type.toString()}`;
 
-    return this.http.post<User>(apiUrl, { email, code }).pipe(
-      catchError((error) => {
-        const errorMessage =
-          error.error || 'Erro desconhecido ao verificar o código';
-        return throwError(() => errorMessage);
-      })
-    );
+    return this.http.post<User>(apiUrl, { cpf, code });
   }
 }
