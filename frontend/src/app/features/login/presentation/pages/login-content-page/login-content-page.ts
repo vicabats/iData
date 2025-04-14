@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { InputComponent } from '../../../../../shared/components/form-components/input/input.component';
 import {
   FormBuilder,
@@ -9,16 +9,17 @@ import {
 } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { CommonModule } from '@angular/common';
+import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../services/login.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthFlowGuardService } from '../../../../../core/auth/auth-flow-guard.service';
 import { User } from '../../../../../shared/types/user';
 import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
-import { AuthFlowGuardService } from '../../../../../core/auth/auth-flow-guard.service';
-import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
+import { UserType } from '../../../../../shared/types/user_type';
 
 @Component({
-  selector: 'app-login-professional-page',
+  selector: 'app-login-content-page',
   imports: [
     InputComponent,
     FormsModule,
@@ -27,11 +28,13 @@ import { LoadingComponent } from '../../../../../shared/components/loading/loadi
     CommonModule,
     LoadingComponent,
   ],
-  templateUrl: './login-professional-page.html',
-  styleUrl: './login-professional-page.css',
+  templateUrl: './login-content-page.html',
+  styleUrl: './login-content-page.css',
 })
-export class LoginProfessionalPage implements OnInit {
-  public professionalLoginForm: FormGroup = new FormGroup({});
+export class LoginContentPage implements OnInit {
+  @Input({ required: true }) userType!: UserType;
+
+  public loginForm: FormGroup = new FormGroup({});
   public isSubmitting = false;
 
   constructor(
@@ -47,7 +50,7 @@ export class LoginProfessionalPage implements OnInit {
   }
 
   private initializeLoginForm() {
-    this.professionalLoginForm = this.fb.group({
+    this.loginForm = this.fb.group({
       cpf: [
         '',
         [
@@ -66,20 +69,24 @@ export class LoginProfessionalPage implements OnInit {
     });
   }
 
-  public async tryLogin() {
-    if (this.professionalLoginForm.valid) {
+  public async login() {
+    if (this.loginForm.valid) {
       this.isSubmitting = true;
-      await this.registerUser();
+      await this.callLoginService();
     } else {
       this.handleFailure('Preencha todos os campos corretamente');
       this.isSubmitting = false;
     }
   }
 
-  async registerUser(): Promise<void> {
+  private async callLoginService(): Promise<void> {
     const user = this.getLoginUser();
-    this.isSubmitting = true;
-    this.loginService.loginProfessionalUser(user).subscribe({
+
+    const cpf = user.cpf;
+    const password = user.password;
+    const type = this.userType.toString();
+
+    this.loginService.login({ cpf, password, type }).subscribe({
       next: (successMessage: string) => {
         this.handleSuccessfulLogin(successMessage);
       },
@@ -88,6 +95,14 @@ export class LoginProfessionalPage implements OnInit {
         this.handleFailure(errorMessage);
       },
     });
+  }
+
+  private getLoginUser(): User {
+    const loginUser: User = {
+      cpf: this.loginForm.get('cpf')?.value,
+      password: this.loginForm.get('password')?.value,
+    };
+    return loginUser;
   }
 
   private handleSuccessfulLogin(message: String) {
@@ -117,16 +132,8 @@ export class LoginProfessionalPage implements OnInit {
     });
   }
 
-  private getLoginUser(): User {
-    const loginUser: User = {
-      cpf: this.professionalLoginForm.get('cpf')?.value,
-      password: this.professionalLoginForm.get('password')?.value,
-    };
-    return loginUser;
-  }
-
   public getErrorMessage(controlName: string): string {
-    const control = this.professionalLoginForm.get(controlName);
+    const control = this.loginForm.get(controlName);
     if (control && control.touched && control.invalid) {
       if (control.errors?.['required']) {
         return 'Este campo é obrigatório';
