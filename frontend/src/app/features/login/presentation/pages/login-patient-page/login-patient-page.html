@@ -32,7 +32,7 @@
         color="primary"
         class="login-button"
         type="submit"
-        [disabled]="patientLoginForm.invalid || _isSubmitting"
+        [disabled]="patientLoginForm.invalid || isSubmitting"
         [ngClass]="{ 'login_button-enabled': !patientLoginForm.invalid }"
       >
         Fazer Login

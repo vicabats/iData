@@ -1,17 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { UserPage } from './user-page';
 
-import { VerifyCodePage } from './verify-code.page';
-
-describe('VerifyCodePage', () => {
-  let component: VerifyCodePage;
-  let fixture: ComponentFixture<VerifyCodePage>;
+describe('UserPage', () => {
+  let component: UserPage;
+  let fixture: ComponentFixture<UserPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VerifyCodePage],
+      imports: [UserPage],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(VerifyCodePage);
+    fixture = TestBed.createComponent(UserPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

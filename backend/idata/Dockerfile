@@ -1,82 +1,14 @@
-# Arquivos do sistema
-*.log
-*.dat
-NTUSER*
-ntuser*
+# Etapa de build
+FROM maven:3-openjdk-17 AS builder
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Diretórios do usuário
-VirtualBox/
-AppData/
-Downloads/
-Documents/
-Pictures/
-Videos/
-Music/
-Favorites/
-Links/
-Searches/
-Cookies/
-Configuracoes Locais/
-Ambiente de Impressao/
-Ambiente de Rede/
-Menu Iniciar/
-Meus Documentos/
-Modelos/
-Recent/
-SendTo/
-
-# Arquivos de configuração
-.bash_history
-.bash_profile
-.bashrc
-.gitconfig
-.angular-config.json
-.lesshst
-
-# Ferramentas e caches
-.cache/
-.config/
-.docker/
-.dotnet/
-.eclipse/
-.expo/
-.gradle/
-.ipython/
-.jupyter/
-.lemminx/
-.m2/
-.nuget/
-.p2/
-.packettracer
-.redhat/
-.rest-client/
-.sonarlint/
-.sts4/
-.vscode/
-
-# Projetos e arquivos temporários
-AngulasProjects/
-Cisco Packet Tracer 8.2.2/
-ProjetoJava/
-P1_PW/
-PBI/
-Treinamento Smart Consulting/
-VirtualBox VMs/
-VisualStudioSetup.exe
-cadastro-usuarios-main.zip
-cadastro-usuarios-main/
-eclipse-inst-jre-win64.exe
-
-# Docker
-docker-compose.override.yml
-
-# Backend
-backend/idata/target/
-backend/idata/.mvn/
-backend/idata/mvnw
-backend/idata/mvnw.cmd
-
-# Frontend
-frontend/node_modules/
-frontend/dist/
-frontend/.angular/
+# Etapa final
+FROM openjdk:17-jdk-slim
+RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY --from=builder /app/target/idata-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
