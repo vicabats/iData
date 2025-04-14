@@ -1,25 +1,18 @@
-# Usa uma imagem oficial do Node.js para o build do Angular
+# Etapa de build
 FROM node:18 AS build
 
-# Define o diretório de trabalho
 WORKDIR /app
-
-# Copia os arquivos do projeto
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
-
-# Compila o projeto Angular para produção
 RUN npm run build --configuration=production
 
-# Usa uma imagem do Nginx para servir os arquivos estáticos
+# Etapa final
 FROM nginx:1.23
 
-# Copia os arquivos compilados para a pasta do Nginx
 COPY --from=build /app/dist/frontend /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Exposição da porta usada pelo Nginx
 EXPOSE 80
 
-# Comando padrão do Nginx
 CMD ["nginx", "-g", "daemon off;"]
