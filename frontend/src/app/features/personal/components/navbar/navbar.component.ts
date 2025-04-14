@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'user-navbar',
+  selector: 'personal-navbar',
   imports: [],
-  templateUrl: './user.navbar.component.html',
-  styleUrl: './user.navbar.component.css'
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.css'
 })
-export class UserNavbarComponent {
+export class PersonalNavbarComponent {
 
   constructor(private router: Router) { }
 
