@@ -13,10 +13,19 @@ import { User } from '../../../../../shared/types/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
 import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-verify-code-page',
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, LoadingComponent],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    LoadingComponent,
+    MatButtonModule,
+    MatDividerModule,
+  ],
   templateUrl: './verify-code-page.html',
   standalone: true,
   styleUrls: ['./verify-code-page.css'],
@@ -38,6 +47,7 @@ export class VerifyCodePage implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('VerifyCodePage initialized'); // Log para depuração
     this.initializeVerifyCodeForm();
     this.getRouteParams();
   }

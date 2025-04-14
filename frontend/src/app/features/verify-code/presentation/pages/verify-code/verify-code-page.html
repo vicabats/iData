@@ -21,6 +21,29 @@
       Código inválido. Deve conter 6 dígitos numéricos.
     </div>
 
-    <button type="submit" [disabled]="codeForm.invalid">Verificar</button>
+    <button
+      mat-raised-button
+      color="primary"
+      class="login-button"
+      type="submit"
+      [disabled]="codeForm.invalid || isSubmitting"
+      [ngClass]="{'login_button-enabled': !codeForm.invalid && !isSubmitting}"
+    >
+      Verificar
+    </button>
+
+    <div class="divider-with-text">
+      <mat-divider></mat-divider>
+      <span class="divider-text">ou</span>
+      <mat-divider></mat-divider>
+    </div>
+  
+    <button
+      mat-stroked-button
+      color="secondary"
+      class="resend-code"
+    >
+      Reenviar código
+    </button>
   </form>
 </section>

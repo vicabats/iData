@@ -7,8 +7,9 @@ import { LoginPage } from './features/login/presentation/pages/login-page/login-
 import { VerifyCodePage } from './features/verify-code/presentation/pages/verify-code/verify-code-page';
 import { VerifyCodeGuardService } from './guards/verify-code-guard.service';
 import { UserPage } from './features/user/user-page';
-import { LoggedUser } from './features/logged/presentation/pages/logged-user/logged-user';
-import { LoggedProfessional } from './features/logged/presentation/pages/logged-professional/logged-professional';
+import { MedicalRecordsPage } from './features/medical-records/medical-records';
+import { ExamsPage } from './features/exams/exams';
+import { SafetyContactsPage } from './features/safety-contacts/safety-contacts';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: 'user', component: UserPage },
   { path: 'about-us', component: AboutUsPage },
   { path: 'forgot-password', component: ForgotPasswordPage },
-  { path: 'logged-user', component: LoggedUser },
-  { path: 'logged-professional', component: LoggedProfessional },
+  { path: 'medical-records', component: MedicalRecordsPage },
+  { path: 'exams', component: ExamsPage },
+  { path: 'safety-contacts', component: SafetyContactsPage },
 ];
