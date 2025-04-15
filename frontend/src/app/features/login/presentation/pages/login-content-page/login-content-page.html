@@ -1,11 +1,9 @@
-<section class="login-patient-page">
+<section class="login-content-page">
+  <app-loading *ngIf="isSubmitting" />
+
   <div class="login-container">
     <h2>Fazer Login</h2>
-    <form
-      class="login-form"
-      [formGroup]="patientLoginForm"
-      (ngSubmit)="tryLogin()"
-    >
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
       <app-input
         label="CPF"
         formControlName="cpf"
@@ -32,8 +30,8 @@
         color="primary"
         class="login-button"
         type="submit"
-        [disabled]="patientLoginForm.invalid || isSubmitting"
-        [ngClass]="{ 'login_button-enabled': !patientLoginForm.invalid }"
+        [disabled]="loginForm.invalid || isSubmitting"
+        [ngClass]="{ 'login_button-enabled': !loginForm.invalid }"
       >
         Fazer Login
       </button>
@@ -49,7 +47,7 @@
       class="create-account"
       (click)="redirectToSignUp()"
     >
-    Criar nova conta
-  </button>
+      Criar nova conta
+    </button>
   </div>
 </section>

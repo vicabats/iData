@@ -6,7 +6,7 @@ import { ForgotPasswordPage } from './features/forgot-password/pages/forgot-pass
 import { LoginPage } from './features/login/presentation/pages/login-page/login-page';
 import { VerifyCodePage } from './features/verify-code/presentation/pages/verify-code/verify-code-page';
 import { VerifyCodeGuardService } from './guards/verify-code-guard.service';
-import { UserPage } from './features/user/user-page';
+import { PersonalPage } from './features/personal/personal-page';
 import { MedicalRecordsPage } from './features/medical-records/medical-records';
 import { ExamsPage } from './features/exams/exams';
 import { SafetyContactsPage } from './features/safety-contacts/safety-contacts';
@@ -20,10 +20,10 @@ export const routes: Routes = [
     canActivate: [VerifyCodeGuardService],
   },
   { path: 'signup', component: SignUpPage },
-  { path: 'user', component: UserPage },
+  { path: 'personal', component: PersonalPage },
   { path: 'about-us', component: AboutUsPage },
   { path: 'forgot-password', component: ForgotPasswordPage },
   { path: 'medical-records', component: MedicalRecordsPage },
   { path: 'exams', component: ExamsPage },
-  { path: 'safety-contacts', component: SafetyContactsPage },
+  { path: 'safety-contact', component: SafetyContactsPage },
 ];

@@ -3,7 +3,7 @@
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--light-green);
+  background-color: #B5E5FF;
   padding: var(--spacing-sm) var(--spacing-xl);
 }
 
