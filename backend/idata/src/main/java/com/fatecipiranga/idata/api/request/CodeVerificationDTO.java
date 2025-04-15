@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class CodeVerificationDTO {
-    private String email;
+    private String cpf;
     private String code;
 }

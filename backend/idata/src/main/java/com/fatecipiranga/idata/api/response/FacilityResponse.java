@@ -3,7 +3,7 @@ package com.fatecipiranga.idata.api.response;
 import lombok.Data;
 
 @Data
-public class FacilityResponse {
+public class FacilityResponse implements ApiResponse{
     private String id;
     private String street;
     private String number;
