@@ -11,15 +11,15 @@ export class PersonalNavbarComponent {
 
   constructor(private router: Router) { }
 
-  redirectToMedicalRecordy(): void {
-    this.router.navigate(['about-us']);
+  redirectToMedicalRecords(): void {
+    this.router.navigate(['medical-records']);
   }
 
   redirectToExams(): void {
-    this.router.navigate(['login']);
+    this.router.navigate(['exams']);
   }
 
   redirectToSafetyContact(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['safety-contact']);
   }
 }

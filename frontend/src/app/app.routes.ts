@@ -25,5 +25,5 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordPage },
   { path: 'medical-records', component: MedicalRecordsPage },
   { path: 'exams', component: ExamsPage },
-  { path: 'safety-contacts', component: SafetyContactsPage },
+  { path: 'safety-contact', component: SafetyContactsPage },
 ];

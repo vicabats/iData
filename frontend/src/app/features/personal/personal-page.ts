@@ -4,7 +4,7 @@ import { PersonalNavbarComponent } from './components/navbar/navbar.component';
 @Component({
   selector: 'app-personal-page',
   imports: [PersonalNavbarComponent],
-  templateUrl: './user-personal.html',
-  styleUrl: './user-personal.css',
+  templateUrl: './personal-page.html',
+  styleUrl: './personal-page.css',
 })
-export class UserPage {}
+export class PersonalPage {}
