@@ -12,6 +12,7 @@ import { ExamsPage } from './features/exams/exams';
 import { SafetyContactsPage } from './features/safety-contacts/safety-contacts';
 import { ProfessionalPage } from './features/professional/professional-page';
 import { LogsPage } from './features/logs/logs-page';
+import { InProgressPage } from './features/in-progress/in-progress-page';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -30,4 +31,5 @@ export const routes: Routes = [
   { path: 'exams', component: ExamsPage },
   { path: 'safety-contact', component: SafetyContactsPage },
   { path: 'logs', component: LogsPage },
+  { path: 'in-progress', component: InProgressPage },
 ];
