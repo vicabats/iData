@@ -15,4 +15,8 @@ export class ProfessionalPage {
   redirectToLogs(): void {
     this.router.navigate(['logs']);
   }
+  
+  redirectToInProgress(): void {
+    this.router.navigate(['in-progress']);
+  }
 }
