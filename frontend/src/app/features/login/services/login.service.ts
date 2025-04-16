@@ -1,7 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../../../shared/types/user';
+import { UserType } from '../../../shared/types/user_type';
+
+interface LoginParams {
+  type: UserType;
+  cpf: string;
+  password: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -9,21 +15,9 @@ import { User } from '../../../shared/types/user';
 export class LoginService {
   constructor(private http: HttpClient) {}
 
-  loginPersonalUser(user: User): Observable<string> {
-    const apiUrl = 'http://localhost:8080/api/user/login?type=personal';
+  login({ type, cpf, password }: LoginParams): Observable<String> {
+    const apiUrl = `http://localhost:8080/api/user/login?type=${type.toString()}`;
 
-    let cpf = user.cpf;
-    let password = user.password;
-
-    return this.http.post(apiUrl, { cpf, password }, { responseType: 'text' });
-  }
-
-  loginProfessionalUser(user: User): Observable<string> {
-    const apiUrl = 'http://localhost:8080/api/user/login?type=professional';
-
-    let cpf = user.cpf;
-    let password = user.password;
-
-    return this.http.post(apiUrl, { cpf, password }, { responseType: 'text' });
+    return this.http.post<String>(apiUrl, { cpf, password });
   }
 }

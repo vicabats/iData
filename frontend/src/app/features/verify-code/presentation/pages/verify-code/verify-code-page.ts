@@ -15,6 +15,7 @@ import { SnackBarComponent } from '../../../../../shared/components/snack-bar/sn
 import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { UserType } from '../../../../../shared/types/user_type';
 
 @Component({
   selector: 'app-verify-code-page',
@@ -36,7 +37,7 @@ export class VerifyCodePage implements OnInit {
   public successMessage: string = '';
 
   private userCpf!: string;
-  private userType!: string;
+  private userType!: UserType;
 
   constructor(
     private fb: FormBuilder,
@@ -47,7 +48,6 @@ export class VerifyCodePage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('VerifyCodePage initialized'); // Log para depuração
     this.initializeVerifyCodeForm();
     this.getRouteParams();
   }
@@ -94,7 +94,9 @@ export class VerifyCodePage implements OnInit {
         next: (user: User) => {
           this.handleSuccessfulCode(user);
         },
-        error: (errorMessage: string) => {
+        error: (error) => {
+          let errorMessage =
+            error ?? 'Erro ao verificar o código. Tente novamente.';
           this.handleFailure(errorMessage);
         },
       });

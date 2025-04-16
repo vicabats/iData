@@ -1,0 +1,56 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 46px;
+    box-sizing: border-box;
+}
+
+h2 {
+    color: #1a3c5e;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.cards-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex: 1; /* Faz os cards ocuparem o espaço restante */
+}
+
+.card {
+    background-color: #e6f4f1;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.card h3 {
+    color: #1a3c5e;
+    font-size: 1.2rem;
+    margin: 10px 0 5px;
+}
+
+.card p {
+    color: #1a3c5e;
+    font-size: 0.9rem;
+    margin: 0;
+}
