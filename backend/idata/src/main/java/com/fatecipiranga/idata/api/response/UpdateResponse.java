@@ -3,7 +3,7 @@ package com.fatecipiranga.idata.api.response;
 import lombok.Data;
 
 @Data
-public class UpdateResponse<T> {
+public class UpdateResponse<T> implements ApiResponse {
     private String message;
     private T data;
 

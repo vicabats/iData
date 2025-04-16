@@ -73,6 +73,7 @@ public class EmailVerificationService {
         } catch (MailException e) {
             LOGGER.error("Erro ao enviar e-mail para: {}. Mensagem: {}. Classe da exceção: {}. Stacktrace: ",
                     email, e.getMessage(), e.getClass().getName(), e);
+            LOGGER.error("Contexto adicional: Tentativa de envio de código de verificação falhou para o e-mail: {}", email);
             String errorMessage = e.getMessage() != null ? e.getMessage() : "Erro desconhecido no envio do e-mail";
             throw new EmailVerificationException("Falha ao enviar código de verificação: " + errorMessage, "EMAIL_SEND_ERROR", e);
         }
