@@ -1,9 +1,4 @@
-import {
-  AbstractControl,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, ValidationErrors, Validators } from '@angular/forms';
 
 export function getNameRegexValidator(): Validators {
   return Validators.pattern(/^((?:[^\s]+(?:\s+|$)){2,})$/);

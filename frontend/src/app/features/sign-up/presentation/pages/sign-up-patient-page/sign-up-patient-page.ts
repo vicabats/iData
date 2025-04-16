@@ -157,7 +157,7 @@ export class SignUpPatientPage {
     const personalUser: PersonalUser = {
       name: this.patientForm.get('name')?.value,
       cpf: this.patientForm.get('cpf')?.value,
-      birthdate: this.patientForm.get('birthDate')?.value,
+      birthdate: this.patientForm.get('birthdate')?.value,
       address: this.getUserAddress(),
       phone: this.patientForm.get('phone')?.value,
       email: this.patientForm.get('email')?.value,

@@ -16,6 +16,7 @@ import { LoadingComponent } from '../../../../../shared/components/loading/loadi
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { UserType } from '../../../../../shared/types/user_type';
+import { UserSessionService } from '../../../../../core/user-session/user-session.service';
 
 @Component({
   selector: 'app-verify-code-page',
@@ -44,7 +45,8 @@ export class VerifyCodePage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private verifyCodeService: VerifyCodeService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private userSessionService: UserSessionService
   ) {}
 
   ngOnInit(): void {
@@ -87,16 +89,14 @@ export class VerifyCodePage implements OnInit {
 
   private verifyCode(): void {
     const code = this.codeForm.get('code')?.value;
-
     this.verifyCodeService
       .verifyCode({ code, type: this.userType, cpf: this.userCpf })
       .subscribe({
         next: (user: User) => {
           this.handleSuccessfulCode(user);
+          this.userSessionService.setSession(user);
         },
-        error: (error) => {
-          let errorMessage =
-            error ?? 'Erro ao verificar o código. Tente novamente.';
+        error: (errorMessage: string) => {
           this.handleFailure(errorMessage);
         },
       });
