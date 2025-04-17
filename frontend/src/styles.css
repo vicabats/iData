@@ -10,13 +10,25 @@
   font-style: normal;
 }
 
+html,
 body {
-  display: grid;
-  grid-template-rows: auto;
-  min-height: 100vh;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
   background-color: var(--background-color);
   color: (--text-color);
   font-size: var(--font-size-sm);
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
 }
 
 /* Material style overrides */

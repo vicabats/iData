@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
+  @Input() isLoggedIn!: boolean;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   redirectToAboutUs(): void {
     this.router.navigate(['about-us']);
@@ -21,5 +23,9 @@ export class NavbarComponent {
 
   redirectToHomepage(): void {
     this.router.navigate(['/']);
+  }
+
+  redirectToProfile(): void {
+    this.router.navigate(['personal']);
   }
 }

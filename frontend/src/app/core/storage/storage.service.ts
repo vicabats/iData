@@ -5,23 +5,45 @@ import { Injectable } from '@angular/core';
 })
 export class StorageService {
   public setItem<T>(key: string, value: T): void {
-    localStorage.setItem(key, JSON.stringify(value));
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (e) {
+      console.error('Erro ao acessar localStorage:', e);
+    }
   }
 
   public getItem<T>(key: string): T | null {
-    const item = localStorage.getItem(key);
-    return item ? (JSON.parse(item) as T) : null;
+    try {
+      const item = localStorage.getItem(key);
+      return item ? (JSON.parse(item) as T) : null;
+    } catch (e) {
+      console.error('Erro ao acessar localStorage:', e);
+      return null;
+    }
   }
 
   public removeItem(key: string): void {
-    localStorage.removeItem(key);
+    try {
+      localStorage.removeItem(key);
+    } catch (e) {
+      console.error('Erro ao acessar localStorage:', e);
+    }
   }
 
   public clear(): void {
-    localStorage.clear();
+    try {
+      localStorage.clear();
+    } catch (e) {
+      console.error('Erro ao acessar localStorage:', e);
+    }
   }
 
   public hasKey(key: string): boolean {
-    return localStorage.getItem(key) !== null;
+    try {
+      return localStorage.getItem(key) !== null;
+    } catch (e) {
+      console.error('Erro ao acessar localStorage:', e);
+      return false;
+    }
   }
 }
