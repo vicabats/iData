@@ -18,9 +18,7 @@ services:
       - idata-network
 
   backend:
-    build:
-      context: ./backend/idata
-      dockerfile: Dockerfile
+    image: julianahaddad/idata-backend:v4
     container_name: idata-backend
     depends_on:
       mongodb:
@@ -41,9 +39,7 @@ services:
       - idata-network
 
   frontend:
-    build:
-      context: ./frontend  # ajuste se o caminho for diferente
-      dockerfile: Dockerfile
+    image: julianahaddad/idata-frontend:v4
     container_name: idata-frontend
     depends_on:
       backend:
