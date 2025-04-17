@@ -14,4 +14,8 @@ export class ProfessionalNavbarComponent {
   redirectToLogs(): void {
     this.router.navigate(['logs']);
   }
+  
+  redirectToInProgress(): void {
+    this.router.navigate(['in-progress']);
+  }
 }
