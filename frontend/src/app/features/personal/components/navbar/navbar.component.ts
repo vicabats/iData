@@ -22,7 +22,7 @@ export class PersonalNavbarComponent {
   redirectToSafetyContact(): void {
     this.router.navigate(['safety-contact']);
   }
-
+  
   redirectToInProgress(): void {
     this.router.navigate(['in-progress']);
   }

@@ -69,31 +69,18 @@ export class LoginContentPage implements OnInit {
     });
   }
 
-  public async login() {
-    if (this.loginForm.valid) {
-      this.isSubmitting = true;
-      await this.callLoginService();
-    } else {
+  public login(): void {
+    if (!this.loginForm.valid) {
       this.handleFailure('Preencha todos os campos corretamente');
-      this.isSubmitting = false;
+      return;
     }
-  }
 
-  private async callLoginService(): Promise<void> {
-    const user = this.getLoginUser();
+    this.isSubmitting = true;
+    const { cpf, password } = this.loginForm.value;
 
-    const cpf = user.cpf;
-    const password = user.password;
-    const type = this.userType;
-
-    this.loginService.login({ cpf, password, type }).subscribe({
-      next: (successMessage: String) => {
-        this.handleSuccessfulLogin(successMessage);
-      },
-      error: (error) => {
-        const errorMessage = error?.error || 'Erro desconhecido ao logar';
-        this.handleFailure(errorMessage);
-      },
+    this.loginService.login({ cpf, password, type: this.userType }).subscribe({
+      next: (response) => this.handleSuccessfulLogin(response),
+      error: (error) => this.handleFailure(error.message),
     });
   }
 
@@ -105,17 +92,20 @@ export class LoginContentPage implements OnInit {
     return loginUser;
   }
 
-  private handleSuccessfulLogin(message: String) {
+  private handleSuccessfulLogin(response: { message: string; data: string }) {
     this.authFlowGuardService.setLoginFlowStarted(true);
-
     this.isSubmitting = false;
+
     this.router.navigate(['verify-code'], {
-      state: { successMessage: message },
-      queryParams: { type: 'personal', cpf: this.getLoginUser().cpf },
+      state: { successMessage: response.message },
+      queryParams: {
+        type: this.userType,
+        cpf: this.loginForm.get('cpf')?.value,
+      },
     });
   }
 
-  private handleFailure(errorMessage: String) {
+  private handleFailure(errorMessage: string) {
     const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
       data: {
         message: errorMessage,

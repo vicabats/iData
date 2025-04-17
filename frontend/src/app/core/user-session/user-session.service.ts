@@ -15,8 +15,8 @@ export interface UserSession {
 export class UserSessionService {
   constructor(private storage: StorageService) {}
 
-  public setSession(session: UserSession): void {
-    this.storage.setItem(USER_SESSION_KEY, session);
+  public setSession(user: User): void {
+    this.storage.setItem(USER_SESSION_KEY, user);
   }
 
   public getSession(): UserSession | null {
