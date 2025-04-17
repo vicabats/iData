@@ -20,7 +20,7 @@ services:
       - idata-network
 
   backend:
-    image: julianahaddad/idata-backend:latest
+    build: ./backend
     container_name: idata-backend
     depends_on:
       mongodb:
@@ -41,7 +41,7 @@ services:
       - idata-network
 
   frontend:
-    image: julianahaddad/idata-frontend:latest
+    build: ./frontend
     container_name: idata-frontend
     depends_on:
       backend:
