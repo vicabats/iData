@@ -54,13 +54,13 @@ export class VerifyCodePage implements OnInit {
     this.getRouteParams();
   }
 
-  private initializeVerifyCodeForm() {
+  private initializeVerifyCodeForm(): void {
     this.codeForm = this.fb.group({
       code: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]],
     });
   }
 
-  private getRouteParams() {
+  private getRouteParams(): void {
     this.successMessage = history.state['successMessage'] || '';
 
     this.route.queryParams.subscribe((params) => {
@@ -69,7 +69,7 @@ export class VerifyCodePage implements OnInit {
     });
   }
 
-  public submitCode() {
+  public submitCode(): void {
     if (this.codeForm.valid) {
       this.isSubmitting = true;
       this.verifyCode();
@@ -94,7 +94,6 @@ export class VerifyCodePage implements OnInit {
       .subscribe({
         next: (user: User) => {
           this.handleSuccessfulCode(user);
-          this.userSessionService.setSession(user);
         },
         error: (errorMessage: string) => {
           this.handleFailure(errorMessage);
@@ -102,8 +101,7 @@ export class VerifyCodePage implements OnInit {
       });
   }
 
-  private handleSuccessfulCode(user: User) {
-    this.isSubmitting = false;
+  private handleSuccessfulCode(user: User): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
       data: {
         message: 'Código verificado com sucesso!',
@@ -114,10 +112,21 @@ export class VerifyCodePage implements OnInit {
       verticalPosition: 'bottom',
       panelClass: ['success-snackbar'],
     });
-    this.router.navigate(['user'], { state: { user } });
+    this.isSubmitting = false;
+    this.userSessionService.setSession(user);
+    this.userSessionService.setUserType(this.userType);
+    this.redirectToUserPage();
   }
 
-  private handleFailure(errorMessage: string) {
+  private redirectToUserPage(): void {
+    if (this.userType === UserType.personal) {
+      this.router.navigate(['personal']);
+    } else {
+      this.router.navigate(['professional']);
+    }
+  }
+
+  private handleFailure(errorMessage: string): void {
     this.isSubmitting = false;
     this.snackBar.openFromComponent(SnackBarComponent, {
       data: {

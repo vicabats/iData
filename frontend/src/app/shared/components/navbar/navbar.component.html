@@ -1,26 +1,35 @@
 <nav class="navbar">
   <div class="navbar_left-section">
     <div class="navbar_logo_div">
-      <img class="icon-img" src="/iData.png" alt="Logo iData"/>
+      <img class="icon-img" src="/iData.png" alt="Logo iData" />
     </div>
     <ul class="navbar_left-section_links">
       <li (click)="redirectToHomepage()">
-        <p class="navbar-option">
-          Home
-        </p>
+        <p class="navbar-option">Home</p>
       </li>
       <li (click)="redirectToAboutUs()">
-        <p class="navbar-option">
-          Sobre nós
-        </p>
+        <p class="navbar-option">Sobre nós</p>
       </li>
     </ul>
   </div>
 
   <div class="navbar_right-section">
-    <div class="navbar_right-section_login navbar-option" (click)="redirectToLogin()">
-      <i class="fa-solid fa-user "></i>
-      Login
+    <div
+      *ngIf="!isLoggedIn"
+      class="navbar_right-section_login navbar-option"
+      (click)="redirectToLogin()"
+    >
+      <i class="fa-solid fa-user"></i>
+      <p class="navbar-option">Login</p>
+    </div>
+
+    <div
+      *ngIf="isLoggedIn"
+      class="navbar_right-section_login navbar-option"
+      (click)="redirectToProfile()"
+    >
+      <i class="fa-solid fa-user"></i>
+      <p class="navbar-option">Meu perfil</p>
     </div>
   </div>
 </nav>
