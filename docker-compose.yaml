@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   mongodb:
     image: mongo:6.0
@@ -20,7 +18,9 @@ services:
       - idata-network
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend/idata
+      dockerfile: Dockerfile
     container_name: idata-backend
     depends_on:
       mongodb:
@@ -41,7 +41,9 @@ services:
       - idata-network
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend  # ajuste se o caminho for diferente
+      dockerfile: Dockerfile
     container_name: idata-frontend
     depends_on:
       backend:
