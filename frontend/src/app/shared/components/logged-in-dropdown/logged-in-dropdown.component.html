@@ -1,0 +1,13 @@
+<div class="dropdown-menu">
+  <div class="dropdown-item" (click)="redirectToMyData()">Meus dados</div>
+  <div class="dropdown-item" (click)="showLogoutModal()">Logout</div>
+</div>
+
+<app-modal
+  *ngIf="showModal"
+  [title]="'Confirmar Logout'"
+  [message]="'Você tem certeza que deseja sair da sua conta?'"
+  [ctaText]="'Sair'"
+  (ctaAction)="logout()"
+  (close)="closeModal()"
+/>

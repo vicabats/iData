@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoggedInDropdownComponent } from '../logged-in-dropdown/logged-in-dropdown.component';
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule],
+  imports: [CommonModule, LoggedInDropdownComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })

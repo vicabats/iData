@@ -1,0 +1,23 @@
+.dropdown-menu {
+  position: absolute;
+  top: 35px;
+  left: -8px;
+  background-color: var(--light-green);
+  border: 1px solid var(--blue);
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  min-width: 120px;
+}
+
+.dropdown-item {
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--blue);
+  font-size: var(--font-size-md);
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: var(--darker-blue);
+  color: white;
+}
