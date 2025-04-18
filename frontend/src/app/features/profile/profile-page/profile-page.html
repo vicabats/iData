@@ -1,0 +1,11 @@
+<section *ngIf="user$ | async" class="profile-page">
+  <h2>Olá, {{user.name}}</h2>
+
+  <ng-container *ngIf="(userType$ | async) === 'personal'">
+    <app-profile-personal-section-component />
+  </ng-container>
+
+  <ng-container *ngIf="(userType$ | async) === 'professional'">
+    <app-profile-professional-section-component />
+  </ng-container>
+</section>

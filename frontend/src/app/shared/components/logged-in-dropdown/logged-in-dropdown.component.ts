@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalComponent } from '../modal/modal/modal.component';
 import { CommonModule } from '@angular/common';
-import { UserSessionService } from '../../../core/user-session/user-session.service';
+import { UserSessionService } from '../../../core/services/user-session/user-session.service';
+import { UserType } from '../../types/user_type';
 
 @Component({
   selector: 'app-logged-in-dropdown',
@@ -12,7 +13,9 @@ import { UserSessionService } from '../../../core/user-session/user-session.serv
   styleUrls: ['./logged-in-dropdown.component.css'],
 })
 export class LoggedInDropdownComponent {
-  showModal: boolean = false;
+  public userTypeEnum = UserType;
+
+  public showModal: boolean = false;
 
   constructor(
     private router: Router,

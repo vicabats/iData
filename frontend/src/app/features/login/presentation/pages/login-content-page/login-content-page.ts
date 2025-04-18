@@ -13,7 +13,7 @@ import { LoadingComponent } from '../../../../../shared/components/loading/loadi
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../services/login.service';
-import { AuthFlowGuardService } from '../../../../../core/auth/auth-flow-guard.service';
+import { AuthFlowGuardService } from '../../../../../core/services/auth/auth-flow-guard.service';
 import { User } from '../../../../../shared/types/user';
 import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
 import { UserType } from '../../../../../shared/types/user_type';

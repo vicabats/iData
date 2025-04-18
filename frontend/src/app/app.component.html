@@ -1,7 +1,5 @@
 <main class="main">
   <app-navbar [isLoggedIn]="isLoggedIn$ | async" />
-  <personal-navbar *ngIf="(userType$ | async) === 'personal'" />
-  <professional-navbar *ngIf="(userType$ | async) === 'professional'" />
   <div class="content">
     <router-outlet></router-outlet>
   </div>

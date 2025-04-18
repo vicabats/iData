@@ -16,7 +16,7 @@ import { LoadingComponent } from '../../../../../shared/components/loading/loadi
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { UserType } from '../../../../../shared/types/user_type';
-import { UserSessionService } from '../../../../../core/user-session/user-session.service';
+import { UserSessionService } from '../../../../../core/services/user-session/user-session.service';
 
 @Component({
   selector: 'app-verify-code-page',
@@ -113,17 +113,14 @@ export class VerifyCodePage implements OnInit {
       panelClass: ['success-snackbar'],
     });
     this.isSubmitting = false;
+    console.log(user);
     this.userSessionService.setSession(user);
     this.userSessionService.setUserType(this.userType);
     this.redirectToUserPage();
   }
 
   private redirectToUserPage(): void {
-    if (this.userType === UserType.personal) {
-      this.router.navigate(['personal']);
-    } else {
-      this.router.navigate(['professional']);
-    }
+    this.router.navigate(['profile']);
   }
 
   private handleFailure(errorMessage: string): void {

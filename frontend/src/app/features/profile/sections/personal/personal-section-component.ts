@@ -2,14 +2,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'personal-navbar',
+  selector: 'app-profile-personal-section-component',
   imports: [],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  templateUrl: './personal-section-component.html',
+  styleUrl: './personal-section-component.css',
 })
-export class PersonalNavbarComponent {
-
-  constructor(private router: Router) { }
+export class ProfilePersonalSectionComponent {
+  constructor(private router: Router) {}
 
   redirectToMedicalRecords(): void {
     this.router.navigate(['medical-records']);
@@ -22,7 +21,7 @@ export class PersonalNavbarComponent {
   redirectToSafetyContact(): void {
     this.router.navigate(['safety-contact']);
   }
-  
+
   redirectToInProgress(): void {
     this.router.navigate(['in-progress']);
   }

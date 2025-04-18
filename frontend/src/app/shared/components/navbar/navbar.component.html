@@ -14,26 +14,26 @@
   </div>
 
   <div class="navbar_right-section">
-    <!-- <div
+    <div
       *ngIf="!isLoggedIn"
       class="navbar_right-section_login navbar-option"
       (click)="redirectToLogin()"
     >
       <i class="fa-solid fa-user"></i>
       <p class="navbar-option">Login</p>
-    </div> -->
+    </div>
 
     <div
-      *ngIf="!isLoggedIn"
+      *ngIf="isLoggedIn"
       class="navbar_right-section_login navbar-option"
       (mouseenter)="showDropdown = true"
     >
       <i class="fa-solid fa-user"></i>
-      <p class="navbar-option">Meu perfil</p>
+      <p class="navbar-option">Minha conta</p>
       <app-logged-in-dropdown
         *ngIf="showDropdown"
         (mouseleave)="showDropdown = false"
-      ></app-logged-in-dropdown>
+      />
     </div>
   </div>
 </nav>
