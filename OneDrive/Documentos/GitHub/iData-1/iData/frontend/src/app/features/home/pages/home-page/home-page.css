@@ -1,0 +1,15 @@
+.home-page_header {
+  background-image: url('../../../../../assets/bg-2.jpg');
+  background-size: cover;
+  background-position: 34%;
+  height: 90vh;
+  position: relative;
+}
+
+.home-page_title {
+  position: absolute;
+  font-size: var(--font-size-xl);
+  left: 2rem;
+  bottom: 20rem;
+  color: var(--tertiary-color);
+}

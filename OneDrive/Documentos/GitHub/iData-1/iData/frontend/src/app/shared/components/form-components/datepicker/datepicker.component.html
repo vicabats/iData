@@ -1,0 +1,20 @@
+<mat-form-field color="accent" appearance="fill">
+  <mat-label>{{ label }}:</mat-label>
+  <input
+    matInput
+    [matDatepicker]="dp"
+    type="text"
+    (ngModelChange)="onInput($event)"
+    mask="d0/M0/0000"
+    placeholder="Formato: dd/mm/aaaa"
+    [value]="value"
+  />
+  <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+  <mat-datepicker touchUi="true" #dp></mat-datepicker>
+
+  <ng-template [ngIf]="showError">
+    <mat-error class="input-component_error">
+      {{ errorMessage }}
+    </mat-error>
+  </ng-template>
+</mat-form-field>

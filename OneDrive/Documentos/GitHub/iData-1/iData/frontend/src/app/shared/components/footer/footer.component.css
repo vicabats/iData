@@ -1,0 +1,103 @@
+.footer-wrapper {
+  background-color: var(--light-green);
+  color: var(--darker-blue);
+  padding: var(--spacing-sm) 0;
+  width: 100%;
+  font-family: "Outfit", sans-serif;
+  position: relative;
+  bottom: 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-sm);
+}
+
+.footer-section {
+  flex: 1;
+  margin: 0 var(--spacing-sm);
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: var(--spacing-sm);
+}
+
+.footer-section ul li a {
+  color: var(--darker-blue);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+}
+
+.footer-section ul li a:hover {
+  text-decoration: underline;
+}
+
+.contact-section {
+  margin-left: auto;
+  text-align: right;
+}
+
+.contact-section h4 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.contact-section ul li {
+  margin-bottom: 8px;
+}
+
+.contact-section ul {
+  margin-bottom: var(--spacing-md);
+}
+
+.social-icons {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: flex-end;
+}
+
+.social-icons a {
+  color: var(--darker-blue);
+  font-size: var(--font-size-md);
+  text-decoration: none;
+}
+
+.social-icons a:hover {
+  color: var(--primary-color);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: var(--spacing-xs) 0;
+  margin-top: var(--spacing-sm);
+}
+
+.footer-bottom p {
+  margin: 0;
+  font-size: var(--font-size-xs);
+}
+
+.icon-img {
+  max-width: 60px;
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Variáveis CSS */
+:root {
+  --light-green: #e0f2e9;
+  --darker-blue: #1a3c34;
+  --primary-color: #28a745;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-xs: 8px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-xs: 12px;
+}

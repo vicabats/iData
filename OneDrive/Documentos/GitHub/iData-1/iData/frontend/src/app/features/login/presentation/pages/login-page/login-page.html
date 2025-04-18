@@ -1,0 +1,10 @@
+<section class="login-page">
+  <mat-tab-group class="login-tabs-section">
+    <mat-tab label="Sou paciente">
+      <app-login-content-page [userType]="userTypeEnum.personal" />
+    </mat-tab>
+    <mat-tab label="Sou profissional de saúde">
+      <app-login-content-page [userType]="userTypeEnum.professional" />
+    </mat-tab>
+  </mat-tab-group>
+</section>

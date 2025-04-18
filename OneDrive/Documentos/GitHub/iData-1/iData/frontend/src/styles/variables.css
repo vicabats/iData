@@ -1,0 +1,23 @@
+:root {
+  --white: rgb(252, 252, 253);
+  --gray: rgb(197, 193, 191);
+  --darker-gray: rgb(104, 102, 102);
+  --blue: rgb(18, 64, 81);
+  --light-blue: rgb(80, 136, 157);
+  --darker-blue: #2d3d73;
+  --light-green: #dcf2f3;
+  --warning: rgb(241, 108, 122);
+  --success: rgb(84, 183, 87);
+
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 32px;
+  --spacing-xl: 56px;
+
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 28px;
+  --font-size-xl: 40px;
+}

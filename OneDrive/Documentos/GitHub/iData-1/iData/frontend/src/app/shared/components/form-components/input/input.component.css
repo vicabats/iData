@@ -1,0 +1,9 @@
+.input-component_error {
+  color: var(--warning);
+  font-size: var(--font-size-sm);
+}
+
+.mdc-text-field {
+  padding: 0 !important;
+  border-radius: 100px !important;
+}
