@@ -4,6 +4,8 @@ services:
     container_name: idata-frontend
     ports:
       - "80:80"
+    depends_on:
+      - backend
     networks:
       - idata-network
   backend:
