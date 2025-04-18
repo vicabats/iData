@@ -47,7 +47,7 @@
 }
 
 .navbar_right-section_login i {
-  margin-right: var(--spacing-xs)
+  margin-right: var(--spacing-xs);
 }
 
 .navbar-option {
@@ -64,4 +64,15 @@
 
 .icon-img {
   max-width: 120px;
+}
+
+.navbar_right-section_login {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.navbar_right-section_login i {
+  margin-right: var(--spacing-xs);
 }

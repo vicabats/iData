@@ -1,0 +1,12 @@
+<div class="modal-overlay" *ngIf="title || message">
+  <div class="modal-content">
+    <h2 class="modal-title">{{ title }}</h2>
+    <p class="modal-message">{{ message }}</p>
+    <div class="modal-buttons">
+      <button class="modal-button cancel" (click)="onClose()">Cancelar</button>
+      <button *ngIf="ctaText" class="modal-button cta" (click)="onCtaClick()">
+        {{ ctaText }}
+      </button>
+    </div>
+  </div>
+</div>
