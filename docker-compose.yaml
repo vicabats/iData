@@ -1,7 +1,6 @@
 services:
   frontend:
     image: julianahaddad/idata-frontend:v4
-    container_name: idata-frontend
     ports:
       - "80:80"
     depends_on:
@@ -10,27 +9,18 @@ services:
       - idata-network
   backend:
     image: julianahaddad/idata-backend:v4
-    container_name: idata-backend
     ports:
       - "8080:8080"
-    environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/idata
-      - SPRING_PROFILES_ACTIVE=prod
     depends_on:
       - mongodb
     networks:
       - idata-network
   mongodb:
     image: mongo:6.0
-    container_name: mongodb
     ports:
       - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
     networks:
       - idata-network
 networks:
   idata-network:
     driver: bridge
-volumes:
-  mongodb_data:
