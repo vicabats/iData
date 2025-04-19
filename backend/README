@@ -1,317 +1,95 @@
-iData Backend
-
-🔐 Segurança em primeiro lugar com autenticação 2FA
-
-O iData Backend é uma API RESTful desenvolvida com Spring Boot para gerenciamento seguro de dados clínicos e pessoais. Conta com suporte a autenticação em dois fatores (2FA), utiliza Java 17, MongoDB como banco NoSQL, MapStruct para mapeamento de DTOs e é containerizada com Docker para execução consistente e portátil.
-
-⚙️ Funcionalidades
-
-Cadastro de Usuários:
-
-👤 Pessoal: Dados pessoais e endereço
-
-🩺 Profissional: Inclui validação de licença profissional (ex.: CRM)
-
-🔐 Autenticação 2FA: Código enviado por e-mail para login seguro
-
-🔎 Consulta por CPF: Busca de dados de usuários (pessoal ou profissional)
-
-✏️ Atualização de Dados: Alteração de dados cadastrais
-
-🗑️ Exclusão Segura: Confirmação via e-mail antes da remoção
-
-🛠️ Tecnologias
-
-Java 17 (OpenJDK)
-
-Spring Boot 3.4.4
-
-MongoDB 6.0
-
-MapStruct 1.5.5.Final
-
-Lombok 1.18.32
-
-Caffeine Cache 3.1.8
-
-Maven 3.9.9
-
-Docker & Docker Compose
-
-📘 Endpoints Principais
-
-👤 Usuário Pessoal
-
-Ação
-
-Método
-
-Endpoint
-
-Descrição
-
-Cadastro
-
-POST
-
-/api/user/register?type=personal
-
-Registra usuário pessoal
-
-Login
-
-POST
-
-/api/user/login?type=personal
-
-Inicia login
-
-Verificação 2FA
-
-POST
-
-/api/user/verify-2fa?type=personal
-
-Confirma login com código 2FA
-
-Consulta
-
-GET
-
-/api/user?type=personal
-
-Busca dados por CPF
-
-Atualização
-
-PUT
-
-/api/user?type=personal
-
-Atualiza dados
-
-Iniciar Exclusão
-
-DELETE
-
-/api/user?type=personal
-
-Inicia exclusão
-
-Confirmar Exclusão
-
-POST
-
-/api/user/confirm-delete?type=personal
-
-Confirma exclusão com código
-
-🩺 Profissional
-
-Ação
-
-Método
-
-Endpoint
-
-Descrição
-
-Cadastro
-
-POST
-
-/api/user/register?type=professional
-
-Registra profissional
-
-Login
-
-POST
-
-/api/user/login?type=professional
-
-Inicia login
-
-Verificação 2FA
-
-POST
-
-/api/user/verify-2fa?type=professional
-
-Confirma login com código 2FA
-
-Consulta
-
-GET
-
-/api/user?type=professional
-
-Busca dados por CPF
-
-Atualização
-
-PUT
-
-/api/user?type=professional
-
-Atualiza dados
-
-Iniciar Exclusão
-
-DELETE
-
-/api/user?type=professional
-
-Inicia exclusão
-
-Confirmar Exclusão
-
-POST
-
-/api/user/confirm-delete?type=professional
-
-Confirma exclusão com código
-
-▶️ Como Executar
-
-✅ Pré-requisitos
-
-Docker e Docker Compose
-
-Git
-
-(Opcional) Java 17, Maven 3.9.9, MongoDB 6.0
-
-Cliente HTTP (Postman, Insomnia...)
-
-🐳 Com Docker
-
+<h1>🩺 iData Backend</h1>
+
+<p>
+  <strong>iData Backend</strong> é a API RESTful da plataforma iData, desenvolvida em Java 17 com Spring Boot e MongoDB. Fornece serviços clínicos e lógicos para manipulação segura de prontuários, usuários e compartilhamento de dados médicos.
+</p>
+
+<hr />
+
+<h2>🛠️ Tecnologias</h2>
+<ul>
+  <li>Java 17</li>
+  <li>Spring Boot 3.4.4</li>
+  <li>MongoDB</li>
+  <li>MapStruct 1.5.5.Final</li>
+  <li>Lombok 1.18.32</li>
+  <li>Maven</li>
+</ul>
+
+<h2>🏗️ Arquitetura</h2>
+<ul>
+  <li>Padrões: MVC e DAO</li>
+  <li>Banco de dados NoSQL (MongoDB)</li>
+  <li>Validação com anotações Bean Validation (JSR-380)</li>
+</ul>
+
+<h2>🧪 Testes</h2>
+<ul>
+  <li>Spring Boot Test</li>
+  <li>Mockito</li>
+</ul>
+
+<h2>▶️ Como Executar (Docker)</h2>
+
+<h3>📥 Clonar e iniciar</h3>
+<pre><code>
 git clone https://github.com/vicabats/iData.git
 cd iData
 docker compose pull
 docker compose up -d
+</code></pre>
 
-Acesse:
+<h3>🌐 Verificar status</h3>
+<ul>
+  <li>Healthcheck: <a href="http://localhost:8080/actuator/health">http://localhost:8080/actuator/health</a> → <code>{"status": "UP"}</code></li>
+</ul>
 
-Backend: http://localhost:8080/actuator/health
-
-MongoDB: localhost:27017
-
-Parar:
-
+<h3>⏹️ Encerrar</h3>
+<pre><code>
 docker compose down
+</code></pre>
 
-💻 Execução Local (Sem Docker)
+<h2>💻 Execução Local (Sem Docker)</h2>
 
-Suba o MongoDB localmente:
-
-mongod
-
-Compile e execute a aplicação:
-
+<pre><code>
 cd backend/idata
 mvn clean install
-mvn spring-boot:run -Dspring-boot.run.profiles=dev
+mvn spring-boot:run
+</code></pre>
 
-Acesse: http://localhost:8080
+<p>API disponível em <a href="http://localhost:8080">http://localhost:8080</a></p>
 
-📬 Exemplos de Requisições
+<h2>📦 Docker</h2>
+<ul>
+  <li><a href="https://hub.docker.com/r/julianahaddad/idata-backend">julianahaddad/idata-backend:v4</a></li>
+</ul>
 
-Cadastro de Profissional
+<h2>⚙️ GitHub Actions</h2>
+<ul>
+  <li><a href="https://github.com/vicabats/iData/actions">CI/CD Workflow</a></li>
+</ul>
 
-POST http://localhost:8080/api/user/register?type=professional
-Content-Type: application/json
+<h2>🧯 Solução de Problemas</h2>
 
-{
-  "name": "Juliana Haddad",
-  "cpf": "45634572858",
-  "email": "juliana.haddad@gmail.com",
-  "password": "Juliana12345&",
-  "phone": "11912345678",
-  "birthdate": "15/09/1987",
-  "professionalLicense": "CRM 123456 SP",
-  "address": {
-    "street": "Rua Exemplo",
-    "number": "123",
-    "complement": "Apto 45",
-    "neighborhood": "Centro",
-    "zipCode": "12345-678",
-    "city": "São Paulo",
-    "state": "SP"
-  }
-}
+<h3>🔍 Ver logs do backend</h3>
+<pre><code>docker logs idata-1-new-backend-1</code></pre>
 
-Resposta:
-
-"Profissional registrado com sucesso: 45634572858"
-
-Login com 2FA (Pessoal)
-
-POST http://localhost:8080/api/user/login?type=personal
-Content-Type: application/json
-
-{
-  "cpf": "42089736856",
-  "password": "Jose12345&"
-}
-
-Resposta:
-
-"Código de verificação enviado para jose.nascimento@gmail.com"
-
-Verificação:
-
-POST http://localhost:8080/api/user/verify-2fa?type=personal
-Content-Type: application/json
-
-{
-  "email": "jose.nascimento@gmail.com",
-  "code": "<código recebido por e-mail>"
-}
-
-Resposta:
-
-"Login realizado com sucesso"
-
-🔗 Links
-
-Repositório: https://github.com/vicabats/iData
-
-Docker Hub: julianahaddad/idata-backend:v4
-
-CI/CD: GitHub Actions
-
-🧯 Solução de Problemas
-
-Backend DOWN
-
-Verifique os logs:
-
-docker logs idata-1-new-backend-1
-
-Verifique a conexão com o MongoDB:
-
-docker exec -it idata-1-new-backend-1 bash
-ping mongodb
-telnet mongodb 27017
-exit
-
-Porta 8080 ocupada
-
+<h3>🛑 Porta 8080 ocupada</h3>
+<pre><code>
 netstat -aon | findstr :8080
-taskkill /PID <PID> /F
+taskkill /PID &lt;PID&gt; /F
+</code></pre>
 
-Limpar ambiente
-
+<h3>🧹 Limpeza total</h3>
+<pre><code>
 docker compose down
 docker rm -f $(docker ps -aq)
-docker image rm julianahaddad/idata-backend:v4
 docker image prune -f
+</code></pre>
 
-👩‍💻 Equipe
-
-Juliana Haddad
-
-Pedro Henrique Moreira
-
-Vitória Gomes Batistoti de Abreu
+<h2>👥 Equipe</h2>
+<ul>
+  <li>Juliana Haddad</li>
+  <li>Pedro Henrique Moreira</li>
+  <li>Vitória Gomes Batistoti de Abreu</li>
+</ul>
