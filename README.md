@@ -1,132 +1,183 @@
-iData
+<h1>🩺 iData</h1>
 
-O iData é uma plataforma web para gerenciamento seguro de dados clínicos pessoais, como exames médicos e prontuários, além do controle de contatos de segurança (protetores) e compartilhamento dessas informações com profissionais de saúde autorizados.
+<p>
+  <strong>iData</strong> é uma plataforma web para gerenciamento seguro de dados clínicos pessoais, como exames médicos e prontuários, com controle de contatos de segurança e compartilhamento com profissionais de saúde autorizados.
+</p>
 
-O projeto é dividido em duas pastas principais:
+<hr />
 
-backend: API RESTful desenvolvida em Java 17 utilizando Spring Boot, MongoDB e MapStruct.
+<h2>📦 Estrutura do Projeto</h2>
+<ul>
+  <li><strong>Backend:</strong> API RESTful em Java 17 com Spring Boot, MongoDB e MapStruct</li>
+  <li><strong>Frontend:</strong> Interface responsiva em Angular 19</li>
+</ul>
 
-frontend: Aplicação desenvolvida em Angular 19, proporcionando uma interface intuitiva, responsiva e de fácil usabilidade.
+<h2>🛠️ Funcionalidades</h2>
 
+<h3>✅ Implementadas</h3>
+<ul>
+  <li>Cadastro e gerenciamento de usuários: usuário final, contato de segurança e profissional de saúde</li>
+</ul>
 
+<h3>🚧 Em Desenvolvimento</h3>
+<ul>
+  <li>Login com autenticação e 2FA</li>
+  <li>Armazenamento e compartilhamento de prontuários/exames</li>
+  <li>Relacionamento de contatos de segurança</li>
+  <li>Visualização de históricos clínicos</li>
+  <li>Conformidade com LGPD (termos e condições)</li>
+</ul>
 
+<h2>📋 Regras de Negócio</h2>
+<ul>
+  <li>Unicidade de e-mail e CPF (exceto profissionais com CRM ou registro profissional)</li>
+  <li>Usuários finais podem editar exames/prontuários; contatos de segurança e profissionais apenas visualizam</li>
+  <li>Cada usuário pode ter no máximo três contatos de segurança</li>
+  <li>Validação de registro profissional obrigatória para profissionais de saúde</li>
+  <li>Suporte a exames nos formatos PDF e JPEG</li>
+  <li>Compartilhamento de dados somente com consentimento explícito do usuário</li>
+</ul>
 
-🚀 Funcionalidades Já Implementadas
+<h2>🧰 Tecnologias</h2>
 
+<h3>🔙 Backend</h3>
+<ul>
+  <li>Java 17</li>
+  <li>Spring Boot 3.4.4</li>
+  <li>MongoDB</li>
+  <li>MapStruct 1.5.5.Final</li>
+  <li>Lombok 1.18.32</li>
+  <li>Maven</li>
+</ul>
 
-Cadastro e gerenciamento de usuários (usuário final, contato de segurança e profissional de saúde)
+<h3>🎨 Frontend</h3>
+<ul>
+  <li>Angular 19.2.0</li>
+  <li>TypeScript</li>
+  <li>Bootstrap</li>
+  <li>RxJS</li>
+</ul>
 
-Funcionalidades em Desenvolvimento
+<h2>🖥️ Infraestrutura</h2>
+<ul>
+  <li>Docker</li>
+  <li>GitHub Actions (CI/CD)</li>
+</ul>
 
-Login com autenticação e autenticação em dois fatores (2FA)
+<h2>🔐 Segurança (Planejada)</h2>
+<ul>
+  <li>Autenticação com 2FA</li>
+  <li>Criptografia de senhas</li>
+  <li>HTTPS</li>
+  <li>Conformidade com LGPD</li>
+  <li>Logs de acesso</li>
+</ul>
 
-Armazenamento de prontuários e exames médicos
+<h2>🏗️ Arquitetura</h2>
+<ul>
+  <li><strong>Backend:</strong> Padrões MVC e DAO, com MongoDB não relacional</li>
+  <li><strong>Frontend:</strong> Aplicação Angular otimizada para Google Chrome</li>
+</ul>
 
-Compartilhamento de exames e prontuários com profissionais de saúde
+<h2>▶️ Como Executar</h2>
 
-Relacionamento de contatos de segurança (protetores e protegidos)
+<h3>📌 Pré-requisitos</h3>
+<ul>
+  <li>Docker e Docker Compose</li>
+  <li>Git</li>
+</ul>
 
-Visualização de históricos clínicos e registros médicos
+<h3>📥 Passos</h3>
 
-Relembrar e aceitar termos e condições conforme exigências da LGPD
-
-🛠 Tecnologias Utilizadas
-
-Backend
-
-Java 17
-
-Spring Boot 3.2.4
-
-MongoDB
-
-MapStruct
-
-Lombok
-
-Maven
-
-Frontend
-
-Angular 19.2.0
-
-TypeScript
-
-Bootstrap
-
-RxJS
-
-📑 Regras de Negócio (Principais)
-
-Não é permitido o cadastro de dois usuários com o mesmo e-mail ou CPF, salvo profissionais de saúde que podem ter múltiplos registros com base no seu CRM ou registro profissional.
-
-Usuários finais poderão manter e editar seus exames e prontuários; contatos de segurança e profissionais da saúde poderão apenas visualizar.
-
-Um usuário final poderá ter até três contatos de segurança.
-
-Todo profissional de saúde precisará ter seu registro profissional validado.
-
-Extensões permitidas para exames: PDF e JPEG.
-
-Todo compartilhamento de dados será realizado mediante ciência e aceite do usuário.
-
-🔐 Segurança (a implementar)
-
-Autenticação em dois fatores (2FA)
-
-Senha criptografada
-
-Proteção via HTTPS
-
-Respeito à LGPD
-
-Logs de acesso para profissionais de saúde
-
-🏗️ Arquitetura
-
-Arquitetura em camadas (MVC e DAO)
-
-Separação de responsabilidade entre apresentação, negócios e dados
-
-Banco de dados não-relacional: MongoDB
-
-Frontend desenvolvido em Angular, compatível com Google Chrome
-
-📋 Como Executar o Projeto
-
-1️⃣ Clonar o repositório
-
+<pre><code>
+# Clonar o repositório
 git clone https://github.com/vicabats/iData.git
 cd iData
 
-2️⃣ Configurar e executar o backend
+# Baixar imagens Docker
+docker compose pull
 
-cd backend
+# Iniciar os serviços
+docker compose up -d
+</code></pre>
+
+<h3>🌐 Acesso</h3>
+<ul>
+  <li><strong>Frontend:</strong> <a href="http://localhost">http://localhost</a></li>
+  <li><strong>Backend:</strong> <a href="http://localhost:8080/actuator/health">http://localhost:8080/actuator/health</a> → <code>{"status": "UP"}</code></li>
+</ul>
+
+<p><strong>ℹ️ Nota:</strong> o endpoint <code>http://localhost:8080</code> pode retornar <code>INTERNAL_SERVER_ERROR</code> caso alguns serviços ainda estejam em desenvolvimento.</p>
+
+<h3>⏹️ Parar os serviços</h3>
+<pre><code>
+docker compose down
+</code></pre>
+
+<h2>💻 Desenvolvimento Local (Opcional)</h2>
+
+<h3>Backend</h3>
+<pre><code>
+cd backend/idata
 mvn clean install
-mongod # caso use MongoDB local
 mvn spring-boot:run
+</code></pre>
 
-A API estará disponível em http://localhost:8080
+<p>API disponível em <a href="http://localhost:8080">http://localhost:8080</a></p>
 
-3️⃣ Executar o frontend
-
+<h3>Frontend</h3>
+<pre><code>
 cd frontend
 npm install
 ng serve
+</code></pre>
 
-A interface estará disponível em http://localhost:4200
+<p>Interface disponível em <a href="http://localhost:4200">http://localhost:4200</a></p>
 
-✅ Testes
+<h2>🧪 Testes</h2>
+<ul>
+  <li><strong>Backend:</strong> Testes unitários com Spring Test</li>
+  <li><strong>Frontend:</strong> Testes unitários com Karma</li>
+</ul>
 
-Backend: Testes unitários utilizando o framework de testes do Spring.
+<h2>🔗 Links</h2>
+<ul>
+  <li><strong>Repositório:</strong> <a href="https://github.com/vicabats/iData">https://github.com/vicabats/iData</a></li>
+  <li><strong>Docker Hub:</strong>
+    <ul>
+      <li><a href="https://hub.docker.com/r/julianahaddad/idata-frontend">julianahaddad/idata-frontend:v4</a></li>
+      <li><a href="https://hub.docker.com/r/julianahaddad/idata-backend">julianahaddad/idata-backend:v4</a></li>
+    </ul>
+  </li>
+  <li><strong>CI/CD:</strong> <a href="https://github.com/vicabats/iData/actions">https://github.com/vicabats/iData/actions</a></li>
+</ul>
 
-Frontend: Testes unitários com Karma.
+<h2>🧯 Solução de Problemas</h2>
 
-👥 Equipe de Desenvolvimento
+<h3>📉 Backend DOWN</h3>
+<p>Verifique os logs:</p>
+<pre><code>docker logs idata-1-new-backend-1</code></pre>
 
-Juliana Haddad 
+<p>Verifique conexão com MongoDB:</p>
+<pre><code>ping mongodb</code></pre>
 
-Pedro Henrique Moreira
+<h3>🛑 Portas Ocupadas</h3>
+<pre><code>
+netstat -aon | findstr :80
+netstat -aon | findstr :8080
+taskkill /PID &lt;PID&gt; /F
+</code></pre>
 
-Vitória Gomes Batistoti de Abreu
+<h3>🧹 Limpar Ambiente</h3>
+<pre><code>
+docker compose down
+docker rm -f $(docker ps -aq)
+docker image prune -f
+</code></pre>
 
+<h2>👥 Equipe</h2>
+<ul>
+  <li>Juliana Haddad</li>
+  <li>Pedro Henrique Moreira</li>
+  <li>Vitória Gomes Batistoti de Abreu</li>
+</ul>
