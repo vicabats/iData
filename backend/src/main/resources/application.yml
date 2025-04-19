@@ -1,4 +1,2 @@
-spring:
-  data:
-    mongodb:
-      uri: mongodb://mongodb:27017/idata
+# Spring Boot application properties go here.
+# Remove Docker Compose configuration from this file.
