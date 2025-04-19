@@ -1,263 +1,127 @@
-iData
+<h1 align="center">🩺 iData Backend</h1>
+
+<p align="center">
+  API RESTful segura para gerenciamento de dados clínicos e pessoais, com autenticação em dois fatores (2FA) e containerização com Docker.
+</p>
+
+<hr>
+
+<h2>🚀 Visão Geral</h2>
+
+<p>
+O <strong>iData Backend</strong> é uma aplicação desenvolvida em <code>Java 17</code> com <code>Spring Boot</code>, conectada a um banco NoSQL <code>MongoDB</code> e com mapeamento via <code>MapStruct</code>. Suporta autenticação 2FA por e-mail e foi projetada para execução consistente em ambientes Docker.
+</p>
+
+<h2>🧩 Funcionalidades</h2>
+
+<ul>
+  <li><strong>Cadastro de usuários pessoais</strong> com dados básicos e endereço</li>
+  <li><strong>Cadastro de profissionais da saúde</strong> com validação de licença (CRM, CRO, etc.)</li>
+  <li><strong>Login com autenticação em dois fatores (2FA)</strong> via e-mail</li>
+  <li><strong>Consulta por CPF</strong> para usuários pessoais e profissionais</li>
+  <li><strong>Atualização de informações cadastrais</strong></li>
+  <li><strong>Exclusão de contas com verificação por e-mail</strong></li>
+</ul>
+
+<h2>🛠️ Tecnologias Utilizadas</h2>
+
+<ul>
+  <li>Java 17 (OpenJDK)</li>
+  <li>Spring Boot 3.4.4</li>
+  <li>MongoDB 6.0</li>
+  <li>MapStruct 1.5.5.Final</li>
+  <li>Lombok 1.18.32</li>
+  <li>Caffeine Cache 3.1.8</li>
+  <li>Maven 3.9.9</li>
+  <li>Docker & Docker Compose</li>
+</ul>
+
+<h2>📌 Endpoints Principais</h2>
+
+<h3>Usuário Pessoal</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ação</th>
+      <th>Método</th>
+      <th>Endpoint</th>
+      <th>Descrição</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Cadastro</td><td>POST</td><td>/api/user/register?type=personal</td><td>Registra usuário pessoal</td></tr>
+    <tr><td>Login</td><td>POST</td><td>/api/user/login?type=personal</td><td>Inicia login</td></tr>
+    <tr><td>Verificação 2FA</td><td>POST</td><td>/api/user/verify-2fa?type=personal</td><td>Confirma login</td></tr>
+    <tr><td>Consulta</td><td>GET</td><td>/api/user?type=personal</td><td>Busca dados por CPF</td></tr>
+    <tr><td>Atualização</td><td>PUT</td><td>/api/user?type=personal</td><td>Atualiza dados</td></tr>
+    <tr><td>Iniciar Exclusão</td><td>DELETE</td><td>/api/user?type=personal</td><td>Solicita exclusão</td></tr>
+    <tr><td>Confirmar Exclusão</td><td>POST</td><td>/api/user/confirm-delete?type=personal</td><td>Confirma com código</td></tr>
+  </tbody>
+</table>
+
+<h3>Usuário Profissional</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ação</th>
+      <th>Método</th>
+      <th>Endpoint</th>
+      <th>Descrição</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Cadastro</td><td>POST</td><td>/api/user/register?type=professional</td><td>Registra profissional</td></tr>
+    <tr><td>Login</td><td>POST</td><td>/api/user/login?type=professional</td><td>Inicia login</td></tr>
+    <tr><td>Verificação 2FA</td><td>POST</td><td>/api/user/verify-2fa?type=professional</td><td>Confirma login</td></tr>
+    <tr><td>Consulta</td><td>GET</td><td>/api/user?type=professional</td><td>Busca dados por CPF</td></tr>
+    <tr><td>Atualização</td><td>PUT</td><td>/api/user?type=professional</td><td>Atualiza dados</td></tr>
+    <tr><td>Iniciar Exclusão</td><td>DELETE</td><td>/api/user?type=professional</td><td>Solicita exclusão</td></tr>
+    <tr><td>Confirmar Exclusão</td><td>POST</td><td>/api/user/confirm-delete?type=professional</td><td>Confirma com código</td></tr>
+  </tbody>
+</table>
+
+<h2>📦 Como Executar</h2>
+
+<h3>🔧 Pré-requisitos</h3>
+
+<ul>
+  <li>Docker e Docker Compose</li>
+  <li>Git</li>
+  <li>(Opcional) Java 17, Maven 3.9.9, MongoDB 6.0</li>
+  <li>Cliente HTTP (Postman, Insomnia...)</li>
+</ul>
+
+<h3>🐳 Com Docker</h3>
+
+<pre>
+git clone https://github.com/vicabats/iData.git
+cd iData
+
+docker compose pull
+docker compose up -d
+</pre>
 
-iData é uma API RESTful desenvolvida com Spring Boot para gerenciamento seguro de dados clínicos e pessoais, com suporte a autenticação em dois fatores (2FA). O backend utiliza Java 17, Spring Boot, MongoDB, MapStruct e Lombok, com persistência em um banco NoSQL MongoDB. O projeto é containerizado com Docker, incluindo serviços para o backend, frontend (Angular) e MongoDB.
-Funcionalidades
-Cadastro de Usuários:
-Profissional: Inclui validação de licença profissional (ex.: CRM) e autenticação via e-mail.
+<p>▶️ Acesse: <code>http://localhost:8080/actuator/health</code></p>
 
-Pessoal: Dados pessoais e endereço, sem licença profissional.
+<h3>💻 Execução Local (sem Docker)</h3>
 
-Autenticação 2FA: Login com verificação por código enviado ao e-mail.
-
-Consulta por CPF: Busca de dados de usuários (profissional ou pessoal).
-
-Atualização de Dados: Alteração de informações cadastrais e endereço.
-
-Exclusão Segura: Remoção de contas com confirmação via e-mail.
-
-Tecnologias Utilizadas
-Java 17 (compatível com OpenJDK 21)
-
-Spring Boot 3.4.4
-
-MongoDB 6.0 (NoSQL)
-
-MapStruct 1.5.5.Final (mapeamento de DTOs)
-
-Lombok 1.18.32 (redução de boilerplate)
-
-Caffeine Cache 3.1.8 (otimização de desempenho)
-
-Maven 3.9.9 (gerenciamento de dependências)
-
-Docker & Docker Compose (containerização)
-
-Pré-requisitos
-Para executar o projeto, você precisará de:
-Java 17+ (recomendado: OpenJDK 21)
-
-Maven 3.9.9+
-
-Docker e Docker Compose (para execução containerizada)
-
-MongoDB (se rodar localmente sem Docker, porta padrão: 27017)
-
-Navegador ou cliente HTTP (ex.: Postman) para testar a API
-
-Endpoints Principais
-Usuário Pessoal
-Ação
-
-Método
-
-Endpoint
-
-Descrição
-
-Cadastro
-
-POST
-
-/api/user/register?type=personal
-
-Registra um novo usuário pessoal
-
-Login
-
-POST
-
-/api/user/login?type=personal
-
-Inicia o processo de login
-
-Verificação 2FA
-
-POST
-
-/api/user/verify-2fa?type=personal
-
-Confirma o login com código 2FA
-
-Consulta
-
-GET
-
-/api/user?type=personal
-
-Busca dados por CPF
-
-Atualização
-
-PUT
-
-/api/user?type=personal
-
-Atualiza dados do usuário
-
-Iniciar Exclusão
-
-DELETE
-
-/api/user?type=personal
-
-Inicia processo de exclusão
-
-Confirmar Exclusão
-
-POST
-
-/api/user/confirm-delete?type=personal
-
-Confirma exclusão com código
-
-Profissional
-Ação
-
-Método
-
-Endpoint
-
-Descrição
-
-Cadastro
-
-POST
-
-/api/user/register?type=professional
-
-Registra um novo profissional
-
-Login
-
-POST
-
-/api/user/login?type=professional
-
-Inicia o processo de login
-
-Verificação 2FA
-
-POST
-
-/api/user/verify-2fa?type=professional
-
-Confirma o login com código 2FA
-
-Consulta
-
-GET
-
-/api/user?type=professional
-
-Busca dados por CPF
-
-Atualização
-
-PUT
-
-/api/user?type=professional
-
-Atualiza dados do profissional
-
-Iniciar Exclusão
-
-DELETE
-
-/api/user?type=professional
-
-Inicia processo de exclusão
-
-Confirmar Exclusão
-
-POST
-
-/api/user/confirm-delete?type=professional
-
-Confirma exclusão com código
-
-Configuração e Execução
-Execução Local (Sem Docker)
-Clone o Repositório:
-bash
-
-git clone <URL_DO_REPOSITORIO>
-cd idata
-
-Configure o MongoDB:
-Certifique-se de que o MongoDB está rodando localmente na porta padrão (27017).
-
-Compile e Execute o Backend:
-bash
+<pre>
+mongod  # Iniciar MongoDB local
 
 cd backend/idata
 mvn clean install
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
+</pre>
 
-Acesse:
-Backend: http://localhost:8080
+<p>▶️ Acesse: <code>http://localhost:8080</code></p>
 
-Frontend (se configurado): http://localhost:80
+<h2>📬 Exemplos de Requisição</h2>
 
-Execução com Docker
-Clone o Repositório:
-bash
+<h4>📄 Cadastro Profissional</h4>
 
-git clone <URL_DO_REPOSITORIO>
-cd idata
-
-Execute com Docker Compose:
-bash
-
-docker compose up --build
-
-Acesse os Serviços:
-MongoDB: localhost:27017
-
-Backend: http://localhost:8080
-
-Frontend: http://localhost:80
-
-Parar os Serviços:
-bash
-
-docker compose down
-
-Estrutura do Docker Compose
-O arquivo docker-compose.yml define três serviços:
-yaml
-
-services:
-  mongodb:
-    image: mongo:6.0
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-
-  backend:
-    image: idata-backend:latest
-    depends_on:
-      - mongodb
-    ports:
-      - "8080:8080"
-    environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/idata
-
-  frontend:
-    build: ./frontend
-    depends_on:
-      - backend
-    ports:
-      - "80:80"
-
-volumes:
-  mongo_data:
-
-Exemplos de Requisições
-Cadastro de Profissional
-Requisição:
-http
-
+<pre>
 POST http://localhost:8080/api/user/register?type=professional
 Content-Type: application/json
 
@@ -279,157 +143,81 @@ Content-Type: application/json
     "state": "SP"
   }
 }
+</pre>
 
-Resposta (HTTP 200):
-json
+<p><strong>Resposta:</strong> <code>Profissional registrado com sucesso: 45634572858</code></p>
 
-"Profissional registrado com sucesso: 45634572858"
+<h4>🔐 Login com 2FA</h4>
 
-Cadastro de Usuário Pessoal
-Requisição:
-http
-
-POST http://localhost:8080/api/user/register?type=personal
-Content-Type: application/json
-
-{
-  "name": "José Nascimento",
-  "cpf": "42089736856",
-  "email": "jose.nascimento@gmail.com",
-  "password": "Jose12345&",
-  "phone": "11945874322",
-  "birthdate": "20/01/1985",
-  "address": {
-    "street": "Rua das Flores",
-    "number": "854",
-    "complement": "Apto 88 Bloco B",
-    "neighborhood": "Moema",
-    "zipCode": "04208-001",
-    "city": "São Paulo",
-    "state": "SP"
-  }
-}
-
-Resposta (HTTP 200):
-json
-
-"Usuário registrado com sucesso: 42089736856"
-
-Login com 2FA (Profissional)
-Requisição - Login:
-http
-
-POST http://localhost:8080/api/user/login?type=professional
-Content-Type: application/json
-
-{
-  "cpf": "45634572858",
-  "password": "Juliana12345&"
-}
-
-Resposta (HTTP 200):
-json
-
-"Código de verificação enviado para juliana.haddad@gmail.com"
-
-Requisição - Verificação 2FA:
-http
-
-POST http://localhost:8080/api/user/verify-2fa?type=professional
-Content-Type: application/json
-
-{
-  "email": "juliana.haddad@gmail.com",
-  "code": "<código recebido por e-mail>"
-}
-
-Resposta (HTTP 200):
-json
-
-"Login realizado com sucesso"
-
-Atualização de Profissional
-Requisição:
-http
-
-PUT http://localhost:8080/api/user?type=professional
-Content-Type: application/json
-
-{
-  "name": "Juliana Haddad",
-  "cpf": "45634572858",
-  "email": "juliana.haddad@gmail.com",
-  "password": "Juliana12345&",
-  "phone": "11987654321",
-  "birthdate": "15/09/1987",
-  "professionalLicense": "CRM 123456 SP",
-  "address": {
-    "street": "Rua Nova",
-    "number": "456",
-    "complement": "Apto 145 Bloco 2",
-    "neighborhood": "Centro",
-    "zipCode": "12345-678",
-    "city": "São Paulo",
-    "state": "SP"
-  }
-}
-
-Resposta (HTTP 200):
-json
-
-{
-  "message": "Registro atualizado com sucesso",
-  "data": {
-    "id": "<UUID>",
-    "name": "Juliana Haddad",
-    "cpf": "45634572858",
-    "email": "juliana.haddad@gmail.com",
-    "phone": "11987654321",
-    "birthdate": "15/09/1987",
-    "professionalLicense": "CRM 123456 SP",
-    "address": {
-      "id": "<UUID>",
-      "street": "Rua Nova",
-      "number": "456",
-      "complement": "Apto 145 Bloco 2",
-      "neighborhood": "Centro",
-      "zipCode": "12345-678",
-      "city": "São Paulo",
-      "state": "SP"
-    }
-  }
-}
-
-Exclusão de Conta (Pessoal)
-Requisição - Iniciar Exclusão:
-http
-
-DELETE http://localhost:8080/api/user?type=personal
+<pre>
+POST http://localhost:8080/api/user/login?type=personal
 Content-Type: application/json
 
 {
   "cpf": "42089736856",
   "password": "Jose12345&"
 }
+</pre>
 
-Resposta (HTTP 200):
-json
+<p><strong>Resposta:</strong> <code>Código de verificação enviado para jose.nascimento@gmail.com</code></p>
 
-"Código de verificação enviado para jose.nascimento@gmail.com. Confirme para excluir sua conta."
-
-Requisição - Confirmar Exclusão:
-http
-
-POST http://localhost:8080/api/user/confirm-delete?type=personal
+<pre>
+POST http://localhost:8080/api/user/verify-2fa?type=personal
 Content-Type: application/json
 
 {
   "email": "jose.nascimento@gmail.com",
-  "code": "<código recebido por e-mail>"
+  "code": "123456"
 }
+</pre>
 
-Resposta (HTTP 200):
-json
+<p><strong>Resposta:</strong> <code>Login realizado com sucesso</code></p>
 
-"Conta excluída com sucesso."
+<h2>🧪 Solução de Problemas</h2>
 
+<h4>🔻 Backend DOWN</h4>
+
+<pre>
+docker logs idata-1-new-backend-1
+</pre>
+
+<p>Verifique erros como <code>MongoSocketOpenException</code> ou <code>Connection refused</code></p>
+
+<pre>
+docker exec -it idata-1-new-backend-1 bash
+ping mongodb
+telnet mongodb 27017
+exit
+</pre>
+
+<h4>🚫 Portas ocupadas</h4>
+
+<pre>
+netstat -aon | findstr :8080
+taskkill /PID &lt;PID&gt; /F
+</pre>
+
+<h4>🧹 Limpeza de ambiente</h4>
+
+<pre>
+docker compose down
+docker rm -f $(docker ps -aq)
+docker image rm julianahaddad/idata-backend:v4
+docker image prune -f
+</pre>
+
+<h2>📎 Links</h2>
+
+<ul>
+  <li><strong>Repositório:</strong> <a href="https://github.com/vicabats/iData">https://github.com/vicabats/iData</a></li>
+  <li><strong>Docker Hub:</strong> <a href="https://hub.docker.com/r/julianahaddad/idata-backend">julianahaddad/idata-backend:v4</a></li>
+  <li><strong>CI/CD:</strong> <a href="https://github.com/vicabats/iData/actions">GitHub Actions</a></li>
+</ul>
+
+<h2>👥 Equipe</h2>
+
+<ul>
+  <li><strong>Juliana Haddad</strong></li>
+  <li>Pedro Henrique Moreira</li>
+  <li>Vitória Gomes Batistoti de Abreu</li>
+</ul>
