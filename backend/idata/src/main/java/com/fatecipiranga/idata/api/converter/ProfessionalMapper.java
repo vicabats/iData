@@ -27,6 +27,4 @@ public interface ProfessionalMapper {
 
     @Mapping(target = "id", ignore = true)
     AddressEntity addressDtoToEntity(AddressDTO addressDTO);
-
-    
 }
