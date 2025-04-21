@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoggedInDropdownComponent } from '../logged-in-dropdown/logged-in-dropdown.component';
+import { LoggedInNavbarDropdownComponent } from '../logged-in-navbar-dropdown/logged-in-navbar-dropdown.component';
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, LoggedInDropdownComponent],
+  imports: [CommonModule, LoggedInNavbarDropdownComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
@@ -14,19 +14,19 @@ export class NavbarComponent {
 
   constructor(private router: Router) {}
 
-  redirectToAboutUs(): void {
+  public redirectToAboutUs(): void {
     this.router.navigate(['about-us']);
   }
 
-  redirectToLogin(): void {
+  public redirectToLogin(): void {
     this.router.navigate(['login']);
   }
 
-  redirectToHomepage(): void {
+  public redirectToHomepage(): void {
     this.router.navigate(['/']);
   }
 
-  redirectToProfile(): void {
+  public redirectToProfile(): void {
     this.router.navigate(['personal']);
   }
 }

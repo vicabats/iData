@@ -13,10 +13,14 @@ import { LoadingComponent } from '../../../../../shared/components/loading/loadi
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../services/login.service';
-import { AuthFlowGuardService } from '../../../../../core/services/auth/auth-flow-guard.service';
-import { User } from '../../../../../shared/types/user';
 import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
 import { UserType } from '../../../../../shared/types/user_type';
+import { AuthFlowService } from '../../../../../core/services/auth-flow/auth-flow.service';
+import {
+  getCPFRegexValidator,
+  getPasswordMinLenghtValidator,
+  getPasswordRegexValidator,
+} from '../../../../register/presentation/helpers/forms-validators';
 
 @Component({
   selector: 'app-login-content-page',
@@ -38,11 +42,11 @@ export class LoginContentPage implements OnInit {
   public isSubmitting = false;
 
   constructor(
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private router: Router,
     private loginService: LoginService,
-    private authFlowGuardService: AuthFlowGuardService
+    private authFlowService: AuthFlowService
   ) {}
 
   ngOnInit(): void {
@@ -50,20 +54,14 @@ export class LoginContentPage implements OnInit {
   }
 
   private initializeLoginForm() {
-    this.loginForm = this.fb.group({
-      cpf: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/),
-        ],
-      ],
+    this.loginForm = this.formBuilder.group({
+      cpf: ['', [Validators.required, getCPFRegexValidator()]],
       password: [
         '',
         [
           Validators.required,
-          Validators.minLength(6),
-          Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/),
+          getPasswordMinLenghtValidator(),
+          getPasswordRegexValidator(),
         ],
       ],
     });
@@ -84,16 +82,8 @@ export class LoginContentPage implements OnInit {
     });
   }
 
-  private getLoginUser(): User {
-    const loginUser: User = {
-      cpf: this.loginForm.get('cpf')?.value,
-      password: this.loginForm.get('password')?.value,
-    };
-    return loginUser;
-  }
-
   private handleSuccessfulLogin(response: { message: string; data: string }) {
-    this.authFlowGuardService.setLoginFlowStarted(true);
+    this.authFlowService.setLoginFlowStarted(true);
     this.isSubmitting = false;
 
     this.router.navigate(['verify-code'], {

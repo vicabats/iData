@@ -27,10 +27,6 @@ body {
   flex-direction: column;
 }
 
-.content {
-  flex: 1;
-}
-
 /* Material style overrides */
 .mat-datepicker-toggle .mat-icon-button {
   background-color: red;

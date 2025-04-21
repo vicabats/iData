@@ -1,7 +1,5 @@
 <main class="main">
   <app-navbar [isLoggedIn]="isLoggedIn$ | async" />
-  <div class="content">
-    <router-outlet></router-outlet>
-  </div>
+  <router-outlet></router-outlet>
   <app-footer></app-footer>
 </main>

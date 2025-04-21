@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthFlowGuardService } from '../../core/services/auth/auth-flow-guard.service';
+import { AuthFlowService } from '../../core/services/auth-flow/auth-flow.service';
 import {
   CanActivate,
   ActivatedRouteSnapshot,
@@ -12,12 +12,12 @@ import {
 })
 export class VerifyCodeGuardService implements CanActivate {
   constructor(
-    private authFlowGuardService: AuthFlowGuardService,
+    private authFlowService: AuthFlowService,
     private router: Router
   ) {}
 
   canActivate(): boolean {
-    if (this.authFlowGuardService.hasLoginFlowStarted()) {
+    if (this.authFlowService.hasLoginFlowStarted()) {
       return true;
     }
 

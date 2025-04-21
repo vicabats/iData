@@ -24,13 +24,13 @@
     </div>
 
     <div
-      *ngIf="isLoggedIn"
+      *ngIf="!isLoggedIn"
       class="navbar_right-section_login navbar-option"
       (mouseenter)="showDropdown = true"
     >
       <i class="fa-solid fa-user"></i>
       <p class="navbar-option">Minha conta</p>
-      <app-logged-in-dropdown
+      <app-logged-in-navbar-dropdown
         *ngIf="showDropdown"
         (mouseleave)="showDropdown = false"
       />

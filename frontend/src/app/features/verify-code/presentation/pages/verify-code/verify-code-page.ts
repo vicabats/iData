@@ -41,7 +41,7 @@ export class VerifyCodePage implements OnInit {
   private userType!: UserType;
 
   constructor(
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private verifyCodeService: VerifyCodeService,
@@ -55,7 +55,7 @@ export class VerifyCodePage implements OnInit {
   }
 
   private initializeVerifyCodeForm(): void {
-    this.codeForm = this.fb.group({
+    this.codeForm = this.formBuilder.group({
       code: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]],
     });
   }
@@ -73,17 +73,6 @@ export class VerifyCodePage implements OnInit {
     if (this.codeForm.valid) {
       this.isSubmitting = true;
       this.verifyCode();
-    } else {
-      this.snackBar.openFromComponent(SnackBarComponent, {
-        data: {
-          message: 'Por favor, insira um código válido de 6 dígitos',
-          type: 'error',
-        },
-        duration: 1500,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom',
-        panelClass: ['error-snackbar'],
-      });
     }
   }
 
@@ -102,7 +91,7 @@ export class VerifyCodePage implements OnInit {
   }
 
   private handleSuccessfulCode(user: User): void {
-    this.snackBar.openFromComponent(SnackBarComponent, {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
       data: {
         message: 'Código verificado com sucesso!',
         type: 'success',
@@ -112,11 +101,13 @@ export class VerifyCodePage implements OnInit {
       verticalPosition: 'bottom',
       panelClass: ['success-snackbar'],
     });
-    this.isSubmitting = false;
-    console.log(user);
-    this.userSessionService.setSession(user);
-    this.userSessionService.setUserType(this.userType);
-    this.redirectToUserPage();
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.isSubmitting = false;
+      this.userSessionService.setSession(user);
+      this.userSessionService.setUserType(this.userType);
+      this.redirectToUserPage();
+    });
   }
 
   private redirectToUserPage(): void {
@@ -124,8 +115,7 @@ export class VerifyCodePage implements OnInit {
   }
 
   private handleFailure(errorMessage: string): void {
-    this.isSubmitting = false;
-    this.snackBar.openFromComponent(SnackBarComponent, {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
       data: {
         message: errorMessage,
         type: 'error',
@@ -134,6 +124,10 @@ export class VerifyCodePage implements OnInit {
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
       panelClass: ['error-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.isSubmitting = false;
     });
   }
 }

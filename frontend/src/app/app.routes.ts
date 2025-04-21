@@ -12,24 +12,39 @@ import { LogsPage } from './features/logs/logs-page';
 import { InProgressPage } from './features/in-progress/in-progress-page';
 import { LoggedInGuardService } from './guards/logged-in/logged-in-guard.service';
 import { RegisterPage } from './features/register/presentation/pages/register-page/register-page';
-import { ProfilePage } from './features/profile/presentation/pages/profile-page/profile-page';
+import { MyHomePage } from './features/my-home/presentation/pages/my-home-page';
+import { RedirectIfLoggedInGuardService } from './guards/redirect-if-logged-in-guard/redirect-if-logged-in-guard.service';
+import { MyAccountPage } from './features/my-account/presentation/pages/my-account-page/my-account-page';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
   { path: 'register', component: RegisterPage },
-  { path: 'login', component: LoginPage },
+  {
+    path: 'login',
+    component: LoginPage,
+    canActivate: [RedirectIfLoggedInGuardService],
+  },
   {
     path: 'verify-code',
     component: VerifyCodePage,
     canActivate: [VerifyCodeGuardService],
   },
   {
-    path: 'profile',
-    component: ProfilePage,
+    path: 'my-home',
+    component: MyHomePage,
+    canActivate: [LoggedInGuardService],
+  },
+  {
+    path: 'my-account',
+    component: MyAccountPage,
     canActivate: [LoggedInGuardService],
   },
   { path: 'about-us', component: AboutUsPage },
-  { path: 'forgot-password', component: ForgotPasswordPage },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordPage,
+    canActivate: [RedirectIfLoggedInGuardService],
+  },
   { path: 'medical-records', component: MedicalRecordsPage },
   { path: 'exams', component: ExamsPage },
   { path: 'safety-contact', component: SafetyContactsPage },

@@ -6,13 +6,13 @@ import { UserSessionService } from '../../../core/services/user-session/user-ses
 import { UserType } from '../../types/user_type';
 
 @Component({
-  selector: 'app-logged-in-dropdown',
+  selector: 'app-logged-in-navbar-dropdown',
   standalone: true,
   imports: [ModalComponent, CommonModule],
-  templateUrl: './logged-in-dropdown.component.html',
-  styleUrls: ['./logged-in-dropdown.component.css'],
+  templateUrl: './logged-in-navbar-dropdown.component.html',
+  styleUrls: ['./logged-in-navbar-dropdown.component.css'],
 })
-export class LoggedInDropdownComponent {
+export class LoggedInNavbarDropdownComponent {
   public userTypeEnum = UserType;
 
   public showModal: boolean = false;
@@ -22,21 +22,25 @@ export class LoggedInDropdownComponent {
     private userSessionService: UserSessionService
   ) {}
 
-  redirectToMyData(): void {
-    this.router.navigate(['personal']);
+  public redirectToMyHome(): void {
+    this.router.navigate(['my-home']);
   }
 
-  showLogoutModal(): void {
+  public redirectToMyAccount(): void {
+    this.router.navigate(['my-account']);
+  }
+
+  public showLogoutModal(): void {
     this.showModal = true;
   }
 
-  logout(): void {
+  public logout(): void {
     this.router.navigate(['']);
     this.showModal = false;
     this.userSessionService.clearSession();
   }
 
-  closeModal(): void {
+  public closeModal(): void {
     this.showModal = false;
   }
 }

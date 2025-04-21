@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthFlowGuardService {
+export class AuthFlowService {
   private hasStartedLoginFlow = false;
 
   constructor() {}
