@@ -1,15 +1,15 @@
-<section class="sign_up-patient-page">
+<section class="register-personal-page">
   <form
-    class="sign_up-patient_form"
-    [formGroup]="patientForm"
-    (ngSubmit)="trySignUp()"
+    class="register-personal_form"
+    [formGroup]="personalForm"
+    (ngSubmit)="tryRegister()"
   >
-    <div class="sign_up-form-section">
+    <div class="register-form-section">
       <app-input
         formControlName="name"
         label="Nome completo"
         [errorMessage]="getErrorMessage('name', 'nome e sobrenome(s)')"
-        [value]="patientForm.get('name')?.value | titlecase"
+        [value]="personalForm.get('name')?.value | titlecase"
       />
 
       <div class="flex-row">
@@ -34,7 +34,7 @@
       </div>
     </div>
     <mat-divider class="divider"></mat-divider>
-    <div class="sign_up-form-section">
+    <div class="register-form-section">
       <app-input
         formControlName="street"
         label="Endereço"
@@ -94,7 +94,7 @@
       </div>
     </div>
     <mat-divider class="divider"></mat-divider>
-    <div class="sign_up-form-section">
+    <div class="register-form-section">
       <app-input
         formControlName="phone"
         label="Telefone"
@@ -113,7 +113,7 @@
     </div>
 
     <mat-divider class="divider"></mat-divider>
-    <div class="sign_up-form-section flex-row">
+    <div class="register-form-section flex-row">
       <app-input
         class="password-input"
         formControlName="password"
@@ -132,13 +132,13 @@
       />
     </div>
 
-    <div class="sign_up-submit-section">
+    <div class="register-submit-section">
       <button
         mat-raised-button
         type="submit"
         class="submit_button"
-        [disabled]="patientForm.invalid || _isSubmitting"
-        [ngClass]="{ 'submit_button-enabled': !patientForm.invalid }"
+        [disabled]="personalForm.invalid"
+        [ngClass]="{ 'submit_button-enabled': !personalForm.invalid }"
       >
         Cadastrar
       </button>

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { User } from '../../../shared/types/user';
 import { CommonModule } from '@angular/common';
 import { ProfilePersonalSectionComponent } from '../sections/personal/personal-section-component';
-import { UserSessionService } from '../../../core/services/user-session/user-session.service';
+import { UserSessionService } from '../../../../../core/services/user-session/user-session.service';
+import { User } from '../../../../../shared/types/user';
 
 @Component({
   selector: 'app-profile-page',

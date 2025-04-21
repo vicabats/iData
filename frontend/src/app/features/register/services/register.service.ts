@@ -3,21 +3,21 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PersonalUser } from '../../../shared/types/personal_user';
 import { ProfessionalUser } from '../../../shared/types/professional_user';
+import { UserType } from '../../../shared/types/user_type';
+
+interface RegisterParams {
+  type: UserType;
+  user: PersonalUser | ProfessionalUser;
+}
 
 @Injectable({
   providedIn: 'root',
 })
-export class SignUpService {
+export class RegisterService {
   constructor(private http: HttpClient) {}
 
-  registerPersonalUser(user: PersonalUser): Observable<String> {
-    const apiUrl = 'http://localhost:8080/api/user/register?type=personal';
-
-    return this.http.post<String>(apiUrl, user);
-  }
-
-  registerProfessionalUser(user: ProfessionalUser): Observable<String> {
-    const apiUrl = 'http://localhost:8080/api/user/register?type=professional';
+  public register({ type, user }: RegisterParams): Observable<String> {
+    const apiUrl = `http://localhost:8080/api/user/register?type=${type.toString()}`;
 
     return this.http.post<String>(apiUrl, user);
   }

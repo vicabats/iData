@@ -135,7 +135,7 @@ export class LoginContentPage implements OnInit {
   }
 
   public redirectToSignUp(): void {
-    this.router.navigate(['signup']);
+    this.router.navigate(['register']);
   }
 
   public redirectToForgotPassword(): void {

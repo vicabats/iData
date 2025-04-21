@@ -1,11 +1,11 @@
-.sign_up-patient_form {
+.register-professional_form {
   padding: var(--spacing-lg) 0;
 
-  .sign_up-form-section {
+  .register-form-section {
     margin-top: var(--spacing-lg);
   }
 
-  .sign_up-submit-section {
+  .register-submit-section {
     display: flex;
     justify-content: center;
     margin-top: var(--spacing-lg);
@@ -28,7 +28,7 @@
 
 .flex-row {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   align-items: center;
   gap: 10px;
 }
@@ -53,12 +53,12 @@
 }
 
 .complement-input {
-  width: 80%
+  width: 80%;
 }
 
 .neighborhood-input,
 .city-input {
-  width: 70%
+  width: 70%;
 }
 
 .divider {

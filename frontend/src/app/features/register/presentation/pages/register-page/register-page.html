@@ -1,0 +1,16 @@
+<section class="register-page">
+  <app-loading *ngIf="isSubmitting" />
+
+  <mat-tab-group class="register-tabs-section">
+    <mat-tab label="Sou paciente">
+      <app-register-personal-content-page
+        (submitForm)="onSubmit($event, userTypeEnum.personal)"
+      />
+    </mat-tab>
+    <mat-tab label="Sou profissional">
+      <app-register-professional-content-page
+        (submitForm)="onSubmit($event, userTypeEnum.professional)"
+      />
+    </mat-tab>
+  </mat-tab-group>
+</section>
