@@ -101,7 +101,7 @@ export class LoginContentPage implements OnInit {
         message: errorMessage,
         type: 'error',
       },
-      duration: 1500,
+      duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
       panelClass: ['error-snackbar'],

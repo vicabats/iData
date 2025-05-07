@@ -9,12 +9,6 @@ interface LoginParams {
   password: string;
 }
 
-interface LoginErrorResponse {
-  message: string;
-  errorCode: string;
-  timestamp: string;
-}
-
 interface LoginSuccessResponse {
   message: string;
   data: string;
@@ -27,7 +21,7 @@ interface LoginSuccessResponse {
 export class LoginService {
   constructor(private http: HttpClient) {}
 
-  login({
+  public login({
     type,
     cpf,
     password,

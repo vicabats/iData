@@ -17,7 +17,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--background-color);
-  color: (--text-color);
+  color: var(--text-color);
   font-size: var(--font-size-sm);
 }
 
@@ -68,6 +68,8 @@ body {
 }
 
 .custom-snackbar {
+  z-index: 10000 !important;
+
   color: white;
   font-weight: bold;
   text-align: center;
@@ -76,17 +78,17 @@ body {
 }
 
 .mat-mdc-snack-bar-container {
-  &.success-snackbar {
-    --mdc-snackbar-container-color: var(--success);
-    --mat-mdc-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
-  }
+  z-index: 10000 !important;
 }
 
-.mat-mdc-snack-bar-container {
-  &.error-snackbar {
-    --mdc-snackbar-container-color: var(--warning);
-    --mat-mdc-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
-  }
+.mat-mdc-snack-bar-container.success-snackbar {
+  --mdc-snackbar-container-color: var(--success);
+  --mat-mdc-snack-bar-button-color: #fff;
+  --mdc-snackbar-supporting-text-color: #fff;
+}
+
+.mat-mdc-snack-bar-container.error-snackbar {
+  --mdc-snackbar-container-color: var(--warning);
+  --mat-mdc-snack-bar-button-color: #fff;
+  --mdc-snackbar-supporting-text-color: #fff;
 }

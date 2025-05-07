@@ -41,24 +41,19 @@ export class RegisterPage {
     userType: UserType
   ): void {
     if (this.isSubmitting) return;
+
     this.isSubmitting = true;
 
     this.registerService.register({ user, type: userType }).subscribe({
-      next: () => {
-        this.handleSuccessfulRegistration();
-      },
-      error: (error: any) => {
-        const errorMessage =
-          error?.error || 'Erro desconhecido ao registrar usuário';
-        this.handleFailure(errorMessage);
-      },
+      next: (response) => this.handleSuccessfulRegistration(response),
+      error: (error) => this.handleFailure(error.message),
     });
   }
 
-  private handleSuccessfulRegistration(): void {
+  private handleSuccessfulRegistration(response: { message: string }): void {
     const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
-      data: { message: 'Cadastro realizado com sucesso!', type: 'success' },
-      duration: 2000,
+      data: { message: response.message, type: 'success' },
+      duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
       panelClass: ['success-snackbar'],
@@ -73,7 +68,7 @@ export class RegisterPage {
   private handleFailure(errorMessage: string): void {
     const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
       data: { message: errorMessage, type: 'error' },
-      duration: 2000,
+      duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
       panelClass: ['error-snackbar'],
