@@ -10,11 +10,11 @@ import { ExamsPage } from './features/exams/exams';
 import { SafetyContactsPage } from './features/safety-contacts/safety-contacts';
 import { LogsPage } from './features/logs/logs-page';
 import { InProgressPage } from './features/in-progress/in-progress-page';
-import { LoggedInGuardService } from './guards/logged-in/logged-in-guard.service';
 import { RegisterPage } from './features/register/presentation/pages/register-page/register-page';
 import { MyHomePage } from './features/my-home/presentation/pages/my-home-page';
 import { RedirectIfLoggedInGuardService } from './guards/redirect-if-logged-in-guard/redirect-if-logged-in-guard.service';
 import { MyAccountPage } from './features/my-account/presentation/pages/my-account-page/my-account-page';
+import { RedirectIfLoggedOutGuardService } from './guards/redirect-if-logged-out-guard/redirect-if-logged-out-guard.service';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -32,12 +32,12 @@ export const routes: Routes = [
   {
     path: 'my-home',
     component: MyHomePage,
-    canActivate: [LoggedInGuardService],
+    canActivate: [RedirectIfLoggedOutGuardService],
   },
   {
     path: 'my-account',
     component: MyAccountPage,
-    canActivate: [LoggedInGuardService],
+    canActivate: [RedirectIfLoggedOutGuardService],
   },
   { path: 'about-us', component: AboutUsPage },
   {

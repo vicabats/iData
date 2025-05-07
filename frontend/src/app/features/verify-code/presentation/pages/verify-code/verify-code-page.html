@@ -37,13 +37,16 @@
       <span class="divider-text">ou</span>
       <mat-divider></mat-divider>
     </div>
-  
+
     <button
       mat-stroked-button
       color="secondary"
       class="resend-code"
+      (click)="resendCode()"
+      [disabled]="!canResendCode || isSubmitting"
     >
       Reenviar código
+      <span *ngIf="!canResendCode"> ({{ resendCountdown }}s)</span>
     </button>
   </form>
 </section>

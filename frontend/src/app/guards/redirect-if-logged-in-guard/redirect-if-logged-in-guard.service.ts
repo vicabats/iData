@@ -11,9 +11,9 @@ export class RedirectIfLoggedInGuardService implements CanActivate {
     private router: Router
   ) {}
 
-  canActivate(): boolean {
+  public canActivate(): boolean {
     if (this.userSessionService.isLoggedIn()) {
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/my-home']);
       return false;
     }
     return true;

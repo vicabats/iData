@@ -53,7 +53,7 @@ export class LoginContentPage implements OnInit {
     this.initializeLoginForm();
   }
 
-  private initializeLoginForm() {
+  private initializeLoginForm(): void {
     this.loginForm = this.formBuilder.group({
       cpf: ['', [Validators.required, getCPFRegexValidator()]],
       password: [
@@ -82,20 +82,38 @@ export class LoginContentPage implements OnInit {
     });
   }
 
-  private handleSuccessfulLogin(response: { message: string; data: string }) {
-    this.authFlowService.setLoginFlowStarted(true);
-    this.isSubmitting = false;
-
-    this.router.navigate(['verify-code'], {
-      state: { successMessage: response.message },
-      queryParams: {
-        type: this.userType,
-        cpf: this.loginForm.get('cpf')?.value,
+  private handleSuccessfulLogin(response: {
+    message: string;
+    data: string;
+  }): void {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
+      data: {
+        message: 'Gerando código de autenticação em 2 fatores...',
+        type: 'success',
       },
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['success-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.authFlowService.setLoginFlowStarted(true);
+      this.isSubmitting = false;
+      this.router.navigate(['verify-code'], {
+        state: {
+          successMessage: response.message,
+          cpf: this.loginForm.get('cpf')?.value,
+          password: this.loginForm.get('password')?.value,
+        },
+        queryParams: {
+          type: this.userType,
+        },
+      });
     });
   }
 
-  private handleFailure(errorMessage: string) {
+  private handleFailure(errorMessage: string): void {
     const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
       data: {
         message: errorMessage,

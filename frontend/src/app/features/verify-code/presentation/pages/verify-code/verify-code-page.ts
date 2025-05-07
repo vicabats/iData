@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { UserType } from '../../../../../shared/types/user_type';
 import { UserSessionService } from '../../../../../core/services/user-session/user-session.service';
+import { LoginService } from '../../../../login/services/login.service';
 
 @Component({
   selector: 'app-verify-code-page',
@@ -36,15 +37,20 @@ export class VerifyCodePage implements OnInit {
   public codeForm: FormGroup = new FormGroup({});
   public isSubmitting = false;
   public successMessage: string = '';
+  public canResendCode = false;
+  public resendCountdown = 180;
+  private countdownInterval: any;
 
   private userCpf!: string;
   private userType!: UserType;
+  private userPassword!: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private verifyCodeService: VerifyCodeService,
+    private loginService: LoginService,
     private snackBar: MatSnackBar,
     private userSessionService: UserSessionService
   ) {}
@@ -52,6 +58,7 @@ export class VerifyCodePage implements OnInit {
   ngOnInit(): void {
     this.initializeVerifyCodeForm();
     this.getRouteParams();
+    this.startResendCooldown();
   }
 
   private initializeVerifyCodeForm(): void {
@@ -61,12 +68,28 @@ export class VerifyCodePage implements OnInit {
   }
 
   private getRouteParams(): void {
-    this.successMessage = history.state['successMessage'] || '';
+    const navigation = history.state;
+
+    this.successMessage = navigation['successMessage'] || '';
+    this.userCpf = navigation['cpf'] || '';
+    this.userPassword = navigation['password'] || '';
 
     this.route.queryParams.subscribe((params) => {
-      this.userCpf = params['cpf'];
       this.userType = params['type'];
     });
+  }
+
+  private startResendCooldown(): void {
+    this.canResendCode = false;
+    this.resendCountdown = 180;
+
+    this.countdownInterval = setInterval(() => {
+      this.resendCountdown--;
+      if (this.resendCountdown <= 0) {
+        clearInterval(this.countdownInterval);
+        this.canResendCode = true;
+      }
+    }, 1000);
   }
 
   public submitCode(): void {
@@ -96,7 +119,7 @@ export class VerifyCodePage implements OnInit {
         message: 'Código verificado com sucesso!',
         type: 'success',
       },
-      duration: 1500,
+      duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
       panelClass: ['success-snackbar'],
@@ -111,7 +134,7 @@ export class VerifyCodePage implements OnInit {
   }
 
   private redirectToUserPage(): void {
-    this.router.navigate(['profile']);
+    this.router.navigate(['my-home']);
   }
 
   private handleFailure(errorMessage: string): void {
@@ -120,10 +143,49 @@ export class VerifyCodePage implements OnInit {
         message: errorMessage,
         type: 'error',
       },
-      duration: 1500,
+      duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
       panelClass: ['error-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.isSubmitting = false;
+    });
+  }
+
+  public resendCode(): void {
+    if (!this.canResendCode) return;
+
+    this.isSubmitting = true;
+    this.canResendCode = false;
+    clearInterval(this.countdownInterval);
+
+    this.loginService
+      .login({
+        cpf: this.userCpf,
+        password: this.userPassword,
+        type: this.userType,
+      })
+      .subscribe({
+        next: (_) => {
+          this.handleSuccessfulLogin();
+          this.startResendCooldown();
+        },
+        error: (error) => this.handleFailure(error.message),
+      });
+  }
+
+  private handleSuccessfulLogin(): void {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
+      data: {
+        message: 'Código reenviado!',
+        type: 'success',
+      },
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['success-snackbar'],
     });
 
     snackBarRef.afterDismissed().subscribe(() => {

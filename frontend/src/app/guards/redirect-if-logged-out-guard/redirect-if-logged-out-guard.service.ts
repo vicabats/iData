@@ -5,13 +5,13 @@ import { UserSessionService } from '../../core/services/user-session/user-sessio
 @Injectable({
   providedIn: 'root',
 })
-export class LoggedInGuardService implements CanActivate {
+export class RedirectIfLoggedOutGuardService implements CanActivate {
   constructor(
     private userSessionService: UserSessionService,
     private router: Router
   ) {}
 
-  canActivate(): boolean {
+  public canActivate(): boolean {
     if (this.userSessionService.isLoggedIn()) {
       return true;
     }
