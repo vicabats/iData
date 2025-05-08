@@ -3,12 +3,17 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { UserSessionService } from '../../../../core/services/user-session/user-session.service';
 import { User } from '../../../../shared/types/user';
-import { ProfilePersonalSectionComponent } from '../sections/personal/personal-section-component';
+import { MyHomePersonalSectionComponent } from '../sections/my-home-personal/my-home-personal-section-component';
+import { MyHomeProfessionalSectionComponent } from '../sections/my-home-professional/my-home-professional-section-component';
 
 @Component({
   selector: 'app-my-home-page',
   standalone: true,
-  imports: [CommonModule, ProfilePersonalSectionComponent],
+  imports: [
+    CommonModule,
+    MyHomePersonalSectionComponent,
+    MyHomeProfessionalSectionComponent,
+  ],
   templateUrl: './my-home-page.html',
   styleUrl: './my-home-page.css',
 })

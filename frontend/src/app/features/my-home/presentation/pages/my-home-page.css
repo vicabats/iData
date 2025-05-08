@@ -1,5 +1,10 @@
-.my-home-page {
+.my_home-page {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.my_home-username {
+  text-align: center;
 }
