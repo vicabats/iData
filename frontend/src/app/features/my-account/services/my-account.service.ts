@@ -1,9 +1,40 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { catchError, Observable, throwError } from 'rxjs';
+import { User } from '../../../shared/types/user';
+import { UserType } from '../../../shared/types/user_type';
+
+interface MyAccountParams {
+  type: UserType;
+  cpf: string;
+}
+
+interface MyAccountSuccessResponse {
+  message: string;
+  data: User;
+  timestamp: string;
+}
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MyAccountService {
+  constructor(private http: HttpClient) {}
 
-  constructor() { }
+  public getUserInfos({
+    type,
+    cpf,
+  }: MyAccountParams): Observable<MyAccountSuccessResponse> {
+    const apiUrl = `http://localhost:8080/api/user?type=${type.toString()}`;
+
+    return this.http
+      .get<MyAccountSuccessResponse>(apiUrl, {
+        params: { cpf },
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return throwError(() => error.error);
+        })
+      );
+  }
 }
