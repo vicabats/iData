@@ -7,8 +7,6 @@ import { VerifyCodePage } from './features/verify-code/presentation/pages/verify
 import { VerifyCodeGuardService } from './guards/verify-code/verify-code-guard.service';
 import { MedicalRecordsPage } from './features/medical-records/medical-records';
 import { ExamsPage } from './features/exams/exams';
-import { SafetyContactsPage } from './features/safety-contacts/safety-contacts';
-import { LogsPage } from './features/logs/logs-page';
 import { InProgressPage } from './features/in-progress/in-progress-page';
 import { RegisterPage } from './features/register/presentation/pages/register-page/register-page';
 import { MyHomePage } from './features/my-home/presentation/pages/my-home-page';
@@ -47,7 +45,5 @@ export const routes: Routes = [
   },
   { path: 'medical-records', component: MedicalRecordsPage },
   { path: 'exams', component: ExamsPage },
-  { path: 'safety-contact', component: SafetyContactsPage },
-  { path: 'logs', component: LogsPage },
   { path: 'in-progress', component: InProgressPage },
 ];
