@@ -1,5 +1,16 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ProfessionalUser } from '../../../types/professional_user';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import {
+  ProfessionalFacility,
+  ProfessionalUser,
+} from '../../../types/professional_user';
 import {
   FormBuilder,
   FormGroup,
@@ -39,21 +50,37 @@ import { InputComponent } from '../input/input.component';
 export class ProfessionalUserFormComponent implements OnInit {
   @Input() initialData: ProfessionalUser | null = null;
   @Input({ required: true }) mode!: 'register' | 'edit' | 'view';
-  @Input({ required: true }) buttonLabel!: string;
+  @Input() buttonLabel?: string;
   @Output() onSubmit = new EventEmitter<ProfessionalUser>();
 
   public professionalForm: FormGroup = new FormGroup({});
 
-  constructor(private formBuilder: FormBuilder) {}
+  private isRegisterMode: boolean = this.mode === 'register';
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
-    // if (this.initialData) {
-    //   this.populateForm(this.initialData);
-    // }
-    // if (this.mode === 'view') {
-    //   this.personalForm.disable();
-    // }
+    if (!this.isRegisterMode && this.initialData) {
+      this.populateForm(this.initialData);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['initialData'] && changes['initialData'].currentValue) {
+      this.initializeForm();
+      this.cdr.detectChanges();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.mode === 'view') {
+      this.professionalForm.disable({ emitEvent: false });
+    }
+    this.cdr.detectChanges();
   }
 
   private initializeForm() {
@@ -63,6 +90,7 @@ export class ProfessionalUserFormComponent implements OnInit {
         cpf: ['', [Validators.required, getCPFRegexValidator()]],
         birthdate: ['', [Validators.required, getBirthdateRegexValidator()]],
         professionalLicense: ['', [Validators.required]],
+        facilityName: ['', [Validators.required]],
         street: ['', [Validators.required]],
         addressNumber: ['', [Validators.required]],
         addressComplement: [''],
@@ -84,6 +112,25 @@ export class ProfessionalUserFormComponent implements OnInit {
       },
       { validators: passwordMatchValidator }
     );
+  }
+
+  private populateForm(data: ProfessionalUser): void {
+    this.professionalForm.patchValue({
+      name: data.name,
+      cpf: data.cpf,
+      birthdate: data.birthdate,
+      professionalLicense: data.professionalLicense,
+      facilityName: data.facility.name,
+      street: data.facility.address.street,
+      addressNumber: data.facility.address.number,
+      addressComplement: data.facility.address.complement,
+      zipCode: data.facility.address.zipCode,
+      neighborhood: data.facility.address.neighborhood,
+      city: data.facility.address.city,
+      state: data.facility.address.state,
+      phone: data.phone,
+      email: data.email,
+    });
   }
 
   public getErrorMessage(controlName: string, placeholder?: string): string {
@@ -113,14 +160,23 @@ export class ProfessionalUserFormComponent implements OnInit {
       cpf: this.professionalForm.get('cpf')?.value,
       professionalLicense: this.professionalForm.get('professionalLicense')
         ?.value,
-      birthdate: this.professionalForm.get('birthDate')?.value,
-      facility: this.getUserAddress(),
+      birthdate: this.professionalForm.get('birthdate')?.value,
+      facility: this.getFacility(),
       phone: this.professionalForm.get('phone')?.value,
       email: this.professionalForm.get('email')?.value,
       password: this.professionalForm.get('password')?.value,
     };
 
     return professionalUser;
+  }
+
+  private getFacility(): ProfessionalFacility {
+    const facility: ProfessionalFacility = {
+      name: this.professionalForm.get('facilityName')?.value,
+      address: this.getUserAddress(),
+    };
+
+    return facility;
   }
 
   private getUserAddress(): UserAddress {

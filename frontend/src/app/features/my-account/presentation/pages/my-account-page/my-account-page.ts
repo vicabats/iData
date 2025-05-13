@@ -6,16 +6,25 @@ import { UserType } from '../../../../../shared/types/user_type';
 import { User } from '../../../../../shared/types/user';
 import { CommonModule } from '@angular/common';
 import { PersonalUserFormComponent } from '../../../../../shared/components/form-components/personal-user-form/personal-user-form.component';
+import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
+import { ProfessionalUserFormComponent } from '../../../../../shared/components/form-components/professional-user-form/professional-user-form.component';
 
 @Component({
   selector: 'app-my-account-page',
-  imports: [CommonModule, PersonalUserFormComponent],
+  imports: [
+    CommonModule,
+    PersonalUserFormComponent,
+    ProfessionalUserFormComponent,
+    LoadingComponent,
+  ],
   templateUrl: './my-account-page.html',
   styleUrl: './my-account-page.css',
 })
 export class MyAccountPage implements OnInit {
   public userType$!: Observable<string | null>;
   public user: User | null = null;
+
+  public isLoading = true;
 
   constructor(
     private userSessionService: UserSessionService,
@@ -27,9 +36,13 @@ export class MyAccountPage implements OnInit {
 
     this.userSessionService.user$.subscribe((user) => {
       this.user = user as User;
+
+      if (user) {
+        this.isLoading = false;
+      }
     });
 
-    // Quando o endpoint de GET estiver correto, descomentar o código abaixo
+    // Quando o endpoint de GET estiver correto, descomentar o código abaixo.
     // this.userType$.subscribe((userType) => {
     //   this.myAccountService
     //     .getUserInfos({ type: userType as UserType, cpf: loggedUser?.cpf })

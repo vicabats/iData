@@ -1,5 +1,6 @@
 <section class="professional-user-form_container">
   <form
+    *ngIf="professionalForm"
     class="professional-user-form_section"
     [formGroup]="professionalForm"
     (ngSubmit)="onSubmitButtonClicked()"
@@ -9,7 +10,6 @@
         formControlName="name"
         label="Nome completo"
         [errorMessage]="getErrorMessage('name', 'nome e sobrenome(s)')"
-        [value]="professionalForm.get('name')?.value | titlecase"
       />
 
       <div class="flex-row">
@@ -44,6 +44,12 @@
     </div>
     <mat-divider class="divider"></mat-divider>
     <div class="professional-user-form_div">
+      <app-input
+        formControlName="facilityName"
+        label="Nome da clínica ou consultório"
+        [errorMessage]="getErrorMessage('facilityName')"
+      />
+
       <app-input
         formControlName="street"
         label="Endereço da clínica ou consultório"
@@ -146,7 +152,7 @@
       />
     </div>
 
-    <div class="submit-section">
+    <div class="submit-section" *ngIf="mode !== 'view'">
       <button
         mat-raised-button
         type="submit"

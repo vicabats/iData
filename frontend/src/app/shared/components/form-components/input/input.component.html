@@ -1,19 +1,14 @@
-<section class="input-component">
-  <mat-form-field appearance="fill">
-    <mat-label>{{ label }}:</mat-label>
-    <input
-      matInput
-      [type]="type"
-      [placeholder]="placeholder"
-      (input)="onInput($event)"
-      [mask]="mask"
-      [value]="value"
-    />
-
-    <ng-template [ngIf]="showError">
-      <mat-error class="input-component_error">
-        {{ errorMessage }}
-      </mat-error>
-    </ng-template>
-  </mat-form-field>
-</section>
+<mat-form-field appearance="fill">
+  <mat-label>{{ label }}:</mat-label>
+  <input
+    matInput
+    [type]="type"
+    [placeholder]="placeholder"
+    [mask]="mask"
+    [value]="value"
+    [disabled]="disabled"
+    (input)="onInput($event)"
+    (blur)="markAsTouched()"
+  />
+  <mat-error *ngIf="showError">{{ errorMessage }}</mat-error>
+</mat-form-field>

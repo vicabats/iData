@@ -1,10 +1,15 @@
 <section class="my-account-page">
+  <app-loading *ngIf="isLoading" />
+
   <h2 class="my-account-username">Dados cadastrais</h2>
+
   <ng-container *ngIf="(userType$ | async) === 'personal' && user">
-    <app-personal-user-form [mode]="'view'" [initialData]="user" />
+    <app-personal-user-form mode="view" [initialData]="user" />
   </ng-container>
 
-  <!-- <ng-container *ngIf="(userType$ | async) === 'professional'">
-    <app-my-home-professional-section-component />
-  </ng-container> -->
+  <ng-container *ngIf="(userType$ | async) === 'professional' && user">
+    <app-personal-user-form mode="view" [initialData]="user" />
+  </ng-container>
+
+  <button>Excluir conta</button>
 </section>
