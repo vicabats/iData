@@ -13,6 +13,7 @@ public interface ProfessionalMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "registrationDate", ignore = true)
+    @Mapping(target = "type", source = "type")
     ProfessionalEntity toEntity(ProfessionalDTO professionalDTO);
 
     @Mapping(target = "id", source = "id")
@@ -23,6 +24,7 @@ public interface ProfessionalMapper {
     @Mapping(target = "birthdate", source = "birthdate")
     @Mapping(target = "professionalLicense", source = "professionalLicense")
     @Mapping(target = "address", source = "address")
+    @Mapping(target = "type", source = "type")
     ProfessionalResponse toResponse(ProfessionalEntity professionalEntity);
 
     @Mapping(target = "id", ignore = true)

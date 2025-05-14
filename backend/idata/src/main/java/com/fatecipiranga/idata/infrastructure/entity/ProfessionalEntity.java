@@ -16,6 +16,7 @@ public class ProfessionalEntity {
     private String professionalLicense;
     private AddressEntity address;
     private LocalDateTime registrationDate;
+    private String type;
 
     public String getId() {
         return id;
@@ -95,5 +96,13 @@ public class ProfessionalEntity {
 
     public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -12,4 +12,5 @@ public class ProfessionalResponse implements ApiResponse{
     private String birthdate;
     private String professionalLicense;
     private EnderecoResponse address;
+    private String type;
 }
