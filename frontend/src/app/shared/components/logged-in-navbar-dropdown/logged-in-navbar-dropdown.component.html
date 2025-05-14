@@ -7,8 +7,8 @@
 </div>
 
 <app-modal
-  *ngIf="showModal"
-  [title]="'Confirmar Logout'"
+  *ngIf="shouldShowLogoutModal"
+  [title]="'Confirmar logout'"
   [message]="'Você tem certeza que deseja sair da sua conta?'"
   [ctaText]="'Sair'"
   (ctaAction)="logout()"
