@@ -15,7 +15,7 @@ import { UserType } from '../../types/user_type';
 export class LoggedInNavbarDropdownComponent {
   public userTypeEnum = UserType;
 
-  public showModal: boolean = false;
+  public shouldShowLogoutModal: boolean = false;
 
   constructor(
     private router: Router,
@@ -31,16 +31,16 @@ export class LoggedInNavbarDropdownComponent {
   }
 
   public showLogoutModal(): void {
-    this.showModal = true;
+    this.shouldShowLogoutModal = true;
   }
 
   public logout(): void {
     this.router.navigate(['']);
-    this.showModal = false;
+    this.shouldShowLogoutModal = false;
     this.userSessionService.clearSession();
   }
 
   public closeModal(): void {
-    this.showModal = false;
+    this.shouldShowLogoutModal = false;
   }
 }

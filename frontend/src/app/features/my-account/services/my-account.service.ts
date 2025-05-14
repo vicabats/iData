@@ -7,6 +7,7 @@ import { UserType } from '../../../shared/types/user_type';
 interface MyAccountParams {
   type: UserType;
   cpf: string;
+  password?: string;
 }
 
 interface MyAccountSuccessResponse {
@@ -30,6 +31,27 @@ export class MyAccountService {
     return this.http
       .get<MyAccountSuccessResponse>(apiUrl, {
         params: { cpf },
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return throwError(() => error.error);
+        })
+      );
+  }
+
+  public deleteAccount({
+    type,
+    cpf,
+    password,
+  }: MyAccountParams): Observable<any> {
+    const apiUrl = `http://localhost:8080/api/user?type=${type.toString()}`;
+
+    return this.http
+      .delete(apiUrl, {
+        body: {
+          cpf,
+          password,
+        },
       })
       .pipe(
         catchError((error: HttpErrorResponse) => {

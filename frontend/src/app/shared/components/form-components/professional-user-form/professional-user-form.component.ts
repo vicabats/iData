@@ -7,10 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import {
-  ProfessionalFacility,
-  ProfessionalUser,
-} from '../../../types/professional_user';
+import { ProfessionalUser } from '../../../types/professional_user';
 import {
   FormBuilder,
   FormGroup,
@@ -90,7 +87,6 @@ export class ProfessionalUserFormComponent implements OnInit {
         cpf: ['', [Validators.required, getCPFRegexValidator()]],
         birthdate: ['', [Validators.required, getBirthdateRegexValidator()]],
         professionalLicense: ['', [Validators.required]],
-        facilityName: ['', [Validators.required]],
         street: ['', [Validators.required]],
         addressNumber: ['', [Validators.required]],
         addressComplement: [''],
@@ -120,14 +116,13 @@ export class ProfessionalUserFormComponent implements OnInit {
       cpf: data.cpf,
       birthdate: data.birthdate,
       professionalLicense: data.professionalLicense,
-      facilityName: data.facility.name,
-      street: data.facility.address.street,
-      addressNumber: data.facility.address.number,
-      addressComplement: data.facility.address.complement,
-      zipCode: data.facility.address.zipCode,
-      neighborhood: data.facility.address.neighborhood,
-      city: data.facility.address.city,
-      state: data.facility.address.state,
+      street: data.address.street,
+      addressNumber: data.address.number,
+      addressComplement: data.address.complement,
+      zipCode: data.address.zipCode,
+      neighborhood: data.address.neighborhood,
+      city: data.address.city,
+      state: data.address.state,
       phone: data.phone,
       email: data.email,
     });
@@ -161,22 +156,13 @@ export class ProfessionalUserFormComponent implements OnInit {
       professionalLicense: this.professionalForm.get('professionalLicense')
         ?.value,
       birthdate: this.professionalForm.get('birthdate')?.value,
-      facility: this.getFacility(),
+      address: this.getUserAddress(),
       phone: this.professionalForm.get('phone')?.value,
       email: this.professionalForm.get('email')?.value,
       password: this.professionalForm.get('password')?.value,
     };
 
     return professionalUser;
-  }
-
-  private getFacility(): ProfessionalFacility {
-    const facility: ProfessionalFacility = {
-      name: this.professionalForm.get('facilityName')?.value,
-      address: this.getUserAddress(),
-    };
-
-    return facility;
   }
 
   private getUserAddress(): UserAddress {
