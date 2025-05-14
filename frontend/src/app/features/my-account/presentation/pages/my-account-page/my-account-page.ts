@@ -8,6 +8,7 @@ import { PersonalUserFormComponent } from '../../../../../shared/components/form
 import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
 import { ProfessionalUserFormComponent } from '../../../../../shared/components/form-components/professional-user-form/professional-user-form.component';
 import { ModalComponent } from '../../../../../shared/components/modal/modal/modal.component';
+import { UserType } from '../../../../../shared/types/user_type';
 
 @Component({
   selector: 'app-my-account-page',
@@ -23,7 +24,9 @@ import { ModalComponent } from '../../../../../shared/components/modal/modal/mod
 })
 export class MyAccountPage implements OnInit {
   public userType$!: Observable<string | null>;
+
   public user: User | null = null;
+  public userType: string | null = null;
 
   public isLoading = true;
 
@@ -37,6 +40,10 @@ export class MyAccountPage implements OnInit {
   ngOnInit(): void {
     this.userType$ = this.userSessionService.userType$;
 
+    this.userSessionService.userType$.subscribe((userType) => {
+      this.userType = userType;
+    });
+
     this.userSessionService.user$.subscribe((user) => {
       this.user = user as User;
 
@@ -45,15 +52,14 @@ export class MyAccountPage implements OnInit {
       }
     });
 
-    // Quando o endpoint de GET estiver correto, descomentar o código abaixo.
-    // this.userType$.subscribe((userType) => {
-    //   this.myAccountService
-    //     .getUserInfos({ type: userType as UserType, cpf: loggedUser?.cpf })
-    //     .subscribe({
-    //       next: (response) => console.log(response),
-    //       error: (error) => console.error(error),
-    //     });
-    // });
+    this.userType$.subscribe((userType) => {
+      this.myAccountService
+        .getUserInfos({ type: userType as UserType, cpf: this.user!.cpf })
+        .subscribe({
+          next: (response) => console.log(response),
+          error: (error) => console.error(error),
+        });
+    });
   }
 
   public openDeleteAccountModal(): void {
@@ -67,9 +73,11 @@ export class MyAccountPage implements OnInit {
   public deleteAccount(): void {
     this.shouldShowDeleteAccountModal = false;
 
+    console.log(this.user);
+
     this.myAccountService
       .deleteAccount({
-        type: this.user!.type!,
+        type: this.userType as UserType,
         cpf: this.user!.cpf,
         password: this.user?.password,
       })

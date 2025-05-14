@@ -23,6 +23,7 @@ public interface ProfessionalMapper {
     @Mapping(target = "birthdate", source = "birthdate")
     @Mapping(target = "professionalLicense", source = "professionalLicense")
     @Mapping(target = "address", source = "address")
+    @Mapping(target = "password", source = "password")
     ProfessionalResponse toResponse(ProfessionalEntity professionalEntity);
 
     @Mapping(target = "id", ignore = true)
