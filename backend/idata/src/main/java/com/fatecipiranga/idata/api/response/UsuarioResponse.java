@@ -9,6 +9,7 @@ public class UsuarioResponse implements ApiResponse {
     private String name;
     private String cpf;
     private String birthdate;
+    private String password;
     private String email;
     private String phone;
     private LocalDateTime registrationDate;
