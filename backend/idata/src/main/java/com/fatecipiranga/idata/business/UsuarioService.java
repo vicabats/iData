@@ -23,6 +23,7 @@ public class UsuarioService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
     private static final String USER_NOT_FOUND = "USER_NOT_FOUND";
     private static final String USER_NOT_FOUND_FOR_CPF_LOG = "Usuário não encontrado para CPF: {}";
+    private static final String INVALID_TYPE = "Tipo de usuário deve ser 'personal'";
 
     private final UsuarioRepository usuarioRepository;
     private final EnderecoService enderecoService;
@@ -39,6 +40,10 @@ public class UsuarioService {
         if (usuarioDTO == null) {
             LOGGER.error("UsuarioDTO recebido é null");
             throw new UserManagementException("Dados do usuário não fornecidos", "INVALID_INPUT");
+        }
+        if (!"personal".equals(usuarioDTO.getType())) {
+            LOGGER.error("Tipo inválido: {}", usuarioDTO.getType());
+            throw new UserManagementException(INVALID_TYPE, "INVALID_TYPE");
         }
         LOGGER.info("Processando CPF: {}", usuarioDTO.getCpf());
         if (usuarioRepository.findByCpf(usuarioDTO.getCpf()).isPresent()) {
@@ -97,6 +102,10 @@ public class UsuarioService {
         Optional<UsuarioEntity> usuarioByCpf = usuarioRepository.findByCpf(usuarioDTO.getCpf());
         if (usuarioByCpf.isPresent() && !usuarioByCpf.get().getId().equals(existingUsuario.get().getId())) {
             throw new UserManagementException("CPF já cadastrado como outro usuário", "CPF_ALREADY_EXISTS");
+        }
+        if (!"personal".equals(usuarioDTO.getType())) {
+            LOGGER.error("Tipo inválido: {}", usuarioDTO.getType());
+            throw new UserManagementException(INVALID_TYPE, "INVALID_TYPE");
         }
         Optional<UsuarioEntity> usuarioByEmail = usuarioRepository.findByEmail(usuarioDTO.getEmail());
         if (usuarioByEmail.isPresent() && !usuarioByEmail.get().getId().equals(existingUsuario.get().getId())) {

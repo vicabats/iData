@@ -17,6 +17,7 @@ public interface UsuarioMapper {
     @Mapping(target = "registrationDate", ignore = true)
     @Mapping(target = "birthdate", source = "birthdate")
     @Mapping(target = "address", source = "address")
+    @Mapping(target = "type", source = "type")
     UsuarioEntity toEntity(UsuarioDTO usuarioDTO);
 
     @Mapping(target = "id", source = "id")
@@ -28,6 +29,7 @@ public interface UsuarioMapper {
     @Mapping(target = "phone", source = "phone")
     @Mapping(target = "registrationDate", source = "registrationDate")
     @Mapping(target = "address", source = "address", qualifiedByName = "toEnderecoResponse")
+    @Mapping(target = "type", source = "type")
     UsuarioResponse toResponse(UsuarioEntity usuarioEntity);
 
     @Mapping(target = "id", ignore = true)

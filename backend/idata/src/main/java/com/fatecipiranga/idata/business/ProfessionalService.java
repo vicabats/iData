@@ -21,6 +21,7 @@ public class ProfessionalService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProfessionalService.class);
     private static final String PROFESSIONAL_NOT_FOUND_FOR_CPF_LOG = "Profissional não encontrado para CPF: {}";
+    private static final String INVALID_TYPE = "Tipo de usuário deve ser 'professional'";
 
     private final ProfessionalRepository professionalRepository;
     private final ProfessionalMapper professionalMapper;
@@ -35,6 +36,10 @@ public class ProfessionalService {
         if (professionalDTO == null) {
             LOGGER.error("ProfessionalDTO recebido é null");
             throw new UserManagementException("Dados do profissional não fornecidos", "INVALID_INPUT");
+        }
+        if (!"professional".equals(professionalDTO.getType())) {
+            LOGGER.error("Tipo inválido: {}", professionalDTO.getType());
+            throw new UserManagementException(INVALID_TYPE, "INVALID_TYPE");
         }
         LOGGER.info("Processando CPF: {}", professionalDTO.getCpf());
         if (professionalRepository.findByCpf(professionalDTO.getCpf()).isPresent()) {
@@ -81,6 +86,10 @@ public class ProfessionalService {
         Optional<ProfessionalEntity> professionalByCpf = professionalRepository.findByCpf(professionalDTO.getCpf());
         if (professionalByCpf.isPresent() && !professionalByCpf.get().getId().equals(existingProfessional.get().getId())) {
             throw new UserManagementException("CPF já cadastrado como outro profissional", "CPF_ALREADY_EXISTS");
+        }
+        if (!"professional".equals(professionalDTO.getType())) {
+            LOGGER.error("Tipo inválido: {}", professionalDTO.getType());
+            throw new UserManagementException(INVALID_TYPE, "INVALID_TYPE");
         }
         Optional<ProfessionalEntity> professionalByEmail = professionalRepository.findByEmail(professionalDTO.getEmail());
         if (professionalByEmail.isPresent() && !professionalByEmail.get().getId().equals(existingProfessional.get().getId())) {
