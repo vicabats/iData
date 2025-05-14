@@ -11,4 +11,5 @@ public class UsuarioDTO {
     private String phone;
     private String birthdate;
     private AddressDTO address;
+    private String type = "personal";
 }

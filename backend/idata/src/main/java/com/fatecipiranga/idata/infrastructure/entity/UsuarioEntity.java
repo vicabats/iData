@@ -19,4 +19,5 @@ public class UsuarioEntity {
     private String phone;
     private LocalDateTime registrationDate;
     private EnderecoEntity address;
+    private String type;
 }
