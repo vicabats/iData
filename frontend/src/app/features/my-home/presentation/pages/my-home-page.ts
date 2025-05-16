@@ -5,6 +5,7 @@ import { UserSessionService } from '../../../../core/services/user-session/user-
 import { User } from '../../../../shared/types/user';
 import { MyHomePersonalSectionComponent } from '../sections/my-home-personal/my-home-personal-section-component';
 import { MyHomeProfessionalSectionComponent } from '../sections/my-home-professional/my-home-professional-section-component';
+import { UserType } from '../../../../shared/types/user_type';
 
 @Component({
   selector: 'app-my-home-page',
@@ -18,7 +19,7 @@ import { MyHomeProfessionalSectionComponent } from '../sections/my-home-professi
   styleUrl: './my-home-page.css',
 })
 export class MyHomePage implements OnInit {
-  public userType$!: Observable<string | null>;
+  public userType$!: Observable<UserType | null>;
   public user$!: Observable<User | null>;
 
   constructor(private userSessionService: UserSessionService) {

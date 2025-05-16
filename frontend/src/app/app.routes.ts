@@ -13,6 +13,7 @@ import { MyHomePage } from './features/my-home/presentation/pages/my-home-page';
 import { RedirectIfLoggedInGuardService } from './guards/redirect-if-logged-in-guard/redirect-if-logged-in-guard.service';
 import { MyAccountPage } from './features/my-account/presentation/pages/my-account-page/my-account-page';
 import { RedirectIfLoggedOutGuardService } from './guards/redirect-if-logged-out-guard/redirect-if-logged-out-guard.service';
+import { DeleteAccountPage } from './features/delete-account/presentation/pages/delete-account-page';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -35,6 +36,11 @@ export const routes: Routes = [
   {
     path: 'my-account',
     component: MyAccountPage,
+    canActivate: [RedirectIfLoggedOutGuardService],
+  },
+  {
+    path: 'my-account/:userType/delete-account',
+    component: DeleteAccountPage,
     canActivate: [RedirectIfLoggedOutGuardService],
   },
   { path: 'about-us', component: AboutUsPage },

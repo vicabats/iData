@@ -1,13 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserSessionService } from '../../../../../core/services/user-session/user-session.service';
-import { MyAccountService } from '../../../services/my-account.service';
+import {
+  MyAccountService,
+  MyAccountSuccessResponse,
+} from '../../../services/my-account.service';
 import { User } from '../../../../../shared/types/user';
 import { CommonModule } from '@angular/common';
 import { PersonalUserFormComponent } from '../../../../../shared/components/form-components/personal-user-form/personal-user-form.component';
 import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
 import { ProfessionalUserFormComponent } from '../../../../../shared/components/form-components/professional-user-form/professional-user-form.component';
 import { ModalComponent } from '../../../../../shared/components/modal/modal/modal.component';
+import { UserType } from '../../../../../shared/types/user_type';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-account-page',
@@ -22,38 +27,35 @@ import { ModalComponent } from '../../../../../shared/components/modal/modal/mod
   styleUrl: './my-account-page.css',
 })
 export class MyAccountPage implements OnInit {
-  public userType$!: Observable<string | null>;
+  public userType$!: Observable<UserType | null>;
+  public user$!: Observable<User | null>;
+
+  public userType: UserType | null = null;
   public user: User | null = null;
 
-  public isLoading = true;
+  public userTypeEnum = UserType;
 
+  public isLoading = true;
   public shouldShowDeleteAccountModal: boolean = false;
 
   constructor(
     private userSessionService: UserSessionService,
-    private myAccountService: MyAccountService
+    private myAccountService: MyAccountService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.userType$ = this.userSessionService.userType$;
-
-    this.userSessionService.user$.subscribe((user) => {
-      this.user = user as User;
-
-      if (user) {
-        this.isLoading = false;
-      }
+    this.userSessionService.userType$.subscribe((userType) => {
+      this.userType = userType;
     });
 
-    // Quando o endpoint de GET estiver correto, descomentar o código abaixo.
-    // this.userType$.subscribe((userType) => {
-    //   this.myAccountService
-    //     .getUserInfos({ type: userType as UserType, cpf: loggedUser?.cpf })
-    //     .subscribe({
-    //       next: (response) => console.log(response),
-    //       error: (error) => console.error(error),
-    //     });
-    // });
+    this.userSessionService.user$.subscribe((user) => {
+      this.user = user;
+    });
+
+    if (this.user && this.userType) {
+      this.isLoading = false;
+    }
   }
 
   public openDeleteAccountModal(): void {
@@ -64,18 +66,36 @@ export class MyAccountPage implements OnInit {
     this.shouldShowDeleteAccountModal = false;
   }
 
-  public deleteAccount(): void {
+  public continueWithDeleteAccount(): void {
     this.shouldShowDeleteAccountModal = false;
+    this.isLoading = true;
 
     this.myAccountService
       .deleteAccount({
-        type: this.user!.type!,
-        cpf: this.user!.cpf,
-        password: this.user?.password,
+        type: this.userType as UserType,
+        cpf: this.user?.cpf as string,
+        password: this.user?.password as string,
       })
       .subscribe({
-        next: (response) => console.log(response),
-        error: (error) => console.error(error),
+        next: (response: MyAccountSuccessResponse) => {
+          this.handleStartDeletingAccountSuccess(response);
+        },
+        error: (error) => {
+          // this.handleFailure(error.message);
+        },
       });
+  }
+
+  private handleStartDeletingAccountSuccess(
+    response: MyAccountSuccessResponse
+  ): void {
+    this.isLoading = false;
+    this.router.navigate(['my-account', this.userType, 'delete-account'], {
+      state: {
+        message: response.message,
+        userType: this.userType,
+        cpf: this.user?.cpf,
+      },
+    });
   }
 }

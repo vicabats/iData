@@ -10,7 +10,7 @@ interface MyAccountParams {
   password?: string;
 }
 
-interface MyAccountSuccessResponse {
+export interface MyAccountSuccessResponse {
   message: string;
   data: User;
   timestamp: string;
@@ -43,11 +43,11 @@ export class MyAccountService {
     type,
     cpf,
     password,
-  }: MyAccountParams): Observable<any> {
+  }: MyAccountParams): Observable<MyAccountSuccessResponse> {
     const apiUrl = `http://localhost:8080/api/user?type=${type.toString()}`;
 
     return this.http
-      .delete(apiUrl, {
+      .delete<MyAccountSuccessResponse>(apiUrl, {
         body: {
           cpf,
           password,
