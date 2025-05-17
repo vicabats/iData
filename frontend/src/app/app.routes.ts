@@ -4,7 +4,6 @@ import { AboutUsPage } from './features/institutional/about-us-page/about-us-pag
 import { ForgotPasswordPage } from './features/forgot-password/pages/forgot-password-page/forgot-password-page';
 import { LoginPage } from './features/login/presentation/pages/login-page/login-page';
 import { VerifyCodePage } from './features/verify-code/presentation/pages/verify-code/verify-code-page';
-import { VerifyCodeGuardService } from './guards/verify-code/verify-code-guard.service';
 import { MedicalRecordsPage } from './features/medical-records/medical-records';
 import { ExamsPage } from './features/exams/exams';
 import { InProgressPage } from './features/in-progress/in-progress-page';
@@ -14,6 +13,8 @@ import { RedirectIfLoggedInGuardService } from './guards/redirect-if-logged-in-g
 import { MyAccountPage } from './features/my-account/presentation/pages/my-account-page/my-account-page';
 import { RedirectIfLoggedOutGuardService } from './guards/redirect-if-logged-out-guard/redirect-if-logged-out-guard.service';
 import { DeleteAccountPage } from './features/delete-account/presentation/pages/delete-account-page';
+import { CheckIfHasInitializedDeleteAccountGuardService } from './guards/check-if-has-initialized-delete-account/check-if-has-initialized-delete-account-guard.service';
+import { CheckIfHasInitializedLoginFlowGuardService } from './guards/check-if-has-initialized-login-flow/check-if-has-initialized-login-flow-guard.service';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -26,7 +27,7 @@ export const routes: Routes = [
   {
     path: 'verify-code',
     component: VerifyCodePage,
-    canActivate: [VerifyCodeGuardService],
+    canActivate: [CheckIfHasInitializedLoginFlowGuardService],
   },
   {
     path: 'my-home',
@@ -41,7 +42,10 @@ export const routes: Routes = [
   {
     path: 'my-account/:userType/delete-account',
     component: DeleteAccountPage,
-    canActivate: [RedirectIfLoggedOutGuardService],
+    canActivate: [
+      RedirectIfLoggedOutGuardService,
+      CheckIfHasInitializedDeleteAccountGuardService,
+    ],
   },
   { path: 'about-us', component: AboutUsPage },
   {

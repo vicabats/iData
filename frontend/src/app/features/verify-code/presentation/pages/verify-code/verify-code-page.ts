@@ -8,8 +8,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { VerifyCodeService } from '../../../services/verify-code.service';
-import { User } from '../../../../../shared/types/user';
+import {
+  VerifyCodeApiResponse,
+  VerifyCodeService,
+} from '../../../services/verify-code.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
 import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
@@ -18,6 +20,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { UserType } from '../../../../../shared/types/user_type';
 import { UserSessionService } from '../../../../../core/services/user-session/user-session.service';
 import { LoginService } from '../../../../login/services/login.service';
+import { AuthFlowService } from '../../../../../core/services/auth-flow/auth-flow.service';
 
 @Component({
   selector: 'app-verify-code-page',
@@ -52,7 +55,8 @@ export class VerifyCodePage implements OnInit {
     private verifyCodeService: VerifyCodeService,
     private loginService: LoginService,
     private snackBar: MatSnackBar,
-    private userSessionService: UserSessionService
+    private userSessionService: UserSessionService,
+    private authFlowService: AuthFlowService
   ) {}
 
   ngOnInit(): void {
@@ -104,19 +108,15 @@ export class VerifyCodePage implements OnInit {
     this.verifyCodeService
       .verifyCode({ code, type: this.userType, cpf: this.userCpf })
       .subscribe({
-        next: (user: User) => {
-          this.handleSuccessfulCode(user);
-        },
-        error: (errorMessage: string) => {
-          this.handleFailure(errorMessage);
-        },
+        next: (response) => this.handleSuccessfulCode(response),
+        error: (error) => this.handleFailure(error.message),
       });
   }
 
-  private handleSuccessfulCode(user: User): void {
+  private handleSuccessfulCode(response: VerifyCodeApiResponse): void {
     const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
       data: {
-        message: 'Código verificado com sucesso!',
+        message: response.message,
         type: 'success',
       },
       duration: 3000,
@@ -127,7 +127,8 @@ export class VerifyCodePage implements OnInit {
 
     snackBarRef.afterDismissed().subscribe(() => {
       this.isSubmitting = false;
-      this.userSessionService.setSession(user);
+      this.authFlowService.clearLoginFlow();
+      this.userSessionService.setSession(response.data);
       this.userSessionService.setUserType(this.userType);
       this.redirectToUserPage();
     });
@@ -151,6 +152,7 @@ export class VerifyCodePage implements OnInit {
 
     snackBarRef.afterDismissed().subscribe(() => {
       this.isSubmitting = false;
+      this.codeForm.reset();
     });
   }
 

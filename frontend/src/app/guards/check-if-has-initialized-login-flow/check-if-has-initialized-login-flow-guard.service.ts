@@ -10,7 +10,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class VerifyCodeGuardService implements CanActivate {
+export class CheckIfHasInitializedLoginFlowGuardService implements CanActivate {
   constructor(
     private authFlowService: AuthFlowService,
     private router: Router

@@ -13,6 +13,8 @@ import { ProfessionalUserFormComponent } from '../../../../../shared/components/
 import { ModalComponent } from '../../../../../shared/components/modal/modal/modal.component';
 import { UserType } from '../../../../../shared/types/user_type';
 import { Router } from '@angular/router';
+import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-my-account-page',
@@ -41,7 +43,8 @@ export class MyAccountPage implements OnInit {
   constructor(
     private userSessionService: UserSessionService,
     private myAccountService: MyAccountService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -66,8 +69,7 @@ export class MyAccountPage implements OnInit {
     this.shouldShowDeleteAccountModal = false;
   }
 
-  public continueWithDeleteAccount(): void {
-    this.shouldShowDeleteAccountModal = false;
+  public initializeAccountDeletion(): void {
     this.isLoading = true;
 
     this.myAccountService
@@ -77,12 +79,8 @@ export class MyAccountPage implements OnInit {
         password: this.user?.password as string,
       })
       .subscribe({
-        next: (response: MyAccountSuccessResponse) => {
-          this.handleStartDeletingAccountSuccess(response);
-        },
-        error: (error) => {
-          // this.handleFailure(error.message);
-        },
+        next: (response) => this.handleStartDeletingAccountSuccess(response),
+        error: (error) => this.handleFailure(error.message),
       });
   }
 
@@ -90,12 +88,31 @@ export class MyAccountPage implements OnInit {
     response: MyAccountSuccessResponse
   ): void {
     this.isLoading = false;
+    this.userSessionService.setHasInitializedDeleteAccount(true);
     this.router.navigate(['my-account', this.userType, 'delete-account'], {
       state: {
         message: response.message,
         userType: this.userType,
         cpf: this.user?.cpf,
       },
+    });
+  }
+
+  private handleFailure(errorMessage: string): void {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
+      data: {
+        message: errorMessage,
+        type: 'error',
+      },
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['error-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.isLoading = false;
+      this.shouldShowDeleteAccountModal = false;
     });
   }
 }

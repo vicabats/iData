@@ -84,12 +84,8 @@ export class DeleteAccountPage implements OnInit {
         code,
       })
       .subscribe({
-        next: (response: DeleteAccountResponse) => {
-          this.handleSuccessResponse(response);
-        },
-        error: (error) => {
-          // this.handleFailure(error.message);
-        },
+        next: (response) => this.handleSuccessResponse(response),
+        error: (error) => this.handleFailure(error.message),
       });
   }
 
@@ -109,6 +105,25 @@ export class DeleteAccountPage implements OnInit {
       this.userSessionService.clearSession();
       this.isSubmitting = false;
       this.router.navigate(['login']);
+    });
+  }
+
+  private handleFailure(errorMessage: string): void {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
+      data: {
+        message: errorMessage,
+        type: 'error',
+      },
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['error-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.isSubmitting = false;
+      this.router.navigate(['my-home']);
+      this.userSessionService.setHasInitializedDeleteAccount(false);
     });
   }
 }

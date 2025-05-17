@@ -23,7 +23,6 @@ export class MyHomePage implements OnInit {
   public user$!: Observable<User | null>;
 
   constructor(private userSessionService: UserSessionService) {
-    this.userType$ = this.userSessionService.userType$;
     this.user$ = this.userSessionService.user$;
   }
 
