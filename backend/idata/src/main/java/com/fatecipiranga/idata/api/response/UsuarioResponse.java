@@ -14,4 +14,5 @@ public class UsuarioResponse implements ApiResponse {
     private String phone;
     private LocalDateTime registrationDate;
     private EnderecoResponse address;
+    private String type;
 }
