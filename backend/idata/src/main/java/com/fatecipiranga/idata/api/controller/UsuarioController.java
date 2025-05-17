@@ -1,7 +1,6 @@
 package com.fatecipiranga.idata.api.controller;
 
 import com.fatecipiranga.idata.api.request.CodeVerificationDTO;
-import com.fatecipiranga.idata.api.request.CpfDTO;
 import com.fatecipiranga.idata.api.request.LoginDTO;
 import com.fatecipiranga.idata.api.request.UsuarioDTO;
 import com.fatecipiranga.idata.api.response.ApiResponse;
@@ -30,6 +29,24 @@ public class UsuarioController {
         this.emailVerificationService = emailVerificationService;
     }
 
+    @GetMapping(params = "type=personal")
+    public ResponseEntity<ApiResponse> getUsuario(@RequestParam(value = "cpf", required = true) String cpf) {
+        try {
+            if (cpf == null || cpf.trim().isEmpty()) {
+                LOGGER.error("CPF não fornecido ou vazio");
+                ErrorResponse error = new ErrorResponse("CPF é obrigatório", "INVALID_CPF");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+            }
+            UsuarioResponse usuario = usuarioService.getUsuarioByCpf(cpf)
+                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado para o CPF: " + cpf));
+            return ResponseEntity.ok(usuario);
+        } catch (RuntimeException e) {
+            LOGGER.error("Erro ao buscar usuário com CPF: {}. Detalhes: {}", cpf, e.getMessage(), e);
+            ErrorResponse error = new ErrorResponse("Usuário não encontrado: " + e.getMessage(), "NOT_FOUND");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+    }
+
     @PostMapping(value = "/register", params = "type=personal")
     public ResponseEntity<ApiResponse> createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         try {
@@ -43,25 +60,12 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping(params = "type=personal")
-    public ResponseEntity<ApiResponse> getUsuario(@RequestBody CpfDTO cpfDTO) {
-        try {
-            UsuarioResponse usuario = usuarioService.getUsuarioByCpf(cpfDTO.getCpf())
-                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-            return new ResponseEntity<>(usuario, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            LOGGER.error("Erro ao buscar usuário com CPF: {}. Detalhes: {}", cpfDTO.getCpf(), e.getMessage(), e);
-            ErrorResponse error = new ErrorResponse("Usuário não encontrado", "NOT_FOUND");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-        }
-    }
-
     @PutMapping(params = "type=personal")
     public ResponseEntity<ApiResponse> updateUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         try {
             UsuarioResponse updatedUsuario = usuarioService.updateUsuario(usuarioDTO.getCpf(), usuarioDTO);
             UpdateResponse<UsuarioResponse> response = new UpdateResponse<>("Registro atualizado com sucesso", updatedUsuario);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             LOGGER.error("Erro ao atualizar usuário com CPF: {}. Detalhes: {}", usuarioDTO.getCpf(), e.getMessage(), e);
             ErrorResponse error = new ErrorResponse("Erro ao atualizar usuário: " + e.getMessage(), "UPDATE_FAILED");
