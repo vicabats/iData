@@ -61,6 +61,8 @@ export class MyAccountPage implements OnInit {
     }
   }
 
+  public updateAccount() {}
+
   public openDeleteAccountModal(): void {
     this.shouldShowDeleteAccountModal = true;
   }

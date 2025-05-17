@@ -11,6 +11,11 @@
     <app-personal-user-form mode="view" [initialData]="user" />
   </ng-container>
 
+  <div class="update-account-div" (click)="updateAccount()">
+    <i class="fa-solid fa-edit"></i>
+    <p>Atualizar dados cadastrais</p>
+  </div>
+
   <div class="delete-account-div" (click)="openDeleteAccountModal()">
     <i class="fa-solid fa-trash-can"></i>
     <p class="navbar-option">Excluir conta</p>

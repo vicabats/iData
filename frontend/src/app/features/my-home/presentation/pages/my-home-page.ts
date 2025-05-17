@@ -22,15 +22,24 @@ export class MyHomePage implements OnInit {
   public userType$!: Observable<UserType | null>;
   public user$!: Observable<User | null>;
 
+  public userType: UserType | null = null;
+  public user: User | null = null;
+
+  public userTypeEnum = UserType;
+
   constructor(private userSessionService: UserSessionService) {
     this.user$ = this.userSessionService.user$;
   }
-
-  public user: User | null = null;
 
   ngOnInit(): void {
     this.userSessionService.user$.subscribe((user) => {
       this.user = user;
     });
+
+    this.userSessionService.userType$.subscribe((userType) => {
+      this.userType = userType;
+    });
+
+    console.log('user', this.user);
   }
 }
