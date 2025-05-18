@@ -1,3 +1,29 @@
 .my-account-page {
   padding: 5rem 20rem;
 }
+
+.update-account-div {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+  align-items: center;
+  cursor: pointer;
+  font-size: var(--font-size-md);
+  color: var(--primary);
+  gap: var(--spacing-xs);
+  background-color: var(--light-blue);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--spacing-lg);
+  color: var(--white);
+}
+
+.delete-account-div {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+  align-items: center;
+  cursor: pointer;
+  font-size: var(--font-size-md);
+  color: var(--warning);
+  gap: var(--spacing-xs);
+}

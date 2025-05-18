@@ -19,6 +19,9 @@ import { UserType } from '../../../../shared/types/user_type';
   styleUrl: './my-home-page.css',
 })
 export class MyHomePage implements OnInit {
+  public userType$!: Observable<UserType | null>;
+  public user$!: Observable<User | null>;
+
   public userType: UserType | null = null;
   public user: User | null = null;
 

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { VerifyCodeGuardService } from './verify-code-guard.service';
+import { VerifyCodeGuardService } from './check-if-has-initialized-login-flow-guard.service';
 
 describe('VerifyCodeGuardService', () => {
   let service: VerifyCodeGuardService;

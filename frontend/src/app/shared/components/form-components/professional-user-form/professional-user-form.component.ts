@@ -7,10 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import {
-  ProfessionalFacility,
-  ProfessionalUser,
-} from '../../../types/professional_user';
+import { ProfessionalUser } from '../../../types/professional_user';
 import {
   FormBuilder,
   FormGroup,
@@ -91,7 +88,6 @@ export class ProfessionalUserFormComponent implements OnInit {
         cpf: ['', [Validators.required, getCPFRegexValidator()]],
         birthdate: ['', [Validators.required, getBirthdateRegexValidator()]],
         professionalLicense: ['', [Validators.required]],
-        facilityName: ['', [Validators.required]],
         street: ['', [Validators.required]],
         addressNumber: ['', [Validators.required]],
         addressComplement: [''],
@@ -170,22 +166,13 @@ export class ProfessionalUserFormComponent implements OnInit {
       professionalLicense: this.professionalForm.get('professionalLicense')
         ?.value,
       birthdate: this.professionalForm.get('birthdate')?.value,
-      facility: this.getFacility(),
+      address: this.getUserAddress(),
       phone: this.professionalForm.get('phone')?.value,
       email: this.professionalForm.get('email')?.value,
       password: this.professionalForm.get('password')?.value,
     };
 
     return professionalUser;
-  }
-
-  private getFacility(): ProfessionalFacility {
-    const facility: ProfessionalFacility = {
-      name: this.professionalForm.get('facilityName')?.value,
-      address: this.getUserAddress(),
-    };
-
-    return facility;
   }
 
   private getUserAddress(): UserAddress {

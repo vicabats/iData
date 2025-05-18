@@ -25,6 +25,7 @@ public interface UsuarioMapper {
     @Mapping(target = "birthdate", source = "birthdate")
     @Mapping(target = "password", source = "password")
     @Mapping(target = "email", source = "email")
+    @Mapping(target = "password", source = "password")
     @Mapping(target = "phone", source = "phone")
     @Mapping(target = "registrationDate", source = "registrationDate")
     @Mapping(target = "address", source = "address", qualifiedByName = "toEnderecoResponse")

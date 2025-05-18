@@ -62,9 +62,47 @@ export class MyAccountPage implements OnInit {
       this.userType = userType;
     });
 
-    this.userSessionService.user$.subscribe((user) => {
-      this.user = user;
-    });
+    if (this.user && this.userType) {
+      this.isLoading = false;
+    }
+  }
+
+  public updateAccount() {}
+
+  public openDeleteAccountModal(): void {
+    this.shouldShowDeleteAccountModal = true;
+  }
+
+  public closeDeleteAccountModal(): void {
+    this.shouldShowDeleteAccountModal = false;
+  }
+
+  public initializeAccountDeletion(): void {
+    this.isLoading = true;
+
+    this.myAccountService
+      .deleteAccount({
+        type: this.userType as UserType,
+        cpf: this.user?.cpf as string,
+        password: this.user?.password as string,
+      })
+      .subscribe({
+        next: (response) => this.handleStartDeletingAccountSuccess(response),
+        error: (error) => this.handleFailure(error.message),
+      });
+  }
+
+  private handleStartDeletingAccountSuccess(
+    response: MyAccountSuccessResponse
+  ): void {
+    this.isLoading = false;
+    this.userSessionService.setHasInitializedDeleteAccount(true);
+    this.router.navigate(['my-account', this.userType, 'delete-account'], {
+      state: {
+        message: response.message,
+        userType: this.userType,
+        cpf: this.user?.cpf,
+      },
 
     if (this.user && this.userType) {
       this.isLoading = false;
@@ -86,11 +124,6 @@ export class MyAccountPage implements OnInit {
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
       panelClass: ['error-snackbar'],
-    });
-
-    snackBarRef.afterDismissed().subscribe(() => {
-      this.isLoading = false;
-      this.router.navigate(['my-home']);
     });
   }
 

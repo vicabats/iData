@@ -6,6 +6,7 @@ import { UserType } from '../../../shared/types/user_type';
 
 const USER_LOGGED_KEY = 'user_logged';
 const USER_TYPE = 'user_type';
+const HAS_INITIALIZED_DELETE_ACCOUNT = 'has_initialized_delete_account';
 
 export interface UserSession {
   user: User;
@@ -67,6 +68,7 @@ export class UserSessionService {
   public clearSession(): void {
     this.storage.removeItem(USER_LOGGED_KEY);
     this.storage.removeItem(USER_TYPE);
+    this.storage.removeItem(HAS_INITIALIZED_DELETE_ACCOUNT);
     this.isLoggedInSubject.next(false);
     this.userTypeSubject.next(null);
     this.userSubject.next(null);
@@ -74,5 +76,15 @@ export class UserSessionService {
 
   public isLoggedIn(): boolean {
     return this.isLoggedInSubject.getValue();
+  }
+
+  public setHasInitializedDeleteAccount(value: boolean): void {
+    this.storage.setItem(HAS_INITIALIZED_DELETE_ACCOUNT, value);
+  }
+
+  public getHasInitializedDeleteAccount(): boolean {
+    return (
+      this.storage.getItem<boolean>(HAS_INITIALIZED_DELETE_ACCOUNT) ?? false
+    );
   }
 }

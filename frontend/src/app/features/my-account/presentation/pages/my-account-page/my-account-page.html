@@ -3,13 +3,30 @@
 
   <h2 class="my-account-username">Dados cadastrais</h2>
 
-  <ng-container *ngIf="(userType$ | async) === 'personal' && user">
+  <ng-container *ngIf="userType === userTypeEnum.personal">
     <app-personal-user-form mode="view" [initialData]="user" />
   </ng-container>
 
-  <ng-container *ngIf="(userType$ | async) === 'professional' && user">
+  <ng-container *ngIf="userType === userTypeEnum.professional">
     <app-personal-user-form mode="view" [initialData]="user" />
   </ng-container>
 
-  <button>Excluir conta</button>
+  <div class="update-account-div" (click)="updateAccount()">
+    <i class="fa-solid fa-edit"></i>
+    <p>Atualizar dados cadastrais</p>
+  </div>
+
+  <div class="delete-account-div" (click)="openDeleteAccountModal()">
+    <i class="fa-solid fa-trash-can"></i>
+    <p class="navbar-option">Excluir conta</p>
+  </div>
 </section>
+
+<app-modal
+  *ngIf="shouldShowDeleteAccountModal"
+  [title]="'Iniciar exclusão'"
+  [message]="'Você tem certeza que deseja deletar da sua conta permanentemente?'"
+  [ctaText]="'Prosseguir com exclusão'"
+  (ctaAction)="initializeAccountDeletion()"
+  (close)="closeDeleteAccountModal()"
+/>
