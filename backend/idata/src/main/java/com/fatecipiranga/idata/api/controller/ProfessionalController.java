@@ -1,7 +1,19 @@
 package com.fatecipiranga.idata.api.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.fatecipiranga.idata.api.request.CodeVerificationDTO;
-import com.fatecipiranga.idata.api.request.CpfDTO;
 import com.fatecipiranga.idata.api.request.LoginDTO;
 import com.fatecipiranga.idata.api.request.ProfessionalDTO;
 import com.fatecipiranga.idata.api.response.ApiResponse;
@@ -11,11 +23,6 @@ import com.fatecipiranga.idata.api.response.UpdateResponse;
 import com.fatecipiranga.idata.business.EmailVerificationService;
 import com.fatecipiranga.idata.business.ProfessionalService;
 import com.fatecipiranga.idata.infrastructure.exceptions.ErrorResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -43,20 +50,19 @@ public class ProfessionalController {
         }
     }
 
-@GetMapping(params = "type=professional")
-public ResponseEntity<ApiResponse> getProfessional(@RequestParam("cpf") String cpf) {
-    System.err.println(cpf);
-    try {
-        ProfessionalResponse professional = professionalService.getProfessionalByCpf(cpf)
-                .orElseThrow(() -> new RuntimeException("Profissional não encontrado"));
-        return new ResponseEntity<>(professional, HttpStatus.OK);
-    } catch (RuntimeException e) {
-        LOGGER.error("Erro ao buscar profissional com CPF: {}. Detalhes: {}", cpf, e.getMessage(), e);
-        ErrorResponse error = new ErrorResponse("Profissional não encontrado", "NOT_FOUND");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    @GetMapping(params = "type=professional")
+    public ResponseEntity<ApiResponse> getProfessional(@RequestParam("cpf") String cpf) {
+        LOGGER.debug("CPF recebido: {}", cpf);
+        try {
+            ProfessionalResponse professional = professionalService.getProfessionalByCpf(cpf)
+                    .orElseThrow(() -> new RuntimeException("Profissional não encontrado"));
+            return new ResponseEntity<>(professional, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            LOGGER.error("Erro ao buscar profissional com CPF: {}. Detalhes: {}", cpf, e.getMessage(), e);
+            ErrorResponse error = new ErrorResponse("Profissional não encontrado", "NOT_FOUND");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
     }
-}
-
 
     @PutMapping(params = "type=professional")
     public ResponseEntity<ApiResponse> updateProfessional(@RequestBody ProfessionalDTO professionalDTO) {
