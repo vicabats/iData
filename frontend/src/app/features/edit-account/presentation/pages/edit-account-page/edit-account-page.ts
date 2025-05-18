@@ -53,13 +53,13 @@ export class EditAccountPage implements OnInit {
     }
   }
 
-  public saveEdition(): void {
+  public updateUser(user: User): void {
     this.isLoading = true;
 
     this.editAccountService
       .editAccount({
         type: this.userType as UserType,
-        user: this.user as User,
+        user: user as User,
       })
       .subscribe({
         next: (response) => this.handleEditAccountSuccess(response),

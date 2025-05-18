@@ -26,14 +26,10 @@ export class EditAccountService {
   }: EditAccountParams): Observable<EditAccountSuccessResponse> {
     const apiUrl = `http://localhost:8080/api/user?type=${type.toString()}`;
 
-    return this.http
-      .put<EditAccountSuccessResponse>(apiUrl, {
-        body: user,
+    return this.http.put<EditAccountSuccessResponse>(apiUrl, user).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error.error);
       })
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          return throwError(() => error.error);
-        })
-      );
+    );
   }
 }

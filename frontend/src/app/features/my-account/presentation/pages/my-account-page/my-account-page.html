@@ -3,11 +3,11 @@
 
   <h2 class="my-account-username">Dados cadastrais</h2>
 
-  <ng-container *ngIf="userType === userTypeEnum.personal">
+  <ng-container *ngIf="userType === userTypeEnum.personal && user">
     <app-personal-user-form mode="view" [initialData]="user" />
   </ng-container>
 
-  <ng-container *ngIf="userType === userTypeEnum.professional">
+  <ng-container *ngIf="userType === userTypeEnum.professional && user">
     <app-professional-user-form mode="view" [initialData]="user" />
   </ng-container>
 

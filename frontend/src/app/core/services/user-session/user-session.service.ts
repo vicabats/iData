@@ -42,9 +42,26 @@ export class UserSessionService {
   }
 
   public setSession(user: User): void {
-    this.storage.setItem(USER_LOGGED_KEY, { user });
+    const filteredUser: User = {
+      name: user.name,
+      cpf: user.cpf,
+      phone: user.phone,
+      email: user.email,
+      password: user.password,
+      birthdate: user.birthdate,
+      address: {
+        street: user.address.street,
+        number: user.address.number,
+        complement: user.address.complement,
+        neighborhood: user.address.neighborhood,
+        zipCode: user.address.zipCode,
+        city: user.address.city,
+        state: user.address.state,
+      },
+    };
+    this.storage.setItem(USER_LOGGED_KEY, { user: filteredUser });
     this.isLoggedInSubject.next(true);
-    this.userSubject.next(user);
+    this.userSubject.next(filteredUser);
   }
 
   public setUserType(userType: UserType): void {

@@ -22,14 +22,13 @@ export interface MyAccountSuccessResponse {
 export class MyAccountService {
   constructor(private http: HttpClient) {}
 
-  public getUserInfos({
-    type,
-    cpf,
-  }: MyAccountParams): Observable<MyAccountSuccessResponse> {
+  public getUserInfos({ type, cpf }: MyAccountParams): Observable<User> {
     const apiUrl = `http://localhost:8080/api/user?type=${type.toString()}`;
 
+    const formattedCpf = cpf.replace(/\D/g, '');
+
     return this.http
-      .get<MyAccountSuccessResponse>(apiUrl, {
+      .get<User>(apiUrl, {
         params: { cpf },
       })
       .pipe(

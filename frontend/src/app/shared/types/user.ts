@@ -1,3 +1,4 @@
+import { UserAddress } from './user_address';
 import { UserType } from './user_type';
 
 export interface User {
@@ -8,6 +9,6 @@ export interface User {
   password: string;
   birthdate?: string;
   id?: string;
-  created_at?: string;
   type?: UserType;
+  address: UserAddress;
 }

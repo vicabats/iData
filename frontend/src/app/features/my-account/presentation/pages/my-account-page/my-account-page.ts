@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { UserSessionService } from '../../../../../core/services/user-session/user-session.service';
 import {
   MyAccountService,
@@ -29,9 +28,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './my-account-page.css',
 })
 export class MyAccountPage implements OnInit {
-  public userType$!: Observable<UserType | null>;
-  public user$!: Observable<User | null>;
-
   public userType: UserType | null = null;
   public user: User | null = null;
 
@@ -67,9 +63,10 @@ export class MyAccountPage implements OnInit {
     }
   }
 
-  private handleGetUserInfosSuccess(response: MyAccountSuccessResponse): void {
+  private handleGetUserInfosSuccess(loggedUser: User): void {
+    this.user = loggedUser;
+    this.userSessionService.setSession(loggedUser);
     this.isLoading = false;
-    this.userSessionService.setSession(response.data);
   }
 
   private handleGetUserFailure(errorMessage: string): void {
@@ -82,6 +79,11 @@ export class MyAccountPage implements OnInit {
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
       panelClass: ['error-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.isLoading = false;
+      this.router.navigate(['login']);
     });
   }
 

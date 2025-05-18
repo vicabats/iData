@@ -1,4 +1,5 @@
 export interface UserAddress {
+  id?: string;
   street: string;
   number: string;
   complement: string;

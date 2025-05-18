@@ -123,6 +123,8 @@ export class PersonalUserFormComponent
     this.personalForm.get('name')?.disable();
     this.personalForm.get('cpf')?.disable();
     this.personalForm.get('birthdate')?.disable();
+    this.personalForm.get('password')?.disable();
+    this.personalForm.get('confirmPassword')?.disable();
   }
 
   private populateForm(data: PersonalUser): void {
@@ -139,6 +141,8 @@ export class PersonalUserFormComponent
       state: data.address.state,
       phone: data.phone,
       email: data.email,
+      password: data.password,
+      confirmPassword: data.password,
     });
   }
 
@@ -153,6 +157,7 @@ export class PersonalUserFormComponent
         'city',
         'state',
         'phone',
+        'email',
       ];
       return editableFields.every((field) => {
         return (
@@ -178,7 +183,7 @@ export class PersonalUserFormComponent
   }
 
   public onSubmitButtonClicked(): void {
-    if (this.personalForm.valid) {
+    if (this.isFormEnabled()) {
       const user = this.getPersonalUserObject();
       this.onSubmit.emit(user);
     } else {
