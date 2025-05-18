@@ -122,7 +122,10 @@
     </div>
 
     <mat-divider class="divider"></mat-divider>
-    <div class="professional-user-form_div flex-row">
+    <div
+      class="professional-user-form_div flex-row"
+      *ngIf="mode === 'register'"
+    >
       <app-input
         class="password-input"
         formControlName="password"
@@ -151,8 +154,8 @@
         mat-raised-button
         type="submit"
         class="submit_button"
-        [disabled]="professionalForm.invalid"
-        [ngClass]="{ 'submit_button-enabled': !professionalForm.invalid }"
+        [disabled]="!isFormEnabled()"
+        [ngClass]="{ 'submit_button-enabled': isFormEnabled() }"
       >
         {{ buttonLabel }}
       </button>

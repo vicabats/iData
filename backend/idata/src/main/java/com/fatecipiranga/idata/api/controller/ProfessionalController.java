@@ -43,18 +43,20 @@ public class ProfessionalController {
         }
     }
 
-    @GetMapping(params = "type=professional")
-    public ResponseEntity<ApiResponse> getProfessional(@RequestBody CpfDTO cpfDTO) {
-        try {
-            ProfessionalResponse professional = professionalService.getProfessionalByCpf(cpfDTO.getCpf())
-                    .orElseThrow(() -> new RuntimeException("Profissional não encontrado"));
-            return new ResponseEntity<>(professional, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            LOGGER.error("Erro ao buscar profissional com CPF: {}. Detalhes: {}", cpfDTO.getCpf(), e.getMessage(), e);
-            ErrorResponse error = new ErrorResponse("Profissional não encontrado", "NOT_FOUND");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-        }
+@GetMapping(params = "type=professional")
+public ResponseEntity<ApiResponse> getProfessional(@RequestParam("cpf") String cpf) {
+    System.err.println(cpf);
+    try {
+        ProfessionalResponse professional = professionalService.getProfessionalByCpf(cpf)
+                .orElseThrow(() -> new RuntimeException("Profissional não encontrado"));
+        return new ResponseEntity<>(professional, HttpStatus.OK);
+    } catch (RuntimeException e) {
+        LOGGER.error("Erro ao buscar profissional com CPF: {}. Detalhes: {}", cpf, e.getMessage(), e);
+        ErrorResponse error = new ErrorResponse("Profissional não encontrado", "NOT_FOUND");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
+}
+
 
     @PutMapping(params = "type=professional")
     public ResponseEntity<ApiResponse> updateProfessional(@RequestBody ProfessionalDTO professionalDTO) {

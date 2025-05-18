@@ -135,7 +135,32 @@ export class ProfessionalUserFormComponent implements OnInit {
       state: data.address.state,
       phone: data.phone,
       email: data.email,
+      password: data.password,
+      confirmPassword: data.password,
     });
+  }
+
+  public isFormEnabled(): boolean {
+    if (this.mode === 'edit') {
+      const editableFields = [
+        'street',
+        'addressNumber',
+        'addressComplement',
+        'zipCode',
+        'neighborhood',
+        'city',
+        'state',
+        'phone',
+        'email',
+      ];
+      return editableFields.every((field) => {
+        return (
+          !this.professionalForm.get(field)?.invalid &&
+          this.professionalForm.touched
+        );
+      });
+    }
+    return !this.professionalForm.invalid;
   }
 
   public getErrorMessage(controlName: string, placeholder?: string): string {
@@ -151,7 +176,7 @@ export class ProfessionalUserFormComponent implements OnInit {
   }
 
   public onSubmitButtonClicked(): void {
-    if (this.professionalForm.valid) {
+    if (this.isFormEnabled()) {
       const user = this.getProfessionalUserObject();
       this.onSubmit.emit(user);
     } else {
@@ -160,7 +185,7 @@ export class ProfessionalUserFormComponent implements OnInit {
   }
 
   private getProfessionalUserObject(): ProfessionalUser {
-    const professionalUser: ProfessionalUser = {
+    return {
       name: this.professionalForm.get('name')?.value,
       cpf: this.professionalForm.get('cpf')?.value,
       professionalLicense: this.professionalForm.get('professionalLicense')
@@ -171,8 +196,6 @@ export class ProfessionalUserFormComponent implements OnInit {
       email: this.professionalForm.get('email')?.value,
       password: this.professionalForm.get('password')?.value,
     };
-
-    return professionalUser;
   }
 
   private getUserAddress(): UserAddress {
