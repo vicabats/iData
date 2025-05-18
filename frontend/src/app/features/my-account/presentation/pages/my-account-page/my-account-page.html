@@ -8,7 +8,7 @@
   </ng-container>
 
   <ng-container *ngIf="userType === userTypeEnum.professional">
-    <app-personal-user-form mode="view" [initialData]="user" />
+    <app-professional-user-form mode="view" [initialData]="user" />
   </ng-container>
 
   <div class="update-account-div" (click)="updateAccount()">

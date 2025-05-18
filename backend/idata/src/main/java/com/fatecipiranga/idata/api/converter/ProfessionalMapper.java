@@ -18,7 +18,6 @@ public interface ProfessionalMapper {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "name", source = "name")
     @Mapping(target = "email", source = "email")
-    @Mapping(target = "password", source = "password")
     @Mapping(target = "cpf", source = "cpf")
     @Mapping(target = "phone", source = "phone")
     @Mapping(target = "password", source = "password")

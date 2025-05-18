@@ -48,6 +48,10 @@ export class MyAccountPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.userSessionService.userType$.subscribe((userType) => {
+      this.userType = userType;
+    });
+
     this.myAccountService
       .getUserInfos({
         type: this.userSessionService.getUserType() as UserType,
@@ -57,52 +61,6 @@ export class MyAccountPage implements OnInit {
         next: (response) => this.handleGetUserInfosSuccess(response),
         error: (error) => this.handleGetUserFailure(error.message),
       });
-
-    this.userSessionService.userType$.subscribe((userType) => {
-      this.userType = userType;
-    });
-
-    if (this.user && this.userType) {
-      this.isLoading = false;
-    }
-  }
-
-  public updateAccount() {}
-
-  public openDeleteAccountModal(): void {
-    this.shouldShowDeleteAccountModal = true;
-  }
-
-  public closeDeleteAccountModal(): void {
-    this.shouldShowDeleteAccountModal = false;
-  }
-
-  public initializeAccountDeletion(): void {
-    this.isLoading = true;
-
-    this.myAccountService
-      .deleteAccount({
-        type: this.userType as UserType,
-        cpf: this.user?.cpf as string,
-        password: this.user?.password as string,
-      })
-      .subscribe({
-        next: (response) => this.handleStartDeletingAccountSuccess(response),
-        error: (error) => this.handleFailure(error.message),
-      });
-  }
-
-  private handleStartDeletingAccountSuccess(
-    response: MyAccountSuccessResponse
-  ): void {
-    this.isLoading = false;
-    this.userSessionService.setHasInitializedDeleteAccount(true);
-    this.router.navigate(['my-account', this.userType, 'delete-account'], {
-      state: {
-        message: response.message,
-        userType: this.userType,
-        cpf: this.user?.cpf,
-      },
 
     if (this.user && this.userType) {
       this.isLoading = false;

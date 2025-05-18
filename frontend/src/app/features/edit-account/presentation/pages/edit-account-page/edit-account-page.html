@@ -12,14 +12,10 @@
   </ng-container>
 
   <ng-container *ngIf="userType === userTypeEnum.professional">
-    <app-personal-user-form
+    <app-professional-user-form
       mode="edit"
       [initialData]="user"
       buttonLabel="Salvar alterações"
     />
   </ng-container>
-
-  <!-- <div class="update-account-div" (click)="saveEdition()">
-    <p>Salvar alterações</p>
-  </div> -->
 </section>
