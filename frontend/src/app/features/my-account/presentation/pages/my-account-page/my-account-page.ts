@@ -48,12 +48,18 @@ export class MyAccountPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.myAccountService
+      .getUserInfos({
+        type: this.userSessionService.getUserType() as UserType,
+        cpf: this.userSessionService.getUser()?.cpf as string,
+      })
+      .subscribe({
+        next: (response) => this.handleGetUserInfosSuccess(response),
+        error: (error) => this.handleGetUserFailure(error.message),
+      });
+
     this.userSessionService.userType$.subscribe((userType) => {
       this.userType = userType;
-    });
-
-    this.userSessionService.user$.subscribe((user) => {
-      this.user = user;
     });
 
     if (this.user && this.userType) {
@@ -97,10 +103,72 @@ export class MyAccountPage implements OnInit {
         userType: this.userType,
         cpf: this.user?.cpf,
       },
+
+    if (this.user && this.userType) {
+      this.isLoading = false;
+    }
+  }
+
+  private handleGetUserInfosSuccess(response: MyAccountSuccessResponse): void {
+    this.isLoading = false;
+    this.userSessionService.setSession(response.data);
+  }
+
+  private handleGetUserFailure(errorMessage: string): void {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
+      data: {
+        message: errorMessage,
+        type: 'error',
+      },
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['error-snackbar'],
     });
   }
 
-  private handleFailure(errorMessage: string): void {
+  public updateAccount() {
+    this.router.navigate(['my-account', this.userType, 'edit']);
+  }
+
+  public openDeleteAccountModal(): void {
+    this.shouldShowDeleteAccountModal = true;
+  }
+
+  public closeDeleteAccountModal(): void {
+    this.shouldShowDeleteAccountModal = false;
+  }
+
+  public initializeAccountDeletion(): void {
+    this.isLoading = true;
+
+    this.myAccountService
+      .deleteAccount({
+        type: this.userType as UserType,
+        cpf: this.user?.cpf as string,
+        password: this.user?.password as string,
+      })
+      .subscribe({
+        next: (response) => this.handleStartDeletingAccountSuccess(response),
+        error: (error) => this.handleStartDeletingAccountFailure(error.message),
+      });
+  }
+
+  private handleStartDeletingAccountSuccess(
+    response: MyAccountSuccessResponse
+  ): void {
+    this.isLoading = false;
+    this.userSessionService.setHasInitializedDeleteAccount(true);
+    this.router.navigate(['my-account', this.userType, 'delete'], {
+      state: {
+        message: response.message,
+        userType: this.userType,
+        cpf: this.user?.cpf,
+      },
+    });
+  }
+
+  private handleStartDeletingAccountFailure(errorMessage: string): void {
     const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
       data: {
         message: errorMessage,

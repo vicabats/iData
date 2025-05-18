@@ -32,7 +32,6 @@ import {
   getZipCodeRegexValidator,
   passwordMatchValidator,
 } from '../../../../features/register/presentation/helpers/forms-validators';
-import { toTitleCase } from '../../../helpers/to-title-case';
 import { UserAddress } from '../../../types/user_address';
 
 @Component({
@@ -60,7 +59,7 @@ export class PersonalUserFormComponent
 
   public personalForm: FormGroup = new FormGroup({});
 
-  private isRegisterMode: boolean = this.mode === 'register';
+  public isRegisterMode: boolean = this.mode === 'register';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -72,6 +71,7 @@ export class PersonalUserFormComponent
     if (!this.isRegisterMode && this.initialData) {
       this.populateForm(this.initialData);
     }
+    this.disableControlsInEditMode();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -117,6 +117,14 @@ export class PersonalUserFormComponent
     );
   }
 
+  private disableControlsInEditMode(): void {
+    if (this.mode !== 'edit') return;
+
+    this.personalForm.get('name')?.disable();
+    this.personalForm.get('cpf')?.disable();
+    this.personalForm.get('birthdate')?.disable();
+  }
+
   private populateForm(data: PersonalUser): void {
     this.personalForm.patchValue({
       name: data.name,
@@ -132,6 +140,27 @@ export class PersonalUserFormComponent
       phone: data.phone,
       email: data.email,
     });
+  }
+
+  public isFormEnabled(): boolean {
+    if (this.mode === 'edit') {
+      const editableFields = [
+        'street',
+        'addressNumber',
+        'addressComplement',
+        'zipCode',
+        'neighborhood',
+        'city',
+        'state',
+        'phone',
+      ];
+      return editableFields.every((field) => {
+        return (
+          !this.personalForm.get(field)?.invalid && this.personalForm.touched
+        );
+      });
+    }
+    return !this.personalForm.invalid;
   }
 
   public getErrorMessage(controlName: string, placeholder?: string): string {

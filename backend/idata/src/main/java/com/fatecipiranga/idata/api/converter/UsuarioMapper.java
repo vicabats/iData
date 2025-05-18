@@ -23,6 +23,7 @@ public interface UsuarioMapper {
     @Mapping(target = "name", source = "name")
     @Mapping(target = "cpf", source = "cpf")
     @Mapping(target = "birthdate", source = "birthdate")
+    @Mapping(target = "password", source = "password")
     @Mapping(target = "email", source = "email")
     @Mapping(target = "password", source = "password")
     @Mapping(target = "phone", source = "phone")

@@ -1,0 +1,25 @@
+<section class="edit-account-page">
+  <app-loading *ngIf="isLoading" />
+
+  <h2 class="my-account-username">Dados cadastrais</h2>
+
+  <ng-container *ngIf="userType === userTypeEnum.personal">
+    <app-personal-user-form
+      mode="edit"
+      [initialData]="user"
+      buttonLabel="Salvar alterações"
+    />
+  </ng-container>
+
+  <ng-container *ngIf="userType === userTypeEnum.professional">
+    <app-personal-user-form
+      mode="edit"
+      [initialData]="user"
+      buttonLabel="Salvar alterações"
+    />
+  </ng-container>
+
+  <!-- <div class="update-account-div" (click)="saveEdition()">
+    <p>Salvar alterações</p>
+  </div> -->
+</section>

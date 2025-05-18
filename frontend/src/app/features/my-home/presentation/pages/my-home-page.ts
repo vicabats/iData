@@ -27,9 +27,7 @@ export class MyHomePage implements OnInit {
 
   public userTypeEnum = UserType;
 
-  constructor(private userSessionService: UserSessionService) {
-    this.user$ = this.userSessionService.user$;
-  }
+  constructor(private userSessionService: UserSessionService) {}
 
   ngOnInit(): void {
     this.userSessionService.user$.subscribe((user) => {
@@ -39,7 +37,5 @@ export class MyHomePage implements OnInit {
     this.userSessionService.userType$.subscribe((userType) => {
       this.userType = userType;
     });
-
-    console.log('user', this.user);
   }
 }

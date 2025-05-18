@@ -142,8 +142,8 @@
         mat-raised-button
         type="submit"
         class="submit_button"
-        [disabled]="personalForm.invalid"
-        [ngClass]="{ 'submit_button-enabled': !personalForm.invalid }"
+        [disabled]="!isFormEnabled()"
+        [ngClass]="{ 'submit_button-enabled': isFormEnabled() }"
       >
         {{ buttonLabel }}
       </button>

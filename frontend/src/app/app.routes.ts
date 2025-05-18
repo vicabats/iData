@@ -15,6 +15,7 @@ import { RedirectIfLoggedOutGuardService } from './guards/redirect-if-logged-out
 import { DeleteAccountPage } from './features/delete-account/presentation/pages/delete-account-page';
 import { CheckIfHasInitializedDeleteAccountGuardService } from './guards/check-if-has-initialized-delete-account/check-if-has-initialized-delete-account-guard.service';
 import { CheckIfHasInitializedLoginFlowGuardService } from './guards/check-if-has-initialized-login-flow/check-if-has-initialized-login-flow-guard.service';
+import { EditAccountPage } from './features/edit-account/presentation/pages/edit-account-page/edit-account-page';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -40,12 +41,17 @@ export const routes: Routes = [
     canActivate: [RedirectIfLoggedOutGuardService],
   },
   {
-    path: 'my-account/:userType/delete-account',
+    path: 'my-account/:userType/delete',
     component: DeleteAccountPage,
     canActivate: [
       RedirectIfLoggedOutGuardService,
       CheckIfHasInitializedDeleteAccountGuardService,
     ],
+  },
+  {
+    path: 'my-account/:userType/edit',
+    component: EditAccountPage,
+    canActivate: [RedirectIfLoggedOutGuardService],
   },
   { path: 'about-us', component: AboutUsPage },
   {

@@ -1,4 +1,4 @@
-<section *ngIf="user$ | async" class="my_home-page">
+<section *ngIf="user" class="my_home-page">
   <h2 class="my_home-username">Olá, {{user.name}}</h2>
 
   <ng-container *ngIf="userType === userTypeEnum.personal">

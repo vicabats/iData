@@ -64,6 +64,7 @@ export class ProfessionalUserFormComponent implements OnInit {
     if (!this.isRegisterMode && this.initialData) {
       this.populateForm(this.initialData);
     }
+    this.disableControlsInEditMode();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -108,6 +109,15 @@ export class ProfessionalUserFormComponent implements OnInit {
       },
       { validators: passwordMatchValidator }
     );
+  }
+
+  private disableControlsInEditMode(): void {
+    if (this.mode !== 'edit') return;
+
+    this.professionalForm.get('name')?.disable();
+    this.professionalForm.get('cpf')?.disable();
+    this.professionalForm.get('birthdate')?.disable();
+    this.professionalForm.get('professionalLicense')?.disable();
   }
 
   private populateForm(data: ProfessionalUser): void {

@@ -21,6 +21,7 @@ public interface ProfessionalMapper {
     @Mapping(target = "password", source = "password")
     @Mapping(target = "cpf", source = "cpf")
     @Mapping(target = "phone", source = "phone")
+    @Mapping(target = "password", source = "password")
     @Mapping(target = "birthdate", source = "birthdate")
     @Mapping(target = "professionalLicense", source = "professionalLicense")
     @Mapping(target = "address", source = "address")
