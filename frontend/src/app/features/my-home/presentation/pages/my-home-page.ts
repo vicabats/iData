@@ -5,6 +5,7 @@ import { UserSessionService } from '../../../../core/services/user-session/user-
 import { User } from '../../../../shared/types/user';
 import { MyHomePersonalSectionComponent } from '../sections/my-home-personal/my-home-personal-section-component';
 import { MyHomeProfessionalSectionComponent } from '../sections/my-home-professional/my-home-professional-section-component';
+import { UserType } from '../../../../shared/types/user_type';
 
 @Component({
   selector: 'app-my-home-page',
@@ -18,19 +19,20 @@ import { MyHomeProfessionalSectionComponent } from '../sections/my-home-professi
   styleUrl: './my-home-page.css',
 })
 export class MyHomePage implements OnInit {
-  public userType$!: Observable<string | null>;
-  public user$!: Observable<User | null>;
-
-  constructor(private userSessionService: UserSessionService) {
-    this.userType$ = this.userSessionService.userType$;
-    this.user$ = this.userSessionService.user$;
-  }
-
+  public userType: UserType | null = null;
   public user: User | null = null;
+
+  public userTypeEnum = UserType;
+
+  constructor(private userSessionService: UserSessionService) {}
 
   ngOnInit(): void {
     this.userSessionService.user$.subscribe((user) => {
       this.user = user;
+    });
+
+    this.userSessionService.userType$.subscribe((userType) => {
+      this.userType = userType;
     });
   }
 }

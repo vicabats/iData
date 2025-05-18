@@ -67,6 +67,7 @@ export class ProfessionalUserFormComponent implements OnInit {
     if (!this.isRegisterMode && this.initialData) {
       this.populateForm(this.initialData);
     }
+    this.disableControlsInEditMode();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -114,20 +115,28 @@ export class ProfessionalUserFormComponent implements OnInit {
     );
   }
 
+  private disableControlsInEditMode(): void {
+    if (this.mode !== 'edit') return;
+
+    this.professionalForm.get('name')?.disable();
+    this.professionalForm.get('cpf')?.disable();
+    this.professionalForm.get('birthdate')?.disable();
+    this.professionalForm.get('professionalLicense')?.disable();
+  }
+
   private populateForm(data: ProfessionalUser): void {
     this.professionalForm.patchValue({
       name: data.name,
       cpf: data.cpf,
       birthdate: data.birthdate,
       professionalLicense: data.professionalLicense,
-      facilityName: data.facility.name,
-      street: data.facility.address.street,
-      addressNumber: data.facility.address.number,
-      addressComplement: data.facility.address.complement,
-      zipCode: data.facility.address.zipCode,
-      neighborhood: data.facility.address.neighborhood,
-      city: data.facility.address.city,
-      state: data.facility.address.state,
+      street: data.address.street,
+      addressNumber: data.address.number,
+      addressComplement: data.address.complement,
+      zipCode: data.address.zipCode,
+      neighborhood: data.address.neighborhood,
+      city: data.address.city,
+      state: data.address.state,
       phone: data.phone,
       email: data.email,
     });

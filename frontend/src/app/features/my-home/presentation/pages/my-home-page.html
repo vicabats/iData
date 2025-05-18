@@ -1,11 +1,11 @@
-<section *ngIf="user$ | async" class="my_home-page">
+<section *ngIf="user" class="my_home-page">
   <h2 class="my_home-username">Olá, {{user.name}}</h2>
 
-  <ng-container *ngIf="(userType$ | async) === 'personal'">
+  <ng-container *ngIf="userType === userTypeEnum.personal">
     <app-my-home-personal-section-component />
   </ng-container>
 
-  <ng-container *ngIf="(userType$ | async) === 'professional'">
+  <ng-container *ngIf="userType === userTypeEnum.professional">
     <app-my-home-professional-section-component />
   </ng-container>
 </section>
