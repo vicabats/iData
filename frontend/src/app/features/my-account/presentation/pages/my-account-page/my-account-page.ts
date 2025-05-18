@@ -101,6 +101,7 @@ export class MyAccountPage implements OnInit {
 
   public initializeAccountDeletion(): void {
     this.isLoading = true;
+    this.shouldShowDeleteAccountModal = false;
 
     this.myAccountService
       .deleteAccount({

@@ -122,7 +122,7 @@ export class DeleteAccountPage implements OnInit {
 
     snackBarRef.afterDismissed().subscribe(() => {
       this.isSubmitting = false;
-      this.router.navigate(['my-home']);
+      this.router.navigate(['my-account']);
       this.userSessionService.setHasInitializedDeleteAccount(false);
     });
   }
