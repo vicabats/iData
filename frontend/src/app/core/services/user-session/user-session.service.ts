@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { StorageService } from '../storage/storage.service';
 import { User } from '../../../shared/types/user';
+import { UserType } from '../../../shared/types/user_type';
 
 const USER_LOGGED_KEY = 'user_logged';
 const USER_TYPE = 'user_type';
@@ -18,7 +19,7 @@ export class UserSessionService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
-  private userTypeSubject = new BehaviorSubject<string | null>(null);
+  private userTypeSubject = new BehaviorSubject<UserType | null>(null);
   userType$ = this.userTypeSubject.asObservable();
 
   private userSubject = new BehaviorSubject<User | null>(null);
@@ -35,8 +36,8 @@ export class UserSessionService {
     this.userSubject.next(session ? session.user : null);
   }
 
-  private getUserTypeFromStorage(): string | null {
-    return this.storage.getItem<string>(USER_TYPE);
+  private getUserTypeFromStorage(): UserType | null {
+    return this.storage.getItem<UserType>(USER_TYPE);
   }
 
   public setSession(user: User): void {
@@ -45,7 +46,7 @@ export class UserSessionService {
     this.userSubject.next(user);
   }
 
-  public setUserType(userType: string): void {
+  public setUserType(userType: UserType): void {
     this.storage.setItem(USER_TYPE, userType);
     this.userTypeSubject.next(userType);
   }
@@ -59,8 +60,8 @@ export class UserSessionService {
     return this.storage.getItem<UserSession>(USER_LOGGED_KEY);
   }
 
-  public getUserType(): string | null {
-    return this.storage.getItem<string>(USER_TYPE);
+  public getUserType(): UserType | null {
+    return this.storage.getItem<UserType>(USER_TYPE);
   }
 
   public clearSession(): void {

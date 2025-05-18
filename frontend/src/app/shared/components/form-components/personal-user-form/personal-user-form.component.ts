@@ -32,10 +32,6 @@ import {
   getZipCodeRegexValidator,
   passwordMatchValidator,
 } from '../../../../features/register/presentation/helpers/forms-validators';
-<<<<<<< HEAD
-import { toTitleCase } from '../../../helpers/to-title-case';
-=======
->>>>>>> feat: edit data
 import { UserAddress } from '../../../types/user_address';
 
 @Component({
@@ -63,11 +59,7 @@ export class PersonalUserFormComponent
 
   public personalForm: FormGroup = new FormGroup({});
 
-<<<<<<< HEAD
-  private isRegisterMode: boolean = this.mode === 'register';
-=======
   public isRegisterMode: boolean = this.mode === 'register';
->>>>>>> feat: edit data
 
   constructor(
     private formBuilder: FormBuilder,
@@ -79,10 +71,7 @@ export class PersonalUserFormComponent
     if (!this.isRegisterMode && this.initialData) {
       this.populateForm(this.initialData);
     }
-<<<<<<< HEAD
-=======
     this.disableControlsInEditMode();
->>>>>>> feat: edit data
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -128,8 +117,6 @@ export class PersonalUserFormComponent
     );
   }
 
-<<<<<<< HEAD
-=======
   private disableControlsInEditMode(): void {
     if (this.mode !== 'edit') return;
 
@@ -138,7 +125,6 @@ export class PersonalUserFormComponent
     this.personalForm.get('birthdate')?.disable();
   }
 
->>>>>>> feat: edit data
   private populateForm(data: PersonalUser): void {
     this.personalForm.patchValue({
       name: data.name,
@@ -156,8 +142,6 @@ export class PersonalUserFormComponent
     });
   }
 
-<<<<<<< HEAD
-=======
   public isFormEnabled(): boolean {
     if (this.mode === 'edit') {
       const editableFields = [
@@ -179,7 +163,6 @@ export class PersonalUserFormComponent
     return !this.personalForm.invalid;
   }
 
->>>>>>> feat: edit data
   public getErrorMessage(controlName: string, placeholder?: string): string {
     const control = this.personalForm.get(controlName);
     if (control && control.touched && control.invalid) {
