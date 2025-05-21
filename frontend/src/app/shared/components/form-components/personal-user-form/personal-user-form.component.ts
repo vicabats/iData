@@ -33,6 +33,7 @@ import {
   passwordMatchValidator,
 } from '../../../../features/register/presentation/helpers/forms-validators';
 import { UserAddress } from '../../../types/user_address';
+import { TermsModalComponent } from '../../../../features/register/presentation/components/terms-and-conditions-modal/terms-and-conditions-modal.component';
 
 @Component({
   selector: 'app-personal-user-form',
@@ -45,6 +46,7 @@ import { UserAddress } from '../../../types/user_address';
     MatInputModule,
     MatDividerModule,
     InputComponent,
+    TermsModalComponent,
   ],
   templateUrl: './personal-user-form.component.html',
   styleUrls: ['./personal-user-form.component.css'],
@@ -60,6 +62,8 @@ export class PersonalUserFormComponent
   public personalForm: FormGroup = new FormGroup({});
 
   public isRegisterMode: boolean = this.mode === 'register';
+
+  public showTermsAndConditionsModal: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -170,8 +174,7 @@ export class PersonalUserFormComponent
 
   public getErrorMessage(controlName: string, placeholder?: string): string {
     const control = this.personalForm.get(controlName);
-    if (control && (control.touched || control.dirty) && control.invalid) {
-      console.log(control.errors);
+    if (control && control.touched && control.invalid) {
       if (control.errors?.['pattern']) {
         return 'Formato inválido. Siga o padrão: ' + placeholder;
       } else if (control.errors?.['email']) {
@@ -185,10 +188,17 @@ export class PersonalUserFormComponent
 
   public onSubmitButtonClicked(): void {
     if (this.isFormEnabled()) {
-      const user = this.getPersonalUserObject();
-      this.onSubmit.emit(user);
+      this.showTermsAndConditionsModal = true;
     } else {
       this.personalForm.markAllAsTouched();
+    }
+  }
+
+  public onTermsModalClosed(accepted: boolean): void {
+    this.showTermsAndConditionsModal = false;
+    if (accepted) {
+      const user = this.getPersonalUserObject();
+      this.onSubmit.emit(user);
     }
   }
 

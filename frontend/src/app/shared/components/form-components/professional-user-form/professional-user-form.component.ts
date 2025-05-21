@@ -30,6 +30,7 @@ import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { InputComponent } from '../input/input.component';
+import { TermsModalComponent } from '../../../../features/register/presentation/components/terms-and-conditions-modal/terms-and-conditions-modal.component';
 
 @Component({
   selector: 'app-professional-user-form',
@@ -40,6 +41,7 @@ import { InputComponent } from '../input/input.component';
     MatInputModule,
     MatDividerModule,
     InputComponent,
+    TermsModalComponent,
   ],
   templateUrl: './professional-user-form.component.html',
   styleUrl: './professional-user-form.component.css',
@@ -53,6 +55,8 @@ export class ProfessionalUserFormComponent implements OnInit {
   public professionalForm: FormGroup = new FormGroup({});
 
   private isRegisterMode: boolean = this.mode === 'register';
+
+  public showTermsAndConditionsModal: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -81,7 +85,7 @@ export class ProfessionalUserFormComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  private initializeForm() {
+  private initializeForm(): void {
     this.professionalForm = this.formBuilder.group(
       {
         name: ['', [Validators.required, getNameRegexValidator()]],
@@ -118,6 +122,8 @@ export class ProfessionalUserFormComponent implements OnInit {
     this.professionalForm.get('cpf')?.disable();
     this.professionalForm.get('birthdate')?.disable();
     this.professionalForm.get('professionalLicense')?.disable();
+    this.professionalForm.get('password')?.disable();
+    this.professionalForm.get('confirmPassword')?.disable();
   }
 
   private populateForm(data: ProfessionalUser): void {
@@ -166,10 +172,12 @@ export class ProfessionalUserFormComponent implements OnInit {
   public getErrorMessage(controlName: string, placeholder?: string): string {
     const control = this.professionalForm.get(controlName);
     if (control && control.touched && control.invalid) {
-      if (control.errors?.['required']) {
-        return 'Este campo não pode ficar em branco.';
-      } else if (control.errors?.['pattern']) {
+      if (control.errors?.['pattern']) {
         return 'Formato inválido. Siga o padrão: ' + placeholder;
+      } else if (control.errors?.['email']) {
+        return 'E-mail inválido.';
+      } else if (control.errors?.['required']) {
+        return 'Este campo não pode ficar em branco.';
       }
     }
     return '';
@@ -177,10 +185,17 @@ export class ProfessionalUserFormComponent implements OnInit {
 
   public onSubmitButtonClicked(): void {
     if (this.isFormEnabled()) {
-      const user = this.getProfessionalUserObject();
-      this.onSubmit.emit(user);
+      this.showTermsAndConditionsModal = true;
     } else {
       this.professionalForm.markAllAsTouched();
+    }
+  }
+
+  public onTermsModalClosed(accepted: boolean): void {
+    this.showTermsAndConditionsModal = false;
+    if (accepted) {
+      const user = this.getProfessionalUserObject();
+      this.onSubmit.emit(user);
     }
   }
 

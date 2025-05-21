@@ -166,20 +166,20 @@ export class UpdatePasswordPage implements OnInit {
       : { currentPasswordIncorrect: true };
   }
 
-  public getErrorMessage(controlName: string, placeholder?: string): string {
+  public getErrorMessage(controlName: string): string {
     const control = this.passwordForm.get(controlName);
     const formErrors = this.passwordForm.errors;
-    if (control && (control.touched || control.dirty) && control.invalid) {
+    if (control && control.touched && control.invalid) {
       if (control.errors?.['currentPasswordIncorrect']) {
-        return 'A senha fornecida não corresponde à senha atual.';
+        return 'A senha fornecida não corresponde à senha atual';
       } else if (control.errors?.['minlength']) {
-        return 'A nova senha deve ter pelo menos 6 caracteres.';
+        return 'A nova senha deve ter pelo menos 6 caracteres';
       } else if (control.errors?.['pattern']) {
-        return 'A nova senha deve conter letras, números e caracteres especiais.';
+        return 'A nova senha deve conter letras, números e caracteres especiais';
       } else if (control.errors?.['passwordRegex']) {
-        return 'A nova senha deve conter pelo menos um número e um caracter especial.';
+        return 'A nova senha deve conter pelo menos um número e um caracter especial';
       } else if (control.errors?.['required']) {
-        return 'Este campo não pode ficar em branco.';
+        return 'Este campo não pode ficar em branco';
       }
     }
     if (
@@ -187,14 +187,14 @@ export class UpdatePasswordPage implements OnInit {
       (this.passwordForm.touched || this.passwordForm.dirty) &&
       formErrors?.['passwordMismatch']
     ) {
-      return 'As senhas não coincidem.';
+      return 'As senhas não coincidem';
     }
     if (
       controlName === 'newPassword' &&
       (this.passwordForm.touched || this.passwordForm.dirty) &&
       formErrors?.['passwordSameAsCurrent']
     ) {
-      return 'A nova senha deve ser diferente da senha atual.';
+      return 'A nova senha deve ser diferente da senha atual';
     }
     return '';
   }

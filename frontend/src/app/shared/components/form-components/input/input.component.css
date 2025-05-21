@@ -10,10 +10,9 @@
 
 .mat-error,
 .input-component_error {
-  color: #f44336;
+  color: var(--warning);
   font-size: 12px;
   margin-top: 4px;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
   letter-spacing: 0.03333em;
   line-height: 1.5;
   display: block;

@@ -130,13 +130,14 @@ export class LoginContentPage implements OnInit {
     });
   }
 
-  public getErrorMessage(controlName: string): string {
+  public getErrorMessage(controlName: string, placeholder?: string): string {
     const control = this.loginForm.get(controlName);
+
     if (control && control.touched && control.invalid) {
-      if (control.errors?.['required']) {
-        return 'Este campo é obrigatório';
-      } else if (control.errors?.['pattern']) {
-        return 'Formato inválido';
+      if (control.errors?.['pattern']) {
+        return 'Formato inválido. Siga o padrão: ' + placeholder;
+      } else if (control.errors?.['required']) {
+        return 'Este campo não pode ficar em branco';
       }
     }
     return '';

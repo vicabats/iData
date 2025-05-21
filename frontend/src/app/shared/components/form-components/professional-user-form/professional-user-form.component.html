@@ -161,4 +161,11 @@
       </button>
     </div>
   </form>
+
+  <ng-container *ngIf="showTermsAndConditionsModal">
+    <app-terms-and-conditions-modal
+      [isOpen]="showTermsAndConditionsModal"
+      (close)="onTermsModalClosed($event)"
+    />
+  </ng-container>
 </section>

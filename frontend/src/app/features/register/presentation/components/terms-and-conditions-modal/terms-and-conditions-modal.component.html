@@ -1,0 +1,38 @@
+<div class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Termos e condições</h2>
+      <button mat-icon-button class="close-button" (click)="onCancel()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div>
+      <p class="modal-message">
+        Ao prosseguir com o cadastro, você declara estar ciente de que as
+        informações médicas pessoais serão armazenadas na plataforma iData de
+        forma segura e criptografada, em conformidade com a Lei Geral de
+        Proteção de Dados (LGPD). Você autoriza o uso desses dados
+        exclusivamente para fins de gerenciamento e compartilhamento com
+        profissionais de saúde e confidencialidade, conforme seu consentimento.
+        O controle sobre o acesso e uso de informações permanece sempre sob sua
+        responsabilidade.
+      </p>
+    </div>
+    <mat-checkbox [(ngModel)]="termsAccepted"
+      >Sim, eu aceito os termos e condições.
+    </mat-checkbox>
+
+    <div class="register-submit-section">
+      <button
+        mat-button
+        class="submit_button"
+        [ngClass]="{ 'submit_button-enabled': termsAccepted }"
+        (click)="onAccept()"
+        [disabled]="!termsAccepted"
+      >
+        Cadastrar
+      </button>
+    </div>
+  </div>
+</div>
