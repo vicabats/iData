@@ -12,4 +12,6 @@ public class ProfessionalDTO {
     private String birthdate;
     private String professionalLicense;
     private AddressDTO address;
+    private String type = "professional";
+
 }
