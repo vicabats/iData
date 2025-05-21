@@ -170,13 +170,14 @@ export class PersonalUserFormComponent
 
   public getErrorMessage(controlName: string, placeholder?: string): string {
     const control = this.personalForm.get(controlName);
-    if (control && control.touched && control.invalid) {
-      if (control.errors?.['required']) {
-        return 'Este campo não pode ficar em branco.';
-      } else if (control.errors?.['pattern']) {
+    if (control && (control.touched || control.dirty) && control.invalid) {
+      console.log(control.errors);
+      if (control.errors?.['pattern']) {
         return 'Formato inválido. Siga o padrão: ' + placeholder;
       } else if (control.errors?.['email']) {
         return 'E-mail inválido.';
+      } else if (control.errors?.['required']) {
+        return 'Este campo não pode ficar em branco.';
       }
     }
     return '';

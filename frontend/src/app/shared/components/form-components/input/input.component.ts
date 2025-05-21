@@ -59,6 +59,7 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
     this._value = val || '';
     this.cdr.markForCheck();
   }
+
   writeValue(value: any): void {
     this.value = value || '';
     if (this.maskDirective) {
@@ -88,16 +89,11 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
     this.cdr.markForCheck();
   }
 
-  markAsTouched(): void {
-    this.onTouched();
-    this.cdr.markForCheck();
-  }
-
-  get showError(): boolean {
-    return this.errorMessage !== '' && this.errorMessage.length > 0;
-  }
-
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
+  }
+
+  onBlur(): void {
+    this.onTouched();
   }
 }

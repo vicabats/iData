@@ -16,6 +16,7 @@ import { DeleteAccountPage } from './features/delete-account/presentation/pages/
 import { CheckIfHasInitializedDeleteAccountGuardService } from './guards/check-if-has-initialized-delete-account/check-if-has-initialized-delete-account-guard.service';
 import { CheckIfHasInitializedLoginFlowGuardService } from './guards/check-if-has-initialized-login-flow/check-if-has-initialized-login-flow-guard.service';
 import { EditAccountPage } from './features/edit-account/presentation/pages/edit-account-page/edit-account-page';
+import { UpdatePasswordPage } from './features/update-password/presentation/pages/update-password-page/update-password-page';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -51,6 +52,11 @@ export const routes: Routes = [
   {
     path: 'my-account/:userType/edit',
     component: EditAccountPage,
+    canActivate: [RedirectIfLoggedOutGuardService],
+  },
+  {
+    path: 'my-account/:userType/update-password',
+    component: UpdatePasswordPage,
     canActivate: [RedirectIfLoggedOutGuardService],
   },
   { path: 'about-us', component: AboutUsPage },

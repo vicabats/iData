@@ -30,6 +30,14 @@ export class LoggedInNavbarDropdownComponent {
     this.router.navigate(['my-account']);
   }
 
+  public redirectToUpdatePassword(): void {
+    this.router.navigate([
+      'my-account',
+      this.userSessionService.getUserType(),
+      'update-password',
+    ]);
+  }
+
   public showLogoutModal(): void {
     this.shouldShowLogoutModal = true;
   }

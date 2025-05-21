@@ -1,4 +1,7 @@
-<mat-form-field appearance="fill">
+<mat-form-field
+  appearance="fill"
+  [ngClass]="{ 'mat-form-field-invalid': !!errorMessage }"
+>
   <mat-label>{{ label }}:</mat-label>
   <input
     matInput
@@ -8,7 +11,7 @@
     [value]="value"
     [disabled]="disabled"
     (input)="onInput($event)"
-    (blur)="markAsTouched()"
+    (blur)="onBlur()"
   />
-  <mat-error *ngIf="showError">{{ errorMessage }}</mat-error>
+  <div *ngIf="errorMessage" class="mat-error">{{ errorMessage }}</div>
 </mat-form-field>
