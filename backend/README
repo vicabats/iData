@@ -1,231 +1,241 @@
-<h1>🩺 iData Backend</h1>
-
+🩺 iData Backend
 🔐 Segurança em primeiro lugar com autenticação 2FA
-
-O iData Backend é uma API RESTful desenvolvida com Spring Boot para gerenciamento seguro de dados clínicos e pessoais. Conta com suporte a autenticação em dois fatores (2FA), utiliza Java 17, MongoDB como banco NoSQL, MapStruct para mapeamento de DTOs e é containerizada com Docker para execução consistente e portátil.
-
+O iData Backend é uma API RESTful desenvolvida com Spring Boot para gerenciamento seguro de dados clínicos e pessoais. Conta com suporte a autenticação em dois fatores (2FA), gerenciamento de exames clínicos, utiliza Java 17, MongoDB como banco NoSQL, MapStruct para mapeamento de DTOs e é containerizada com Docker para execução consistente e portátil.
 ⚙️ Funcionalidades
-
-Cadastro de Usuários:
+Cadastro de Usuários
 
 👤 Pessoal: Dados pessoais e endereço
-
 🩺 Profissional: Inclui validação de licença profissional (ex.: CRM)
-
 🔐 Autenticação 2FA: Código enviado por e-mail para login seguro
-
 🔎 Consulta por CPF: Busca de dados de usuários (pessoal ou profissional)
-
 ✏️ Atualização de Dados: Alteração de dados cadastrais
-
 🗑️ Exclusão Segura: Confirmação via e-mail antes da remoção
+
+Gerenciamento de Exames
+
+📄 Criação de Exames: Upload de arquivos (PDF/JPEG) com metadados (tipo, título, descrição, data)
+📋 Listagem de Exames: Consulta de exames por usuário
+🔍 Visualização de Exame: Detalhes de um exame específico
+✏️ Atualização de Exame: Edição de metadados do exame
+🗑️ Exclusão de Exame: Remoção segura de exames
+🤝 Compartilhamento: Compartilhamento de exames com profissionais mediante consentimento
+⬇️ Download: Download de arquivos de exames
 
 🛠️ Tecnologias
 
 Java 17 (OpenJDK)
-
 Spring Boot 3.4.4
-
 MongoDB 6.0
-
 MapStruct 1.5.5.Final
-
-Lombok 1.18.32
-
+Lombok 1.18.34
 Caffeine Cache 3.1.8
-
+Spring Validation (para validação de dados e arquivos)
 Maven 3.9.9
-
 Docker & Docker Compose
 
 📘 Endpoints Principais
-
 👤 Usuário Pessoal
 
+
+
 Ação
-
 Método
-
 Endpoint
-
 Descrição
 
+
+
 Cadastro
-
 POST
-
 /api/user/register?type=personal
-
 Registra usuário pessoal
 
+
 Login
-
 POST
-
 /api/user/login?type=personal
-
 Inicia login
 
+
 Verificação 2FA
-
 POST
-
 /api/user/verify-2fa?type=personal
-
 Confirma login com código 2FA
 
+
 Consulta
-
 GET
-
 /api/user?type=personal
-
 Busca dados por CPF
 
+
 Atualização
-
 PUT
-
 /api/user?type=personal
-
 Atualiza dados
 
+
 Iniciar Exclusão
-
 DELETE
-
 /api/user?type=personal
-
 Inicia exclusão
 
+
 Confirmar Exclusão
-
 POST
-
 /api/user/confirm-delete?type=personal
-
 Confirma exclusão com código
+
 
 🩺 Profissional
 
+
+
 Ação
-
 Método
-
 Endpoint
-
 Descrição
 
+
+
 Cadastro
-
 POST
-
 /api/user/register?type=professional
-
 Registra profissional
 
+
 Login
-
 POST
-
 /api/user/login?type=professional
-
 Inicia login
 
+
 Verificação 2FA
-
 POST
-
 /api/user/verify-2fa?type=professional
-
 Confirma login com código 2FA
 
+
 Consulta
-
 GET
-
 /api/user?type=professional
-
 Busca dados por CPF
 
+
 Atualização
-
 PUT
-
 /api/user?type=professional
-
 Atualiza dados
 
+
 Iniciar Exclusão
-
 DELETE
-
 /api/user?type=professional
-
 Inicia exclusão
 
+
 Confirmar Exclusão
-
 POST
-
 /api/user/confirm-delete?type=professional
-
 Confirma exclusão com código
 
-▶️ Como Executar
 
+📄 Exames
+
+
+
+Ação
+Método
+Endpoint
+Descrição
+
+
+
+Criar Exame
+POST
+/api/user/{userCPF}/exam
+Cria um novo exame com arquivo
+
+
+Listar Exames
+GET
+/api/user/{userCPF}/exams
+Lista exames do usuário
+
+
+Visualizar Exame
+GET
+/api/user/{userCPF}/exam/{examId}
+Obtém detalhes de um exame
+
+
+Atualizar Exame
+PUT
+/api/user/{userCPF}/exam/{examId}
+Atualiza metadados do exame
+
+
+Deletar Exame
+DELETE
+/api/user/{userCPF}/exam/{examId}
+Remove um exame
+
+
+Compartilhar Exame
+POST
+/api/user/share/{examId}
+Compartilha exame com profissional
+
+
+Listar Exames Compartilhados
+GET
+/api/user/professional/{professionalId}
+Lista exames compartilhados com profissional
+
+
+Download Exame
+GET
+/api/user/download/{examId}
+Faz download do arquivo do exame
+
+
+▶️ Como Executar
 ✅ Pré-requisitos
 
 Docker e Docker Compose
-
 Git
-
 (Opcional) Java 17, Maven 3.9.9, MongoDB 6.0
-
 Cliente HTTP (Postman, Insomnia...)
 
 🐳 Com Docker
-
 git clone https://github.com/vicabats/iData.git
 cd iData
-docker compose pullIniciar os serviços
-
-
+docker compose pull
 docker compose up -d
 
 Acesse:
 
 Backend: http://localhost:8080/actuator/health
-
 MongoDB: localhost:27017
 
 Parar:
-
-docker compose doCompilar e iniciar o backend
-
-wn
+docker compose down
 
 💻 Execução Local (Sem Docker)
 
-Suba o MongoDB localmente:
+Suba o MongoDB localmente:mongod
 
-mongod
 
-Compile e execute a aplicação:
-
-cd backend/idata
+Compile e execute a aplicação:cd backend/idata
 mvn clean install
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
+
 
 Acesse: http://localhost:8080
 
 📬 Exemplos de Requisições
-
 Cadastro de Profissional
-
 POST http://localhost:8080/api/user/register?type=professional
-Content-Type: application/json
-
 {
   "name": "Juliana Haddad",
   "cpf": "45634572858",
@@ -245,78 +255,119 @@ Content-Type: application/json
   }
 }
 
-Resposta:
-
-"Profissional registrado com sucesso: 45634572858"
-
+Resposta: "Profissional registrado com sucesso: 45634572858"
 Login com 2FA (Pessoal)
-
 POST http://localhost:8080/api/user/login?type=personal
-Content-Type: application/json
-
 {
   "cpf": "42089736856",
   "password": "Jose12345&"
 }
 
-Resposta:
-
-"Código de verificação enviado para jose.nascimento@gmail.com"
-
-Verificação:
-
-POST http://localhost:8080/api/user/verify-2fa?type=personal
-Content-Type: application/json
-
+Resposta: "Código de verificação enviado para josenascimentoprofessional@gmail.com"
+Verificação:POST http://localhost:8080/api/user/verify-2fa?type=personal
 {
-  "email": "jose.nascimento@gm "<códigail.com",
+  "email": "josenascimentoprofessional@gmail.com",
   "code": "<código recebido por e-mail>"
 }
 
-Resposta:
+Resposta: "Login realizado com sucesso"
+Criar Exame
+POST http://localhost:8080/api/user/42089736856/exam
 
-"Login realizado com sucesso"
+Headers: Authorization: Bearer <token>, Content-Type: multipart/form-data
+Body (form-data):
+data (Text):{
+  "type": "Imaging",
+  "title": "Ressonância do joelho direito",
+  "description": "Ressonância para avaliar possível tendinite",
+  "date": "2025-05-24T00:00:00.000Z",
+  "file": "exame.pdf"
+}
+
+
+file (File): Upload de exame.pdf
+
+
+Resposta:{
+  "exams": {
+    "id": "11232179381",
+    "type": "Imaging",
+    "title": "Ressonância do joelho direito",
+    "description": "Ressonância para avaliar possível tendinite",
+    "date": "2025-05-24T00:00:00.000Z",
+    "file": "exame.pdf"
+  }
+}
+
+
+
+Listar Exames
+GET http://localhost:8080/api/user/42089736856/exams
+
+Headers: Authorization: Bearer <token>
+Resposta:{
+  "exams": [
+    {
+      "id": "11232179381",
+      "type": "Imaging",
+      "title": "Ressonância do joelho direito",
+      "description": "Ressonância para avaliar possível tendinite",
+      "date": "2025-05-24T00:00:00.000Z",
+      "file": "exame.pdf"
+    }
+  ]
+}
+
+
+
+Compartilhar Exame
+POST http://localhost:8080/api/user/share/11232179381
+
+Headers: Authorization: Bearer <token>, Content-Type: application/x-www-form-urlencoded
+Body (x-www-form-urlencoded):
+userId: 42089736856
+professionalId: prof456
+consentGiven: true
+
+
+Resposta:{
+  "exams": {
+    "id": "11232179381",
+    "type": "Imaging",
+    "title": "Ressonância do joelho direito",
+    "description": "Ressonância para avaliar possível tendinite",
+    "date": "2025-05-24T00:00:00.000Z",
+    "file": "exame.pdf"
+  }
+}
+
+
 
 🔗 Links
 
 Repositório: https://github.com/vicabats/iData
-
 Docker Hub: julianahaddad/idata-backend:v4
-
 CI/CD: GitHub Actions
 
 🧯 Solução de Problemas
-
 Backend DOWN
-
 Verifique os logs:
-
 docker logs idata-1-new-backend-1
 
 Verifique a conexão com o MongoDB:
-
 docker exec -it idata-1-new-backend-1 bash
 ping mongodb
 telnet mongodb 27017
 exit
 
 Porta 8080 ocupada
-
 netstat -aon | findstr :8080
 taskkill /PID <PID> /F
 
 Limpar ambiente
-
 docker compose down
 docker rm -f $(docker ps -aq)
 docker image rm julianahaddad/idata-backend:v4
 docker image prune -f
 
-👩‍💻 Equipe
-
-Juliana Haddad
-
-Pedro Henrique Moreira
-
-Vitória Gomes Batistoti de Abreu
-
+👩
