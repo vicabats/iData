@@ -57,10 +57,6 @@ export class MyAccountPage implements OnInit {
         next: (response) => this.handleGetUserInfosSuccess(response),
         error: (error) => this.handleGetUserFailure(error.message),
       });
-
-    if (this.user && this.userType) {
-      this.isLoading = false;
-    }
   }
 
   private handleGetUserInfosSuccess(loggedUser: User): void {

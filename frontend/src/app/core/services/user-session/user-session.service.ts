@@ -43,6 +43,7 @@ export class UserSessionService {
 
   public setSession(user: User): void {
     const filteredUser: User = {
+      id: user.id,
       name: user.name,
       cpf: user.cpf,
       phone: user.phone,

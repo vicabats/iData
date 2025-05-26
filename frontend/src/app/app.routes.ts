@@ -5,7 +5,6 @@ import { ForgotPasswordPage } from './features/forgot-password/pages/forgot-pass
 import { LoginPage } from './features/login/presentation/pages/login-page/login-page';
 import { VerifyCodePage } from './features/verify-code/presentation/pages/verify-code/verify-code-page';
 import { MedicalRecordsPage } from './features/medical-records/medical-records';
-import { ExamsPage } from './features/exams/exams';
 import { InProgressPage } from './features/in-progress/in-progress-page';
 import { RegisterPage } from './features/register/presentation/pages/register-page/register-page';
 import { MyHomePage } from './features/my-home/presentation/pages/my-home-page';
@@ -17,6 +16,8 @@ import { CheckIfHasInitializedDeleteAccountGuardService } from './guards/check-i
 import { CheckIfHasInitializedLoginFlowGuardService } from './guards/check-if-has-initialized-login-flow/check-if-has-initialized-login-flow-guard.service';
 import { EditAccountPage } from './features/edit-account/presentation/pages/edit-account-page/edit-account-page';
 import { UpdatePasswordPage } from './features/update-password/presentation/pages/update-password-page/update-password-page';
+import { MyExamsPage } from './features/my-exams/presentation/pages/my-exams-page';
+import { RedirectIfNotPersonalUserGuardService } from './guards/redirect-if-not-personal-user-guard/redirect-if-not-personal-user-guard.service';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -59,6 +60,11 @@ export const routes: Routes = [
     component: UpdatePasswordPage,
     canActivate: [RedirectIfLoggedOutGuardService],
   },
+  {
+    path: 'my-exams',
+    component: MyExamsPage,
+    canActivate: [RedirectIfNotPersonalUserGuardService],
+  },
   { path: 'about-us', component: AboutUsPage },
   {
     path: 'forgot-password',
@@ -66,6 +72,5 @@ export const routes: Routes = [
     canActivate: [RedirectIfLoggedInGuardService],
   },
   { path: 'medical-records', component: MedicalRecordsPage },
-  { path: 'exams', component: ExamsPage },
   { path: 'in-progress', component: InProgressPage },
 ];
