@@ -15,7 +15,7 @@ export class MyHomePersonalSectionComponent {
   }
 
   public redirectToExams(): void {
-    this.router.navigate(['exams']);
+    this.router.navigate(['my-exams']);
   }
 
   public redirectToSafetyContact(): void {

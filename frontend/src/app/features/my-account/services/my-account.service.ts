@@ -25,8 +25,6 @@ export class MyAccountService {
   public getUserInfos({ type, cpf }: MyAccountParams): Observable<User> {
     const apiUrl = `http://localhost:8080/api/user?type=${type.toString()}`;
 
-    const formattedCpf = cpf.replace(/\D/g, '');
-
     return this.http
       .get<User>(apiUrl, {
         params: { cpf },
