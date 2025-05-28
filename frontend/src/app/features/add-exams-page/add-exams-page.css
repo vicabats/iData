@@ -1,0 +1,132 @@
+.add-exams-page {
+  padding: 5rem 30rem;
+  padding-bottom: 10rem;
+}
+
+.add-exams-title {
+  padding-bottom: 4rem;
+}
+
+label {
+  font-size: 14px;
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+}
+
+input[type="text"] {
+  font-size: 18px;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+select {
+  font-size: 18px;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+select:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px #1976d220;
+}
+
+.custom-file-upload {
+  display: block;
+  width: 100%;
+  padding: 18px 0;
+  text-align: center;
+  background: var(--light-blue);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  transition: background 0.2s;
+  border: none;
+}
+
+.custom-file-upload:hover,
+.custom-file-upload:focus {
+  background: var(--darker-blue);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.input-field {
+  margin-top: var(--spacing-lg);
+}
+
+.error {
+  color: var(--warning);
+  font-size: 14px;
+}
+
+.custom-file-upload.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.selected-file-name {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 1rem;
+  font-size: 1em;
+  color: var(--light-blue);
+}
+
+.clear-file-btn {
+  background: transparent;
+  border: none;
+  color: var(--warning);
+  font-size: 1.3em;
+  margin-left: 0.5em;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 0.2em;
+}
+
+input[type="date"] {
+  font-size: 18px;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.upload-exam-section {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+
+  .upload-exam_button {
+    font-size: var(--font-size-md);
+    padding: var(--spacing-sm);
+    border-radius: 20px;
+    width: 100%;
+    cursor: not-allowed;
+  }
+
+  .upload-exam_enabled {
+    background-color: var(--blue);
+    color: var(--white);
+    cursor: pointer;
+  }
+}
