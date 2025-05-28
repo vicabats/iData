@@ -18,6 +18,7 @@ import { EditAccountPage } from './features/edit-account/presentation/pages/edit
 import { UpdatePasswordPage } from './features/update-password/presentation/pages/update-password-page/update-password-page';
 import { MyExamsPage } from './features/my-exams/presentation/pages/my-exams-page';
 import { RedirectIfNotPersonalUserGuardService } from './guards/redirect-if-not-personal-user-guard/redirect-if-not-personal-user-guard.service';
+import { AddExamsPage } from './features/add-exams-page/add-exams-page';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -63,6 +64,11 @@ export const routes: Routes = [
   {
     path: 'my-exams',
     component: MyExamsPage,
+    canActivate: [RedirectIfNotPersonalUserGuardService],
+  },
+  {
+    path: 'my-exams/add',
+    component: AddExamsPage,
     canActivate: [RedirectIfNotPersonalUserGuardService],
   },
   { path: 'about-us', component: AboutUsPage },

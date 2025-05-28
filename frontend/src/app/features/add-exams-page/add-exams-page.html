@@ -1,0 +1,91 @@
+<section class="add-exams-page">
+  <app-loading *ngIf="isLoading" />
+
+  <h2 class="add-exams-title">Adicionar Exames</h2>
+
+  <form [formGroup]="addExamForm" (ngSubmit)="onSubmit()">
+    <div class="input-field file-upload-field">
+      <label
+        for="file"
+        class="custom-file-upload"
+        [class.disabled]="addExamForm.get('file')?.value"
+      >
+        Selecionar arquivo PDF
+        <input
+          id="file"
+          type="file"
+          accept="application/pdf"
+          (change)="onFileSelected($event)"
+          [disabled]="addExamForm.get('file')?.value"
+          style="display: none"
+        />
+      </label>
+      <span *ngIf="addExamForm.get('file')?.value" class="selected-file-name">
+        {{ addExamForm.get('file')?.value.name }}
+        <button
+          type="button"
+          class="clear-file-btn"
+          (click)="onClearFile()"
+          aria-label="Remover arquivo"
+        >
+          ×
+        </button>
+      </span>
+      <div
+        *ngIf="addExamForm.get('file')?.invalid && addExamForm.get('file')?.touched"
+        class="error"
+      >
+        Selecione um arquivo PDF válido (até 1MB).
+      </div>
+    </div>
+
+    <div class="input-field">
+      <label for="title">Título do exame</label>
+      <input id="title" formControlName="title" type="text" />
+      <div
+        *ngIf="addExamForm.get('title')?.invalid && addExamForm.get('title')?.touched"
+        class="error"
+      >
+        O exame deve conter um título válido.
+      </div>
+    </div>
+
+    <div class="input-field">
+      <label for="description">Descrição do exame</label>
+      <input id="description" formControlName="description" type="text" />
+      <div
+        *ngIf="addExamForm.get('description')?.invalid && addExamForm.get('description')?.touched"
+        class="error"
+      >
+        O exame deve conter uma descrição válido.
+      </div>
+    </div>
+
+    <div class="input-field">
+      <label for="type">Tipo do exame</label>
+      <select id="type" formControlName="type">
+        <option value="" disabled selected>Selecione o tipo</option>
+        <option *ngFor="let type of examTypes" [value]="type">
+          {{ examTypeNames[type] }}
+        </option>
+      </select>
+    </div>
+
+    <div class="input-field">
+      <label for="date">Data de realização</label>
+      <input id="date" type="date" formControlName="date" required />
+    </div>
+
+    <div class="upload-exam-section">
+      <button
+        mat-raised-button
+        class="upload-exam_button"
+        type="submit"
+        [disabled]="addExamForm.invalid || isLoading"
+        [ngClass]="{ 'upload-exam_enabled': !addExamForm.invalid && !isLoading }"
+      >
+        Adicionar exame
+      </button>
+    </div>
+  </form>
+</section>

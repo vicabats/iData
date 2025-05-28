@@ -72,3 +72,23 @@ input[type="file"] {
   color: var(--darker-gray);
   font-size: 0.95em;
 }
+
+.add-exam-section {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+
+  .add-exam_button {
+    font-size: var(--font-size-md);
+    padding: var(--spacing-sm);
+    border-radius: 20px;
+    width: 100%;
+    cursor: not-allowed;
+  }
+
+  .add-exam_enabled {
+    background-color: var(--blue);
+    color: var(--white);
+    cursor: pointer;
+  }
+}
