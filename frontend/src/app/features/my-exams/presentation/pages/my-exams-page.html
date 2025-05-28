@@ -14,24 +14,19 @@
 
   <ng-template #noExamsTemplate>
     <p class="no-exams-message">
-      Você ainda não adicionou nenhum exame ao seu repositório de saúde. Que tal
-      fazer isso agora?
+      Você ainda não adicionou nenhum exame ao seu repositório de saúde.
     </p>
   </ng-template>
 
-  <div class="upload-section">
-    <label for="pdf-upload" class="upload-label">
-      Adicionar exame (PDF):
-    </label>
-    <label for="pdf-upload" class="custom-file-upload">
-      Selecionar arquivo
-      <input
-        id="pdf-upload"
-        type="file"
-        accept="application/pdf"
-        (change)="onFileSelected($event)"
-      />
-    </label>
+  <div class="add-exam-section">
+    <button
+      mat-raised-button
+      (click)="navigateToAddExamPage()"
+      class="add-exam_button"
+      [disabled]="isLoading"
+      [ngClass]="{ 'add-exam_enabled': !isLoading }"
+    >
+      Adicionar Exame
+    </button>
   </div>
-  <p>* Serão aceitos apenas arquivos de extensão PDF com até 1MB.</p>
 </section>

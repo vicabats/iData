@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../../../shared/types/user';
 import { UserSessionService } from '../../../../core/services/user-session/user-session.service';
-import { MyExamsService } from '../../services/my-exams-service';
+import {
+  MyExamsResponse,
+  MyExamsService,
+} from '../../services/my-exams-service';
 import { Router } from '@angular/router';
 import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -39,8 +42,8 @@ export class MyExamsPage implements OnInit {
     });
   }
 
-  private handleGetExamsListSuccess(response: any): void {
-    console.log('Exams list retrieved successfully:', response);
+  private handleGetExamsListSuccess(response: MyExamsResponse): void {
+    this.exams = response.exams ?? [];
     this.isLoading = false;
   }
 
@@ -57,20 +60,12 @@ export class MyExamsPage implements OnInit {
     });
 
     snackBarRef.afterDismissed().subscribe(() => {
-      this.router.navigate(['my-account']);
+      this.router.navigate(['my-home']);
       this.isLoading = false;
     });
   }
 
-  public onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      if (file.type !== 'application/pdf') {
-        alert('Por favor, selecione apenas arquivos PDF.');
-        return;
-      }
-      console.log('Arquivo selecionado:', file);
-    }
+  public navigateToAddExamPage(): void {
+    this.router.navigate(['my-exams', 'add']);
   }
 }
