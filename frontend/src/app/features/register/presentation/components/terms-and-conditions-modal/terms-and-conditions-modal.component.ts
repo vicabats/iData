@@ -4,7 +4,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { ModalComponent } from '../../../../../shared/components/modal/modal/modal.component';
 
 @Component({
   selector: 'app-terms-and-conditions-modal',
@@ -17,7 +16,6 @@ import { ModalComponent } from '../../../../../shared/components/modal/modal/mod
     MatCheckboxModule,
     MatButtonModule,
     MatIconModule,
-    ModalComponent,
   ],
 })
 export class TermsModalComponent {

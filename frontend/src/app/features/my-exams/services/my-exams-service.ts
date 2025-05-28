@@ -3,9 +3,15 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { PersonalUser } from '../../../shared/types/personal_user';
 import { Exam } from '../../../shared/types/exams';
+import { User } from '../../../shared/types/user';
 
 interface MyExamsParams {
   user: PersonalUser;
+}
+
+interface AddExamParams {
+  user: User;
+  exam: Exam;
 }
 
 export interface MyExamsResponse {
@@ -22,6 +28,25 @@ export class MyExamsService {
     const apiUrl = `http://localhost:8080/api/user/${user.id}/exams`;
 
     return this.http.get<MyExamsResponse>(apiUrl).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error.error);
+      })
+    );
+  }
+
+  public uploadExam({ user, exam }: AddExamParams): Observable<any> {
+    const apiUrl = `http://localhost:8080/api/user/${user.id}/exams`;
+
+    const formData = new FormData();
+    if (exam) {
+      formData.append('file', exam.file, exam.file.name);
+      formData.append('type', exam.type);
+      formData.append('title', exam.title);
+      formData.append('description', exam.description);
+      formData.append('date', exam.date);
+    }
+
+    return this.http.post(apiUrl, formData).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error.error);
       })

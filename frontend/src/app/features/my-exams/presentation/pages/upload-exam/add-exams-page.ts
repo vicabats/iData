@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingComponent } from '../../shared/components/loading/loading.component';
-import { CommonModule } from '@angular/common';
+import {
+  Exam,
+  ExamType,
+  ExamTypeNames,
+} from '../../../../../shared/types/exams';
 import {
   FormBuilder,
   FormGroup,
@@ -9,12 +12,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Exam, ExamType, ExamTypeNames } from '../../shared/types/exams';
-import { AddExamService } from './services/add-exam-service';
-import { UserSessionService } from '../../core/services/user-session/user-session.service';
-import { User } from '../../shared/types/user';
+import { UserSessionService } from '../../../../../core/services/user-session/user-session.service';
+import { MyExamsService } from '../../../services/my-exams-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackBarComponent } from '../../shared/components/snack-bar/snack-bar.component';
+import { User } from '../../../../../shared/types/user';
+import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
+import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-exams-page',
@@ -35,7 +39,7 @@ export class AddExamsPage implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private addExamsService: AddExamService,
+    private myExamsService: MyExamsService,
     private userSessionService: UserSessionService,
     private snackBar: MatSnackBar
   ) {}
@@ -104,7 +108,7 @@ export class AddExamsPage implements OnInit {
       file: formValue.file as File,
     };
 
-    this.addExamsService
+    this.myExamsService
       .uploadExam({
         user: this.user as User,
         exam: examToSend,
