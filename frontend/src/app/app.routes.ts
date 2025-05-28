@@ -16,9 +16,9 @@ import { CheckIfHasInitializedDeleteAccountGuardService } from './guards/check-i
 import { CheckIfHasInitializedLoginFlowGuardService } from './guards/check-if-has-initialized-login-flow/check-if-has-initialized-login-flow-guard.service';
 import { EditAccountPage } from './features/edit-account/presentation/pages/edit-account-page/edit-account-page';
 import { UpdatePasswordPage } from './features/update-password/presentation/pages/update-password-page/update-password-page';
-import { MyExamsPage } from './features/my-exams/presentation/pages/my-exams-page';
 import { RedirectIfNotPersonalUserGuardService } from './guards/redirect-if-not-personal-user-guard/redirect-if-not-personal-user-guard.service';
-import { AddExamsPage } from './features/add-exams-page/add-exams-page';
+import { MyExamsPage } from './features/my-exams/presentation/pages/my-exams/my-exams-page';
+import { AddExamsPage } from './features/my-exams/presentation/pages/upload-exam/add-exams-page';
 
 export const routes: Routes = [
   { path: '', component: HomePage },

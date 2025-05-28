@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../../../shared/types/user';
-import { UserSessionService } from '../../../../core/services/user-session/user-session.service';
+
+import { CommonModule } from '@angular/common';
+import { UserSessionService } from '../../../../../core/services/user-session/user-session.service';
 import {
   MyExamsResponse,
   MyExamsService,
-} from '../../services/my-exams-service';
+} from '../../../services/my-exams-service';
 import { Router } from '@angular/router';
-import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackBarComponent } from '../../../../shared/components/snack-bar/snack-bar.component';
-import { Exam } from '../../../../shared/types/exams';
-import { CommonModule } from '@angular/common';
+import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
+import { User } from '../../../../../shared/types/user';
+import { Exam } from '../../../../../shared/types/exams';
+import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-my-exams-page',
