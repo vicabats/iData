@@ -61,11 +61,12 @@ input[type="file"] {
   padding: 1rem 0.5rem;
   border-bottom: 1px solid #eee;
   font-size: var(--font-size-md, 1rem);
+  cursor: pointer;
 }
 
 .exam-name {
   font-weight: 500;
-  color: var(--white);
+  color: var(--dark-gray);
 }
 
 .exam-date {
@@ -76,7 +77,7 @@ input[type="file"] {
 .add-exam-section {
   display: flex;
   justify-content: center;
-  margin-top: var(--spacing-lg);
+  margin-top: var(--spacing-xl);
 
   .add-exam_button {
     font-size: var(--font-size-md);

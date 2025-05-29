@@ -1,9 +1,9 @@
 export enum ExamType {
-  Imaging = 'Imaging',
-  Clinical = 'Clinical',
-  Dental = 'Dental',
-  Physical = 'Physical',
-  Other = 'Other',
+  Imaging = 'IMAGING',
+  Clinical = 'CLINICAL',
+  Dental = 'DENTAL',
+  Physical = 'PHYSICAL',
+  Other = 'OTHER',
 }
 
 export const ExamTypeNames: Record<ExamType, string> = {
@@ -21,4 +21,8 @@ export interface Exam {
   description: string;
   date: string;
   file: File;
+}
+
+export function getExamTypeName(type: ExamType): string {
+  return ExamTypeNames[type] ?? type;
 }

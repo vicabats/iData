@@ -3,33 +3,37 @@
 
   <h2 class="my-exams-title">Meus exames</h2>
 
-  <ng-container *ngIf="exams && exams.length > 0; else noExamsTemplate">
-    <ul class="exam-list">
-      <li
-        *ngFor="let exam of exams"
-        class="exam-item"
-        (click)="navigateToExamDetails(exam)"
+  <ng-container *ngIf="!isLoading">
+    <ng-container *ngIf="exams && exams.length > 0">
+      <ul class="exam-list">
+        <li
+          *ngFor="let exam of exams"
+          class="exam-item"
+          (click)="navigateToExamDetails(exam)"
+        >
+          <span class="exam-name">{{ exam.title | capitalize }}</span>
+          <span class="exam-type">{{ getExamTypeName(exam.type) }}</span>
+          <span class="exam-date">{{ exam.date | date: 'dd/MM/yyyy' }}</span>
+        </li>
+      </ul>
+    </ng-container>
+
+    <ng-container *ngIf="exams && exams.length === 0">
+      <p class="no-exams-message">
+        Você ainda não adicionou nenhum exame ao seu repositório de saúde.
+      </p>
+    </ng-container>
+
+    <div class="add-exam-section">
+      <button
+        mat-raised-button
+        (click)="navigateToAddExamPage()"
+        class="add-exam_button"
+        [disabled]="isLoading"
+        [ngClass]="{ 'add-exam_enabled': !isLoading }"
       >
-        <span class="exam-name">{{ exam.name }}</span>
-      </li>
-    </ul>
+        Adicionar Exame
+      </button>
+    </div>
   </ng-container>
-
-  <ng-template #noExamsTemplate>
-    <p class="no-exams-message">
-      Você ainda não adicionou nenhum exame ao seu repositório de saúde.
-    </p>
-  </ng-template>
-
-  <div class="add-exam-section">
-    <button
-      mat-raised-button
-      (click)="navigateToAddExamPage()"
-      class="add-exam_button"
-      [disabled]="isLoading"
-      [ngClass]="{ 'add-exam_enabled': !isLoading }"
-    >
-      Adicionar Exame
-    </button>
-  </div>
 </section>
