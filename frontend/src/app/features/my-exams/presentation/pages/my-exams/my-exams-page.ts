@@ -66,6 +66,12 @@ export class MyExamsPage implements OnInit {
     });
   }
 
+  public navigateToViewExamPage(exam: Exam): void {
+    this.router.navigate(['my-exams', 'exam', exam.id], {
+      queryParams: { userId: this.user?.id },
+    });
+  }
+
   public navigateToAddExamPage(): void {
     this.router.navigate(['my-exams', 'add']);
   }
