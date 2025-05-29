@@ -10,12 +10,13 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
 import { User } from '../../../../../shared/types/user';
-import { Exam } from '../../../../../shared/types/exams';
+import { Exam, getExamTypeName } from '../../../../../shared/types/exams';
 import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
+import { CapitalizePipe } from '../../../../../shared/pipes/capitalize-pipe';
 
 @Component({
   selector: 'app-my-exams-page',
-  imports: [LoadingComponent, CommonModule],
+  imports: [LoadingComponent, CommonModule, CapitalizePipe],
   templateUrl: './my-exams-page.html',
   styleUrl: './my-exams-page.css',
 })
@@ -25,6 +26,8 @@ export class MyExamsPage implements OnInit {
   public isLoading = true;
 
   public exams: Exam[] = [];
+
+  public getExamTypeName = getExamTypeName;
 
   constructor(
     private userSessionService: UserSessionService,
@@ -66,7 +69,7 @@ export class MyExamsPage implements OnInit {
     });
   }
 
-  public navigateToViewExamPage(exam: Exam): void {
+  public navigateToExamDetails(exam: Exam): void {
     this.router.navigate(['my-exams', 'exam', exam.id], {
       queryParams: { userId: this.user?.id },
     });

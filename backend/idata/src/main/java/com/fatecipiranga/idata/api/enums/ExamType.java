@@ -4,7 +4,8 @@ public enum ExamType {
     IMAGING("Imaging"),
     CLINICAL("Clinical"),
     DENTAL("Dental"),
-    PHYSICAL("Physical");
+    PHYSICAL("Physical"),
+    OTHER("Other");
 
     private final String value;
 
