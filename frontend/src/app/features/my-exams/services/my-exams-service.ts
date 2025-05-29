@@ -52,16 +52,19 @@ export class MyExamsService {
   public uploadExam({ user, exam }: AddExamParams): Observable<any> {
     const apiUrl = `http://localhost:8080/api/user/${user.id}/exam`;
 
-    const formData = new FormData();
-    formData.append('file', exam.file, exam.file.name);
-
     const data = {
-      type: exam.type,
+      type: exam.type.toUpperCase(),
       title: exam.title,
       description: exam.description,
       date: exam.date,
     };
-    formData.append('data', JSON.stringify(data));
+
+    const formData = new FormData();
+    formData.append('file', exam.file, exam.file.name);
+    formData.append(
+      'data',
+      new Blob([JSON.stringify(data)], { type: 'application/json' })
+    );
 
     return this.http.post(apiUrl, formData).pipe(
       catchError((error: HttpErrorResponse) => {
