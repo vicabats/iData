@@ -19,6 +19,8 @@ import { UpdatePasswordPage } from './features/update-password/presentation/page
 import { RedirectIfNotPersonalUserGuardService } from './guards/redirect-if-not-personal-user-guard/redirect-if-not-personal-user-guard.service';
 import { MyExamsPage } from './features/my-exams/presentation/pages/my-exams/my-exams-page';
 import { AddExamsPage } from './features/my-exams/presentation/pages/upload-exam/add-exams-page';
+import { ViewExamPage } from './features/my-exams/presentation/pages/view-exam/view-exam.page';
+import { EditExamPage } from './features/my-exams/presentation/pages/edit-exam/edit-exam-page';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -69,6 +71,16 @@ export const routes: Routes = [
   {
     path: 'my-exams/add',
     component: AddExamsPage,
+    canActivate: [RedirectIfNotPersonalUserGuardService],
+  },
+  {
+    path: 'my-exams/exam/:examId',
+    component: ViewExamPage,
+    canActivate: [RedirectIfNotPersonalUserGuardService],
+  },
+  {
+    path: 'my-exams/exam/:examId/edit',
+    component: EditExamPage,
     canActivate: [RedirectIfNotPersonalUserGuardService],
   },
   { path: 'about-us', component: AboutUsPage },

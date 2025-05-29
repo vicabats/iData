@@ -14,6 +14,21 @@ interface AddExamParams {
   exam: Exam;
 }
 
+interface GetExamById {
+  userId: string;
+  examId: string;
+}
+
+interface UpdateExamParams {
+  user: User;
+  exam: Exam;
+}
+
+interface DeleteExamParams {
+  userId: string;
+  examId: string;
+}
+
 export interface MyExamsResponse {
   exams?: Exam[];
 }
@@ -35,18 +50,58 @@ export class MyExamsService {
   }
 
   public uploadExam({ user, exam }: AddExamParams): Observable<any> {
-    const apiUrl = `http://localhost:8080/api/user/${user.id}/exams`;
+    const apiUrl = `http://localhost:8080/api/user/${user.id}/exam`;
+
+    const formData = new FormData();
+    formData.append('file', exam.file, exam.file.name);
+
+    const data = {
+      type: exam.type,
+      title: exam.title,
+      description: exam.description,
+      date: exam.date,
+    };
+    formData.append('data', JSON.stringify(data));
+
+    return this.http.post(apiUrl, formData).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error.error);
+      })
+    );
+  }
+
+  public getExamById({ userId, examId }: GetExamById): Observable<Exam> {
+    const apiUrl = `http://localhost:8080/api/user/${userId}/exam/${examId}`;
+
+    return this.http.get<Exam>(apiUrl).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error.error);
+      })
+    );
+  }
+
+  public updateExam({ user, exam }: UpdateExamParams): Observable<Exam> {
+    const apiUrl = `http://localhost:8080/api/user/${user.id}/exam/${exam.id}`;
 
     const formData = new FormData();
     if (exam) {
       formData.append('file', exam.file, exam.file.name);
-      formData.append('type', exam.type);
       formData.append('title', exam.title);
       formData.append('description', exam.description);
       formData.append('date', exam.date);
     }
 
-    return this.http.post(apiUrl, formData).pipe(
+    return this.http.put<Exam>(apiUrl, formData).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error.error);
+      })
+    );
+  }
+
+  public deleteExam({ userId, examId }: DeleteExamParams): Observable<any> {
+    const apiUrl = `http://localhost:8080/api/user/${userId}/exam/${examId}`;
+
+    return this.http.delete(apiUrl).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error.error);
       })
