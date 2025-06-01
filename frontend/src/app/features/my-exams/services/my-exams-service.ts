@@ -4,6 +4,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { PersonalUser } from '../../../shared/types/personal_user';
 import { Exam } from '../../../shared/types/exams';
 import { User } from '../../../shared/types/user';
+import { map } from 'rxjs/operators';
 
 interface MyExamsParams {
   user: PersonalUser;
@@ -31,6 +32,10 @@ interface DeleteExamParams {
 
 export interface MyExamsResponse {
   exams?: Exam[];
+}
+
+export interface GetExamByIdResponse {
+  exams: Exam[];
 }
 
 @Injectable({
@@ -76,7 +81,8 @@ export class MyExamsService {
   public getExamById({ userId, examId }: GetExamById): Observable<Exam> {
     const apiUrl = `http://localhost:8080/api/user/${userId}/exam/${examId}`;
 
-    return this.http.get<Exam>(apiUrl).pipe(
+    return this.http.get<{ exams: Exam }>(apiUrl).pipe(
+      map((response) => response.exams),
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error.error);
       })
