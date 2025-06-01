@@ -1,0 +1,50 @@
+.view-exam-page {
+  padding: 3rem 10vw;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.exam-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.view-exam-title {
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.exam-type-chip {
+  background: #e3e6f3;
+  color: #3f51b5;
+  border-radius: 16px;
+  padding: 0.3rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.exam-details {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.exam-info {
+  flex: 1 1 250px;
+  min-width: 250px;
+}
+
+.exam-file-viewer {
+  flex: 2 1 400px;
+  min-width: 350px;
+}
+
+.exam-actions {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}

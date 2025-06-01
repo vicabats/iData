@@ -1,23 +1,25 @@
 <section class="edit-account-page">
   <app-loading *ngIf="isLoading" />
 
-  <h2 class="my-account-username">Dados cadastrais</h2>
+  <ng-container *ngIf="!isLoading">
+    <h2 class="my-account-username">Dados cadastrais</h2>
 
-  <ng-container *ngIf="userType === userTypeEnum.personal">
-    <app-personal-user-form
-      mode="edit"
-      [initialData]="user"
-      buttonLabel="Salvar alterações"
-      (onSubmit)="updateUser($event)"
-    />
-  </ng-container>
+    <ng-container *ngIf="userType === userTypeEnum.personal">
+      <app-personal-user-form
+        mode="edit"
+        [initialData]="user"
+        buttonLabel="Salvar alterações"
+        (onSubmit)="updateUser($event)"
+      />
+    </ng-container>
 
-  <ng-container *ngIf="userType === userTypeEnum.professional">
-    <app-professional-user-form
-      mode="edit"
-      [initialData]="user"
-      buttonLabel="Salvar alterações"
-      (onSubmit)="updateUser($event)"
-    />
+    <ng-container *ngIf="userType === userTypeEnum.professional">
+      <app-professional-user-form
+        mode="edit"
+        [initialData]="user"
+        buttonLabel="Salvar alterações"
+        (onSubmit)="updateUser($event)"
+      />
+    </ng-container>
   </ng-container>
 </section>

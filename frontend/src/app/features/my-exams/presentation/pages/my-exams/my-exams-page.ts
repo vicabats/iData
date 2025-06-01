@@ -71,7 +71,7 @@ export class MyExamsPage implements OnInit {
 
   public navigateToExamDetails(exam: Exam): void {
     this.router.navigate(['my-exams', 'exam', exam.id], {
-      queryParams: { userId: this.user?.id },
+      state: { userId: this.user?.id },
     });
   }
 
