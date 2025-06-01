@@ -38,6 +38,10 @@ export interface GetExamByIdResponse {
   exams: Exam[];
 }
 
+export interface UploadExamResponse {
+  exam: Exam;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -54,7 +58,10 @@ export class MyExamsService {
     );
   }
 
-  public uploadExam({ user, exam }: AddExamParams): Observable<any> {
+  public uploadExam({
+    user,
+    exam,
+  }: AddExamParams): Observable<UploadExamResponse> {
     const apiUrl = `http://localhost:8080/api/user/${user.id}/exam`;
 
     const data = {
@@ -71,7 +78,7 @@ export class MyExamsService {
       new Blob([JSON.stringify(data)], { type: 'application/json' })
     );
 
-    return this.http.post(apiUrl, formData).pipe(
+    return this.http.post<UploadExamResponse>(apiUrl, formData).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error.error);
       })
@@ -107,10 +114,10 @@ export class MyExamsService {
     );
   }
 
-  public deleteExam({ userId, examId }: DeleteExamParams): Observable<any> {
+  public deleteExam({ userId, examId }: DeleteExamParams): Observable<void> {
     const apiUrl = `http://localhost:8080/api/user/${userId}/exam/${examId}`;
 
-    return this.http.delete(apiUrl).pipe(
+    return this.http.delete<void>(apiUrl).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error.error);
       })
