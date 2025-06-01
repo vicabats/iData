@@ -13,4 +13,5 @@ public class ExameResponse {
     private String description;
     private LocalDateTime date;
     private String file;
+    private String fileContent;
 }

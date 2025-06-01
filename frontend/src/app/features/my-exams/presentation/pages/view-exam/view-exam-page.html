@@ -13,55 +13,47 @@
           <strong>Data do exame:</strong>
           {{ exam.date | date: 'dd/MM/yyyy' }}
         </p>
-        <p *ngIf="exam.description">
+        <p>
           <strong>Descrição:</strong>
           {{ exam.description }}
         </p>
-        <p *ngIf="exam.result">
-          <strong>Resultado:</strong>
-          {{ exam.result }}
-        </p>
-        <p *ngIf="exam.notes">
-          <strong>Notas:</strong>
-          {{ exam.notes }}
-        </p>
+
+        <div class="exam-actions">
+          <button
+            class="edit-exam-button exam-button"
+            (click)="editExam()"
+            [disabled]="isLoading"
+          >
+            Editar Exame
+          </button>
+          <button
+            class="delete-exam-button exam-button"
+            (click)="deleteExam()"
+            [disabled]="isLoading"
+          >
+            Excluir Exame
+          </button>
+        </div>
       </div>
 
-      <div class="exam-file-viewer" *ngIf="exam.fileContent">
-        <h3>Arquivo do exame</h3>
+      <div class="exam-file-viewer">
         <ng-container *ngIf="exam.fileContent">
-          <iframe
+          <h3>Arquivo do exame</h3>
+          <pdf-viewer
             [src]="'data:application/pdf;base64,' + exam.fileContent"
-            width="100%"
-            height="600px"
-            style="border: 1px solid #ccc; border-radius: 8px"
-          ></iframe>
+            [render-text]="true"
+            style="display: block; width: 100%; height: 600px"
+            [original-size]="false"
+            [show-all]="true"
+            [zoom]="1.0"
+            [autoresize]="true"
+          ></pdf-viewer>
         </ng-container>
+
         <ng-container *ngIf="!exam.fileContent">
           <p>Arquivo não disponível.</p>
         </ng-container>
       </div>
-    </div>
-
-    <div class="exam-actions">
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="editExam()"
-        class="edit-exam-button"
-        [disabled]="isLoading"
-      >
-        Editar Exame
-      </button>
-      <button
-        mat-raised-button
-        color="warn"
-        (click)="deleteExam()"
-        class="delete-exam-button"
-        [disabled]="isLoading"
-      >
-        Excluir Exame
-      </button>
     </div>
   </ng-container>
 
