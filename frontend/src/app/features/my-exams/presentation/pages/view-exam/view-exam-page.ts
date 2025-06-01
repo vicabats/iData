@@ -100,6 +100,10 @@ export class ViewExamPage implements OnInit {
     });
   }
 
+  public goBackToList(): void {
+    this.router.navigate(['my-exams']);
+  }
+
   public editExam(): void {
     if (this.examId && this.userId) {
       this.router.navigate(['my-exams', 'exam', this.examId, 'edit'], {
@@ -108,15 +112,18 @@ export class ViewExamPage implements OnInit {
     }
   }
 
-  public deleteExam(): void {
+  public openDeleteExamModal(): void {
     this.showConfirmDeleteExamModal = true;
   }
 
-  public closeModal(): void {
+  public closeDeleteExamModal(): void {
     this.showConfirmDeleteExamModal = false;
   }
 
   public confirmDeleteExam(): void {
+    this.showConfirmDeleteExamModal = false;
+    this.isLoading = true;
+
     if (this.examId && this.userId) {
       this.myExamsService
         .deleteExam({

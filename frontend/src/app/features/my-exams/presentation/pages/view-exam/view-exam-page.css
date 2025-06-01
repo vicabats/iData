@@ -69,3 +69,20 @@
   cursor: pointer;
   color: var(--white);
 }
+
+.breadcrumb {
+  margin-bottom: 1.5rem;
+}
+
+.breadcrumb-link {
+  color: #3f51b5;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: text-decoration 0.2s;
+}
+
+.breadcrumb-link:hover {
+  text-decoration: underline;
+}

@@ -2,6 +2,12 @@
   <app-loading *ngIf="isLoading" />
 
   <ng-container *ngIf="!isLoading">
+    <nav class="breadcrumb">
+      <a (click)="goBackToList()" class="breadcrumb-link">
+        ← Voltar para Meus Exames
+      </a>
+    </nav>
+
     <div class="exam-header">
       <h2 class="view-exam-title">{{ exam.title | capitalize }}</h2>
       <span class="exam-type-chip">{{ getExamTypeName(exam.type) }}</span>
@@ -28,7 +34,7 @@
           </button>
           <button
             class="delete-exam-button exam-button"
-            (click)="deleteExam()"
+            (click)="openDeleteExamModal()"
             [disabled]="isLoading"
           >
             Excluir Exame
@@ -62,7 +68,7 @@
     [title]="'Deletar exame'"
     [message]="'Você tem certeza que deseja excluir este exame?'"
     [ctaText]="'Excluir'"
-    (ctaAction)="confirmDelete()"
-    (close)="closeDeleteModal()"
+    (ctaAction)="confirmDeleteExam()"
+    (close)="closeDeleteExamModal()"
   ></app-modal>
 </section>
