@@ -104,10 +104,10 @@ export class ViewExamPage implements OnInit {
     this.router.navigate(['my-exams']);
   }
 
-  public editExam(): void {
-    if (this.examId && this.userId) {
+  public navigateToEditExam(): void {
+    if (this.examId && this.userId && this.exam) {
       this.router.navigate(['my-exams', 'exam', this.examId, 'edit'], {
-        queryParams: { userId: this.userId },
+        state: { userId: this.userId, exam: this.exam },
       });
     }
   }
