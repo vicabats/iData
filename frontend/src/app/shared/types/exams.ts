@@ -21,6 +21,7 @@ export interface Exam {
   description: string;
   date: string;
   file: File;
+  fileContent?: string;
 }
 
 export function getExamTypeName(type: ExamType): string {

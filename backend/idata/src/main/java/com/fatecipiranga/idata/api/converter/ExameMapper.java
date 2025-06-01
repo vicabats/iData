@@ -5,6 +5,9 @@ import com.fatecipiranga.idata.api.response.ExameResponse;
 import com.fatecipiranga.idata.infrastructure.entity.ExameEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.MappingTarget;
+import java.util.Base64;
 
 @Mapper(componentModel = "spring")
 public interface ExameMapper {
@@ -22,5 +25,13 @@ public interface ExameMapper {
     ExameEntity toEntity(ExameDTO exameDTO);
 
     @Mapping(target = "file", source = "fileName")
+    @Mapping(target = "fileContent", ignore = true)
     ExameResponse toResponse(ExameEntity exameEntity);
+
+    @AfterMapping
+    default void fillFileContent(ExameEntity entity, @MappingTarget ExameResponse response) {
+        if (entity.getContent() != null) {
+            response.setFileContent(Base64.getEncoder().encodeToString(entity.getContent()));
+        }
+    }
 }

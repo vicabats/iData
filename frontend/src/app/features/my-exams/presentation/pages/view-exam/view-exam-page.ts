@@ -9,10 +9,17 @@ import { SnackBarComponent } from '../../../../../shared/components/snack-bar/sn
 import { ModalComponent } from '../../../../../shared/components/modal/modal/modal.component';
 import { UserSessionService } from '../../../../../core/services/user-session/user-session.service';
 import { CapitalizePipe } from '../../../../../shared/pipes/capitalize-pipe';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @Component({
   selector: 'app-view-exam',
-  imports: [LoadingComponent, CommonModule, ModalComponent, CapitalizePipe],
+  imports: [
+    LoadingComponent,
+    CommonModule,
+    ModalComponent,
+    CapitalizePipe,
+    PdfViewerModule,
+  ],
   templateUrl: './view-exam-page.html',
   styleUrl: './view-exam-page.css',
 })
