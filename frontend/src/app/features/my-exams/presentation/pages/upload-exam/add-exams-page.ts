@@ -13,7 +13,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { UserSessionService } from '../../../../../core/services/user-session/user-session.service';
-import { MyExamsService } from '../../../services/my-exams-service';
+import {
+  MyExamsService,
+  UploadExamResponse,
+} from '../../../services/my-exams-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '../../../../../shared/types/user';
 import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
@@ -119,7 +122,7 @@ export class AddExamsPage implements OnInit {
       });
   }
 
-  private handleUploadExamSuccess(response: any): void {
+  private handleUploadExamSuccess(response: UploadExamResponse): void {
     const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
       data: {
         message: 'Exame adicionado com sucesso!',

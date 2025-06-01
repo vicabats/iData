@@ -1,1 +1,76 @@
-<p>edit-exam works!</p>
+<section class="edit-exams-page">
+  <app-loading *ngIf="isLoading" />
+
+  <ng-container *ngIf="!isLoading">
+    <nav class="breadcrumb">
+      <a (click)="goBackToViewExam()" class="breadcrumb-link">
+        ← Voltar para o Exame
+      </a>
+    </nav>
+
+    <h2 class="edit-exams-title">Editar Exame</h2>
+
+    <form
+      [formGroup]="editExamForm"
+      (ngSubmit)="onEditSubmit()"
+      *ngIf="!isLoading"
+    >
+      <div class="input-field">
+        <label for="title">Título do exame</label>
+        <input id="title" formControlName="title" type="text" />
+        <div
+          *ngIf="editExamForm.get('title')?.invalid && editExamForm.get('title')?.touched"
+          class="error"
+        >
+          O exame deve conter um título válido.
+        </div>
+      </div>
+
+      <div class="input-field">
+        <label for="description">Descrição do exame</label>
+        <input id="description" formControlName="description" type="text" />
+        <div
+          *ngIf="editExamForm.get('description')?.invalid && editExamForm.get('description')?.touched"
+          class="error"
+        >
+          O exame deve conter uma descrição válida.
+        </div>
+      </div>
+
+      <div class="input-field">
+        <label for="type">Tipo do exame</label>
+        <select id="type" formControlName="type">
+          <option value="" disabled>Selecione o tipo</option>
+          <option *ngFor="let type of examTypes" [value]="type">
+            {{ examTypeNames[type] }}
+          </option>
+        </select>
+      </div>
+
+      <div class="input-field">
+        <label for="date">Data de realização</label>
+        <input id="date" type="date" formControlName="date" required />
+      </div>
+
+      <div class="input-field">
+        <label>Arquivo PDF</label>
+        <span class="selected-file-name">
+          {{ exam?.file?.name || exam?.fileName || 'Arquivo.pdf' }}
+        </span>
+        <div class="pdf-info-message">O arquivo PDF não pode ser alterado.</div>
+      </div>
+
+      <div class="edit-exam-section">
+        <button
+          mat-raised-button
+          class="edit-exam_button"
+          type="submit"
+          [disabled]="editExamForm.invalid || isLoading || !editExamForm.dirty"
+          [ngClass]="{ 'edit-exam_enabled': !editExamForm.invalid && !isLoading && editExamForm.dirty }"
+        >
+          Salvar alterações
+        </button>
+      </div>
+    </form>
+  </ng-container>
+</section>

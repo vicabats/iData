@@ -21,7 +21,7 @@ interface GetExamById {
 }
 
 interface UpdateExamParams {
-  user: User;
+  userId: string;
   exam: Exam;
 }
 
@@ -40,6 +40,10 @@ export interface GetExamByIdResponse {
 
 export interface UploadExamResponse {
   exam: Exam;
+}
+
+export interface UpdateExamResponse {
+  exams: Exam;
 }
 
 @Injectable({
@@ -69,10 +73,14 @@ export class MyExamsService {
       title: exam.title,
       description: exam.description,
       date: exam.date,
+      file: exam.file?.name,
     };
 
     const formData = new FormData();
-    formData.append('file', exam.file, exam.file.name);
+
+    if (exam.file) {
+      formData.append('file', exam.file, exam.file.name);
+    }
     formData.append(
       'data',
       new Blob([JSON.stringify(data)], { type: 'application/json' })
@@ -89,25 +97,35 @@ export class MyExamsService {
     const apiUrl = `http://localhost:8080/api/user/${userId}/exam/${examId}`;
 
     return this.http.get<{ exams: Exam }>(apiUrl).pipe(
-      map((response) => response.exams),
+      map((response) => {
+        const exam = response.exams;
+        return {
+          ...exam,
+          fileName: typeof exam.file === 'string' ? exam.file : undefined,
+          file: undefined,
+        };
+      }),
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error.error);
       })
     );
   }
 
-  public updateExam({ user, exam }: UpdateExamParams): Observable<Exam> {
-    const apiUrl = `http://localhost:8080/api/user/${user.id}/exam/${exam.id}`;
+  public updateExam({
+    userId,
+    exam,
+  }: UpdateExamParams): Observable<UpdateExamResponse> {
+    const apiUrl = `http://localhost:8080/api/user/${userId}/exam/${exam.id}`;
 
-    const formData = new FormData();
-    if (exam) {
-      formData.append('file', exam.file, exam.file.name);
-      formData.append('title', exam.title);
-      formData.append('description', exam.description);
-      formData.append('date', exam.date);
-    }
+    const data = {
+      type: exam.type.toUpperCase(),
+      title: exam.title,
+      description: exam.description,
+      date: exam.date,
+      file: exam.fileName,
+    };
 
-    return this.http.put<Exam>(apiUrl, formData).pipe(
+    return this.http.put<UpdateExamResponse>(apiUrl, data).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error.error);
       })
