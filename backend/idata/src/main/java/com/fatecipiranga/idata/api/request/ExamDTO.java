@@ -8,7 +8,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class ExameDTO {
+public class ExamDTO {
     @NotBlank(message = "userId é obrigatório")
     private String userId;
     @NotNull(message = "type é obrigatório")
