@@ -34,6 +34,7 @@ export class ViewExamPage implements OnInit {
   public getExamTypeName = getExamTypeName;
 
   public showConfirmDeleteExamModal = false;
+  public showShareExamModal = false;
 
   constructor(
     private myExamsService: MyExamsService,

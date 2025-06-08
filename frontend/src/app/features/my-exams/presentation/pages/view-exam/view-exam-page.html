@@ -40,6 +40,13 @@
             Excluir Exame
           </button>
         </div>
+        <button
+          class="share-exam-button exam-button"
+          (click)="openShareExamModal()"
+          [disabled]="isLoading"
+        >
+          Compartilhar Exame
+        </button>
       </div>
 
       <div class="exam-file-viewer">
@@ -71,4 +78,13 @@
     (ctaAction)="confirmDeleteExam()"
     (close)="closeDeleteExamModal()"
   ></app-modal>
+
+  <app-modal
+    *ngIf="showShareExamModal"
+    [title]="'Compartilhar exame'"
+    [ctaText]="'Compartilhar'"
+    (ctaAction)="confirmShareExam()"
+    (close)="closeShareExamModal()"
+  >
+  </app-modal>
 </section>
