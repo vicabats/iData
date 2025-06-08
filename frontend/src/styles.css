@@ -81,6 +81,10 @@ body {
   z-index: 10000 !important;
 }
 
+.mat-mdc-snack-bar-container.centered-snackbar {
+  z-index: 99999 !important;
+}
+
 .mat-mdc-snack-bar-container.success-snackbar {
   --mdc-snackbar-container-color: var(--success);
   --mat-mdc-snack-bar-button-color: #fff;
@@ -91,4 +95,16 @@ body {
   --mdc-snackbar-container-color: var(--warning);
   --mat-mdc-snack-bar-button-color: #fff;
   --mdc-snackbar-supporting-text-color: #fff;
+}
+
+.mat-mdc-snack-bar-container.centered-snackbar {
+  z-index: 99999 !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translate(-50%, -50%) !important;
+  position: fixed !important;
+  width: auto !important;
+  max-width: 80vw;
 }

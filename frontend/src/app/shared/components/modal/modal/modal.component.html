@@ -2,9 +2,15 @@
   <div class="modal-content">
     <h2 class="modal-title">{{ title }}</h2>
     <p class="modal-message">{{ message }}</p>
+    <ng-content></ng-content>
     <div class="modal-buttons">
       <button class="modal-button cancel" (click)="onClose()">Cancelar</button>
-      <button *ngIf="ctaText" class="modal-button cta" (click)="onCtaClick()">
+      <button
+        *ngIf="ctaText"
+        class="modal-button cta"
+        (click)="onCtaClick()"
+        [disabled]="ctaDisabled"
+      >
         {{ ctaText }}
       </button>
     </div>

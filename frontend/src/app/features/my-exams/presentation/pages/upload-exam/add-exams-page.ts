@@ -64,6 +64,10 @@ export class AddExamsPage implements OnInit {
     });
   }
 
+  public goBackToMyExams() {
+    this.router.navigate(['/my-exams']);
+  }
+
   public onClearFile(): void {
     this.addExamForm.get('file')?.setValue(null);
     this.addExamForm.get('file')?.markAsUntouched();
@@ -135,7 +139,6 @@ export class AddExamsPage implements OnInit {
     });
 
     snackBarRef.afterDismissed().subscribe(() => {
-      console.log(response);
       this.isLoading = false;
       this.addExamForm.reset();
       this.router.navigate(['/my-exams']);

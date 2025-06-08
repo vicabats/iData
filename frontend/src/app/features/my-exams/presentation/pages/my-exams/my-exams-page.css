@@ -3,17 +3,34 @@
   padding-bottom: 10rem;
 }
 
+.breadcrumb {
+  margin-bottom: var(--spacing-xl);
+}
+
+.breadcrumb-link {
+  color: var(--darker-blue);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: text-decoration 0.2s;
+}
+
+.breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
 .my-exams-title {
   font-size: var(--font-size-lg);
   font-weight: 600;
-  color: var(--dark-gray, #333);
-  margin-bottom: var(--spacing-md, 1.5rem);
+  color: var(--dark-gray);
+  margin-bottom: var(--spacing-sm);
 }
 
 .my-exams-description {
   font-size: var(--font-size-sm);
-  color: var(--dark-gray, #555);
-  margin-bottom: var(--spacing-lg, 2rem);
+  color: var(--dark-gray);
+  margin-bottom: var(--spacing-xl);
 }
 
 .no-exams-message {

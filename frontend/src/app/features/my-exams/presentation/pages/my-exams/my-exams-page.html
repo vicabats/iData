@@ -2,13 +2,15 @@
   <app-loading *ngIf="isLoading" />
 
   <ng-container *ngIf="!isLoading">
+    <nav class="breadcrumb">
+      <a (click)="goBackToMyHome()" class="breadcrumb-link">
+        ← Voltar para Minhas Funcionalidades
+      </a>
+    </nav>
+
     <h2 class="my-exams-title">Meus exames</h2>
     <p class="my-exams-description">
-      Aqui você pode visualizar e gerenciar todos os seus exames e laudos
-      médicos. Clique em um exame para ver os detalhes, editar, remover ou
-      compartilhar com o profissional de saúde de sua escolha. Também é possível
-      adicionar novos arquivos ao seu repositório. Mantenha seus exames sempre
-      organizados e acessíveis, quando e onde precisar.
+      Visualize, gerencie, adicione e compartilhe seus exames e laudos médicos
     </p>
     <ng-container *ngIf="exams && exams.length > 0">
       <ul class="exam-list">
