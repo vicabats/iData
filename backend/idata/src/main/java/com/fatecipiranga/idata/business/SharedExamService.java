@@ -49,41 +49,41 @@ public class SharedExamService {
         this.sharedExamMapper = sharedExamMapper;
     }
 
-    public void shareExam(String userCPF, String examId, ShareExamRequest request) {
-        LOGGER.info("Iniciando compartilhamento do exame ID: {} pelo usuário CPF: {} para o e-mail: {}",
-                examId, userCPF, request.getProfessionalEmail());
+        public void shareExam(String userId, String examId, ShareExamRequest request) {
+                LOGGER.info("Iniciando compartilhamento do exame ID: {} pelo usuário ID: {} para o e-mail: {}",
+                        examId, userId, request.getProfessionalEmail());
 
-        // Valida usuário
-        UsuarioEntity personal = usuarioRepository.findByCpf(userCPF)
-                .orElseThrow(() -> new ExameManagementException("Usuário com CPF: " + userCPF + NOT_FOUND_SUFFIX, USER_NOT_FOUND_CODE));
-        LOGGER.debug("Usuário encontrado: {}", personal.getId());
+                // Valida usuário por ID
+                UsuarioEntity personal = usuarioRepository.findById(userId)
+                        .orElseThrow(() -> new ExameManagementException("Usuário ID: " + userId + NOT_FOUND_SUFFIX, USER_NOT_FOUND_CODE));
+                LOGGER.debug("Usuário encontrado: {}", personal.getId());
 
-        // Valida exame
-        ExameEntity exame = exameRepository.findByIdAndUserId(examId, personal.getId())
-                .orElseThrow(() -> new ExameManagementException(
-                        EXAM_ID_PREFIX + examId + " não encontrado ou não pertence ao usuário CPF: " + userCPF,
-                        EXAM_NOT_FOUND_CODE));
-        LOGGER.debug("Exame encontrado: {}", exame.getId());
+                // Valida exame
+                ExameEntity exame = exameRepository.findByIdAndUserId(examId, userId)
+                        .orElseThrow(() -> new ExameManagementException(
+                                EXAM_ID_PREFIX + examId + " não encontrado ou não pertence ao usuário ID: " + userId,
+                                EXAM_NOT_FOUND_CODE));
+                LOGGER.debug("Exame encontrado: {}", exame.getId());
 
-        // Valida profissional
-        ProfessionalEntity profissional = professionalRepository.findByEmail(request.getProfessionalEmail())
-                .orElseThrow(() -> new ExameManagementException(
-                        "Ops, seu médico ainda não está cadastrado no iData!",
-                        PROFESSIONAL_NOT_FOUND_CODE));
-        LOGGER.debug("Profissional encontrado: {}", profissional.getId());
+                // Valida profissional (mantém igual)
+                ProfessionalEntity profissional = professionalRepository.findByEmail(request.getProfessionalEmail())
+                        .orElseThrow(() -> new ExameManagementException(
+                                "Ops, seu médico ainda não está cadastrado no iData!",
+                                PROFESSIONAL_NOT_FOUND_CODE));
+                LOGGER.debug("Profissional encontrado: {}", profissional.getId());
 
-        // Cria compartilhamento
-        CompartilhamentoExame compartilhamento = new CompartilhamentoExame();
-        compartilhamento.setId(UUID.randomUUID().toString());
-        compartilhamento.setExameId(exame.getId());
-        compartilhamento.setProfissionalId(profissional.getId());
-        compartilhamento.setDataCompartilhamento(LocalDateTime.now());
-        LOGGER.debug("Compartilhamento criado: {}", compartilhamento.getId());
+                // Cria compartilhamento (mantém igual)
+                CompartilhamentoExame compartilhamento = new CompartilhamentoExame();
+                compartilhamento.setId(UUID.randomUUID().toString());
+                compartilhamento.setExameId(exame.getId());
+                compartilhamento.setProfissionalId(profissional.getId());
+                compartilhamento.setDataCompartilhamento(LocalDateTime.now());
+                LOGGER.debug("Compartilhamento criado: {}", compartilhamento.getId());
 
-        // Salva compartilhamento
-        compartilhamentoExameRepository.save(compartilhamento);
-        LOGGER.info("Exame ID: {} compartilhado com sucesso para profissional ID: {}", examId, profissional.getId());
-    }
+                // Salva compartilhamento
+                compartilhamentoExameRepository.save(compartilhamento);
+                LOGGER.info("Exame ID: {} compartilhado com sucesso para profissional ID: {}", examId, profissional.getId());
+        }
 
     public List<SharedExamResponse> getSharedExams(String professionalId) {
         LOGGER.info("Buscando exames compartilhados para o profissional ID: {}", professionalId);

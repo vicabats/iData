@@ -30,8 +30,8 @@
 .modal-message {
   font-size: var(--font-size-sm);
   color: var(--dark-gray);
-  text-align: left;
   margin-bottom: var(--spacing-lg);
+  text-align: center;
 }
 
 .modal-buttons {

@@ -29,18 +29,17 @@ public class SharedExamController {
         this.sharedExamService = sharedExamService;
     }
 
-    @PostMapping("/{userCPF}/exam/{examId}/share")
-    public ResponseEntity<Map<String, Object>> shareExam(@PathVariable String userCPF,
-        @PathVariable String examId,
-        @RequestBody ShareExamRequest request) {
+    @PostMapping("/{userId}/exam/{examId}/share")
+    public ResponseEntity<Map<String, Object>> shareExam(@PathVariable String userId,
+    @PathVariable String examId, @RequestBody ShareExamRequest request) {
         try {
-            sharedExamService.shareExam(userCPF, examId, request);
+            sharedExamService.shareExam(userId, examId, request);
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put(MESSAGE, "Exame compartilhado com sucesso.");
             return ResponseEntity.ok(responseBody);
         } catch (ExameManagementException e) {
-            LOGGER.error("Erro ao compartilhar exame ID: {} para usuário CPF: {}. Detalhes: {}", 
-                    examId, userCPF, e.getMessage(), e);
+            LOGGER.error("Erro ao compartilhar exame ID: {} para usuário ID: {}. Detalhes: {}", 
+                    examId, userId, e.getMessage(), e);
             Map<String, Object> errorBody = new HashMap<>();
             errorBody.put(MESSAGE, e.getMessage());
             errorBody.put(ERROR_CODE, e.getErrorCode());

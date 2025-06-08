@@ -155,7 +155,7 @@ export class MyExamsService {
   }: ShareExamParams): Observable<void> {
     const apiUrl = `http://localhost:8080/api/user/${userId}/exam/${examId}/share`;
 
-    return this.http.post<void>(apiUrl, professionalEmail).pipe(
+    return this.http.post<void>(apiUrl, { professionalEmail }).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error.error);
       })

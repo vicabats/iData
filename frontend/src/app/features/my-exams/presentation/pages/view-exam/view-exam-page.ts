@@ -204,12 +204,12 @@ export class ViewExamPage implements OnInit {
         professionalEmail: this.professionalEmailToShare,
       })
       .subscribe({
-        next: (response) => this.handleShareExamSuccess(response),
+        next: () => this.handleShareExamSuccess(),
         error: (error) => this.handleShareExamFailure(error),
       });
   }
 
-  private handleShareExamSuccess(response: any): void {
+  private handleShareExamSuccess(): void {
     const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
       data: {
         message: 'Exame compartilhado com sucesso!',
