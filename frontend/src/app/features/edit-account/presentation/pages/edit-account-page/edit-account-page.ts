@@ -101,4 +101,8 @@ export class EditAccountPage implements OnInit {
       this.isLoading = false;
     });
   }
+
+  public goBackToMyAccount(): void {
+    this.router.navigate(['my-account']);
+  }
 }

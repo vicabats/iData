@@ -83,6 +83,10 @@ export class MyAccountPage implements OnInit {
     });
   }
 
+  public goBackToMyHome(): void {
+    this.router.navigate(['my-home']);
+  }
+
   public updateAccount() {
     this.router.navigate(['my-account', this.userType, 'edit']);
   }

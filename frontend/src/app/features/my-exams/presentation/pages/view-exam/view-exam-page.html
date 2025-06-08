@@ -8,43 +8,57 @@
       </a>
     </nav>
 
-    <div class="exam-header">
-      <h2 class="view-exam-title">{{ exam.title | capitalize }}</h2>
-      <span class="exam-type-chip">{{ getExamTypeName(exam.type) }}</span>
-    </div>
-
-    <div class="exam-details">
-      <div class="exam-info">
-        <p>
-          <strong>Data do exame:</strong>
-          {{ exam.date | date: 'dd/MM/yyyy' }}
-        </p>
-        <p>
-          <strong>Descrição:</strong>
-          {{ exam.description }}
-        </p>
-
+    <div class="exam-wrapper">
+      <div class="exam-infos">
+        <div>
+          <div class="exam-header">
+            <h2 class="view-exam-title">{{ exam.title | capitalize }}</h2>
+            <span class="exam-type-chip">{{ getExamTypeName(exam.type) }}</span>
+          </div>
+          <div class="exam-meta">
+            <p>
+              <strong>Data do exame:</strong>
+              {{ exam.date | date: 'dd/MM/yyyy' }}
+            </p>
+            <p>
+              <strong>Descrição:</strong>
+              {{ exam.description }}
+            </p>
+          </div>
+        </div>
         <div class="exam-actions">
+          <div class="exam-actions-icons">
+            <button
+              class="icon-button edit-exam-button"
+              (click)="navigateToEditExam()"
+              [disabled]="isLoading"
+              title="Editar Exame"
+            >
+              <i class="fas fa-pen"></i>
+              <span class="icon-label">Editar</span>
+            </button>
+            <button
+              class="icon-button delete-exam-button"
+              (click)="openDeleteExamModal()"
+              [disabled]="isLoading"
+              title="Excluir Exame"
+            >
+              <i class="fas fa-trash"></i>
+              <span class="icon-label">Excluir</span>
+            </button>
+          </div>
           <button
-            class="edit-exam-button exam-button"
-            (click)="navigateToEditExam()"
+            class="share-exam-button exam-button"
+            (click)="openShareExamModal()"
             [disabled]="isLoading"
           >
-            Editar Exame
-          </button>
-          <button
-            class="delete-exam-button exam-button"
-            (click)="openDeleteExamModal()"
-            [disabled]="isLoading"
-          >
-            Excluir Exame
+            Compartilhar Exame
           </button>
         </div>
       </div>
 
       <div class="exam-file-viewer">
         <ng-container *ngIf="exam.fileContent">
-          <h3>Arquivo do exame</h3>
           <pdf-viewer
             [src]="'data:application/pdf;base64,' + exam.fileContent"
             [render-text]="true"
@@ -71,4 +85,32 @@
     (ctaAction)="confirmDeleteExam()"
     (close)="closeDeleteExamModal()"
   ></app-modal>
+
+  <app-modal
+    *ngIf="showShareExamModal"
+    [title]="'Compartilhar exame'"
+    [ctaText]="'Compartilhar'"
+    (ctaAction)="confirmShareExam()"
+    (close)="closeShareExamModal()"
+    [ctaDisabled]="!isShareEmailValid()"
+  >
+    <div class="share-exam-modal-message">
+      Digite o e-mail do profissional de saúde com quem deseja compartilhar o
+      exame.<br /><br />
+      Lembre-se de que o profissional precisa estar cadastrado no sistema e que
+      o compartilhamento <strong>durará por apenas 24 horas</strong>.
+    </div>
+    <form (ngSubmit)="confirmShareExam()" class="share-exam-form">
+      <div>
+        <input
+          class="input-field"
+          name="professionalEmailToShare"
+          id="professionalEmailToShare"
+          type="email"
+          [(ngModel)]="professionalEmailToShare"
+          required
+        />
+      </div>
+    </form>
+  </app-modal>
 </section>

@@ -1,7 +1,33 @@
 .view-exam-page {
-  padding: 3rem 10vw;
-  max-width: 900px;
+  padding: 3rem 15vw;
   margin: 0 auto;
+}
+
+.breadcrumb {
+  margin-bottom: var(--spacing-xl);
+}
+
+.breadcrumb-link {
+  color: var(--darker-blue);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: text-decoration 0.2s;
+}
+
+.breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
+.exam-wrapper {
+  display: flex;
+}
+
+.exam-infos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .exam-header {
@@ -18,46 +44,69 @@
 }
 
 .exam-type-chip {
-  background: #e3e6f3;
-  color: #3f51b5;
+  background: var(--light-green);
+  color: var(--blue);
   border-radius: 16px;
   padding: 0.3rem 1.2rem;
   font-size: 1rem;
   font-weight: 500;
 }
 
-.exam-details {
+.exam-meta {
   display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  margin-bottom: 2.5rem;
-}
-
-.exam-info {
-  flex: 1 1 250px;
-  min-width: 250px;
-
-  p {
-    margin-bottom: 1rem;
-  }
-}
-
-.exam-file-viewer {
-  flex: 2 1 400px;
-  min-width: 350px;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .exam-actions {
   display: flex;
+  flex-direction: column;
   gap: 1.5rem;
-  margin-top: 2rem;
+  margin-top: 8rem;
 }
 
-.edit-exam-button {
-  background-color: var(--light-blue);
+.exam-actions-icons {
+  display: flex;
+  justify-content: space-evenly;
 }
 
-.delete-exam-button {
+.exam-actions i {
+  font-size: 2rem;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+.icon-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 0.7rem;
+  margin-right: 0.5rem;
+  color: #444;
+  transition: color 0.2s;
+  box-shadow: none;
+}
+
+.icon-button:disabled {
+  color: #bbb;
+  cursor: not-allowed;
+}
+
+.icon-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: inherit;
+  user-select: none;
+}
+
+.share-exam-button {
+  margin-top: var(--spacing-sm);
+  width: 100%;
   background-color: var(--blue);
 }
 
@@ -70,19 +119,40 @@
   color: var(--white);
 }
 
-.breadcrumb {
-  margin-bottom: 1.5rem;
+.edit-exam-button:hover:not(:disabled) {
+  color: #1976d2;
 }
 
-.breadcrumb-link {
-  color: #3f51b5;
-  text-decoration: none;
-  cursor: pointer;
-  font-weight: 500;
-  font-size: 1rem;
-  transition: text-decoration 0.2s;
+.delete-exam-button:hover:not(:disabled) {
+  color: #d32f2f;
 }
 
-.breadcrumb-link:hover {
-  text-decoration: underline;
+.exam-file-viewer {
+  flex: 2 1 400px;
+  min-width: 350px;
+}
+
+.share-exam-form {
+  padding-bottom: var(--spacing-lg);
+}
+
+label {
+  font-size: 14px;
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.input-field {
+  font-size: 18px;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid var(--blue);
+  border-radius: 8px;
+}
+
+.share-exam-modal-message {
+  margin-bottom: var(--spacing-lg);
+  text-align: left;
 }

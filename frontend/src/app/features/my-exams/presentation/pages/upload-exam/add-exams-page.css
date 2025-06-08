@@ -3,6 +3,23 @@
   padding-bottom: 10rem;
 }
 
+.breadcrumb {
+  margin-bottom: var(--spacing-xl);
+}
+
+.breadcrumb-link {
+  color: var(--darker-blue);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: text-decoration 0.2s;
+}
+
+.breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
 .add-exams-title {
   padding-bottom: 4rem;
 }

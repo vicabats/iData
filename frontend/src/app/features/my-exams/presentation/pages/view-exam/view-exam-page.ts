@@ -10,6 +10,7 @@ import { ModalComponent } from '../../../../../shared/components/modal/modal/mod
 import { UserSessionService } from '../../../../../core/services/user-session/user-session.service';
 import { CapitalizePipe } from '../../../../../shared/pipes/capitalize-pipe';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-view-exam',
@@ -19,6 +20,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     ModalComponent,
     CapitalizePipe,
     PdfViewerModule,
+    FormsModule,
   ],
   templateUrl: './view-exam-page.html',
   styleUrl: './view-exam-page.css',
@@ -34,6 +36,10 @@ export class ViewExamPage implements OnInit {
   public getExamTypeName = getExamTypeName;
 
   public showConfirmDeleteExamModal = false;
+
+  public showShareExamModal = false;
+  public professionalEmailToShare: string = '';
+  public isSharingExam = false;
 
   constructor(
     private myExamsService: MyExamsService,
@@ -169,6 +175,74 @@ export class ViewExamPage implements OnInit {
 
     snackBarRef.afterDismissed().subscribe(() => {
       this.isLoading = false;
+    });
+  }
+
+  public openShareExamModal(): void {
+    this.showShareExamModal = true;
+  }
+
+  public closeShareExamModal(): void {
+    this.showShareExamModal = false;
+  }
+
+  public isShareEmailValid(): boolean {
+    return (
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.professionalEmailToShare) &&
+      !this.isSharingExam
+    );
+  }
+
+  public confirmShareExam(): void {
+    if (!this.professionalEmailToShare) return;
+    this.isSharingExam = true;
+
+    this.myExamsService
+      .shareExam({
+        userId: this.userId as string,
+        examId: this.examId as string,
+        professionalEmail: this.professionalEmailToShare,
+      })
+      .subscribe({
+        next: (response) => this.handleShareExamSuccess(response),
+        error: (error) => this.handleShareExamFailure(error),
+      });
+  }
+
+  private handleShareExamSuccess(response: any): void {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
+      data: {
+        message: 'Exame compartilhado com sucesso!',
+        type: 'success',
+      },
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      panelClass: ['success-snackbar', 'centered-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.showShareExamModal = false;
+      this.professionalEmailToShare = '';
+      this.isSharingExam = false;
+    });
+  }
+
+  private handleShareExamFailure(error: any): void {
+    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
+      data: {
+        message: 'Erro ao compartilhar o exame: ' + error.message,
+        type: 'error',
+      },
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      panelClass: ['error-snackbar', 'centered-snackbar'],
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.professionalEmailToShare = '';
+      this.isSharingExam = false;
     });
   }
 }
