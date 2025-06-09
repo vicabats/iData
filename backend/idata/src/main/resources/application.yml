@@ -1,4 +1,4 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/idata
+      uri: mongodb+srv://iData_admin:iDataADS@idata.afec1y8.mongodb.net/idata?retryWrites=true&w=majority&appName=iData

@@ -22,9 +22,14 @@ body {
 }
 
 .main {
-  flex: 1;
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+}
+
+router-outlet + * {
+  flex: 1 0 auto;
 }
 
 /* Material style overrides */
