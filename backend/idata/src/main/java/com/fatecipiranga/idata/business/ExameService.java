@@ -24,6 +24,9 @@ public class ExameService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExameService.class);
     private static final String[] ALLOWED_MIME_TYPES = {"application/pdf", "image/jpeg"};
+    private static final String EXAM_ID_PREFIX = "Exame ID: ";
+    private static final String NOT_FOUND_OR_NOT_OWNED = " não encontrado ou não pertence ao usuário ID: ";
+    private static final String EXAM_NOT_FOUND_CODE = "EXAME_NOT_FOUND";
 
     private final ExameRepository exameRepository;
     private final UsuarioRepository usuarioRepository;
@@ -54,11 +57,9 @@ public class ExameService {
         try {
             exameEntity.setContent(file.getBytes());
         } catch (IOException e) {
-            LOGGER.error("Erro ao converter arquivo '{}' para bytes para usuário ID: {}. Detalhes: {}",
-                    exameDTO.getFile(), exameDTO.getUserId(), e.getMessage(), e);
-            throw new ExameManagementException(
-                    "Erro ao processar arquivo '" + exameDTO.getFile() + "' para usuário ID: " + exameDTO.getUserId(),
-                    "FILE_PROCESSING_ERROR", e);
+            String errorMessage = "Erro ao processar arquivo '" + exameDTO.getFile() + "' para usuário ID: " + exameDTO.getUserId();
+            LOGGER.error("{}: {}", errorMessage, e.getMessage(), e);
+            throw new ExameManagementException(errorMessage, "FILE_PROCESSING_ERROR", e);
         }
 
         exameEntity = exameRepository.save(exameEntity);
@@ -73,8 +74,8 @@ public class ExameService {
 
         ExameEntity exame = exameRepository.findByIdAndUserId(examId, userId)
                 .orElseThrow(() -> new ExameManagementException(
-                        "Exame ID: " + examId + " não encontrado ou não pertence ao usuário ID: " + userId,
-                        "EXAME_NOT_FOUND"));
+                        EXAM_ID_PREFIX + examId + NOT_FOUND_OR_NOT_OWNED + userId,
+                        EXAM_NOT_FOUND_CODE));
 
         exame.setType(exameDTO.getType());
         exame.setTitle(exameDTO.getTitle());
@@ -93,8 +94,8 @@ public class ExameService {
 
         ExameEntity exame = exameRepository.findByIdAndUserId(examId, userId)
                 .orElseThrow(() -> new ExameManagementException(
-                        "Exame ID: " + examId + " não encontrado ou não pertence ao usuário ID: " + userId,
-                        "EXAME_NOT_FOUND"));
+                        EXAM_ID_PREFIX + examId + NOT_FOUND_OR_NOT_OWNED + userId,
+                        EXAM_NOT_FOUND_CODE));
 
         return exameMapper.toResponse(exame);
     }
@@ -112,8 +113,8 @@ public class ExameService {
 
         ExameEntity exame = exameRepository.findByIdAndUserId(examId, userId)
                 .orElseThrow(() -> new ExameManagementException(
-                        "Exame ID: " + examId + " não encontrado ou não pertence ao usuário ID: " + userId,
-                        "EXAME_NOT_FOUND"));
+                        EXAM_ID_PREFIX + examId + NOT_FOUND_OR_NOT_OWNED + userId,
+                        EXAM_NOT_FOUND_CODE));
 
         exameRepository.delete(exame);
         LOGGER.info("Exame deletado com sucesso: {}", examId);
@@ -126,8 +127,8 @@ public class ExameService {
 
         ExameEntity exame = exameRepository.findByIdAndUserId(examId, userId)
                 .orElseThrow(() -> new ExameManagementException(
-                        "Exame ID: " + examId + " não encontrado ou não pertence ao usuário ID: " + userId,
-                        "EXAME_NOT_FOUND"));
+                        EXAM_ID_PREFIX + examId + NOT_FOUND_OR_NOT_OWNED + userId,
+                        EXAM_NOT_FOUND_CODE));
 
         if (!consentGiven) {
             throw new ExameManagementException(
@@ -197,7 +198,7 @@ public class ExameService {
 
     private ExameEntity validateAccess(String examId, String userId, String professionalId) {
         ExameEntity exame = exameRepository.findById(examId)
-                .orElseThrow(() -> new ExameManagementException("Exame ID: " + examId + " não encontrado", "EXAME_NOT_FOUND"));
+                .orElseThrow(() -> new ExameManagementException(EXAM_ID_PREFIX + examId + " não encontrado", EXAM_NOT_FOUND_CODE));
 
         if (userId != null && exame.getUserId().equals(userId)) {
             return exame;

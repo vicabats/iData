@@ -2,7 +2,6 @@ package com.fatecipiranga.idata.infrastructure.repository;
 
 import com.fatecipiranga.idata.infrastructure.entity.ExameEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
-
 import java.util.List;
 import java.util.Optional;
 

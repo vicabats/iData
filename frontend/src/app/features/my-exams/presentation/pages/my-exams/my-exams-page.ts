@@ -69,6 +69,10 @@ export class MyExamsPage implements OnInit {
     });
   }
 
+  public goBackToMyHome(): void {
+    this.router.navigate(['my-home']);
+  }
+
   public navigateToExamDetails(exam: Exam): void {
     this.router.navigate(['my-exams', 'exam', exam.id], {
       state: { userId: this.user?.id },

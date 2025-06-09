@@ -2,6 +2,12 @@
   <app-loading *ngIf="isLoading" />
 
   <ng-container *ngIf="!isLoading">
+    <nav class="breadcrumb">
+      <a (click)="goBackToMyAccount()" class="breadcrumb-link">
+        ← Voltar para Meu Cadastro
+      </a>
+    </nav>
+
     <h2 class="my-account-username">Dados cadastrais</h2>
 
     <ng-container *ngIf="userType === userTypeEnum.personal">

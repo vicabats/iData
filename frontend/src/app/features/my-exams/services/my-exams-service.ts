@@ -30,6 +30,12 @@ interface DeleteExamParams {
   examId: string;
 }
 
+interface ShareExamParams {
+  userId: string;
+  examId: string;
+  professionalEmail: string;
+}
+
 export interface MyExamsResponse {
   exams?: Exam[];
 }
@@ -136,6 +142,20 @@ export class MyExamsService {
     const apiUrl = `http://localhost:8080/api/user/${userId}/exam/${examId}`;
 
     return this.http.delete<void>(apiUrl).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error.error);
+      })
+    );
+  }
+
+  public shareExam({
+    userId,
+    examId,
+    professionalEmail,
+  }: ShareExamParams): Observable<void> {
+    const apiUrl = `http://localhost:8080/api/user/${userId}/exam/${examId}/share`;
+
+    return this.http.post<void>(apiUrl, { professionalEmail }).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error.error);
       })

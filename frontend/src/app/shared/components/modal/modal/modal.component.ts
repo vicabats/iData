@@ -12,6 +12,7 @@ export class ModalComponent {
   @Input() title: string = '';
   @Input() message: string = '';
   @Input() ctaText: string | null = null;
+  @Input() ctaDisabled: boolean = false;
   @Output() ctaAction = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();
 

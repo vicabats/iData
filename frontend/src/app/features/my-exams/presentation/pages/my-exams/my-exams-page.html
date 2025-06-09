@@ -1,9 +1,17 @@
 <section class="my-exams-page">
   <app-loading *ngIf="isLoading" />
 
-  <h2 class="my-exams-title">Meus exames</h2>
-
   <ng-container *ngIf="!isLoading">
+    <nav class="breadcrumb">
+      <a (click)="goBackToMyHome()" class="breadcrumb-link">
+        ← Voltar para Minhas Funcionalidades
+      </a>
+    </nav>
+
+    <h2 class="my-exams-title">Meus exames</h2>
+    <p class="my-exams-description">
+      Visualize, gerencie, adicione e compartilhe seus exames e laudos médicos
+    </p>
     <ng-container *ngIf="exams && exams.length > 0">
       <ul class="exam-list">
         <li

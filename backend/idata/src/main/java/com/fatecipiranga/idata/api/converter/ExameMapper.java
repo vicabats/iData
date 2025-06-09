@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
+
 import java.util.Base64;
 
 @Mapper(componentModel = "spring")
@@ -22,10 +23,17 @@ public interface ExameMapper {
     @Mapping(target = "title", source = "title")
     @Mapping(target = "description", source = "description")
     @Mapping(target = "date", source = "date")
+    @Mapping(target = "mimeType", ignore = true)
     ExameEntity toEntity(ExameDTO exameDTO);
 
+    @Mapping(target = "id", source = "id")
     @Mapping(target = "file", source = "fileName")
     @Mapping(target = "fileContent", ignore = true)
+    @Mapping(target = "userId", source = "userId")
+    @Mapping(target = "type", source = "type")
+    @Mapping(target = "title", source = "title")
+    @Mapping(target = "description", source = "description")
+    @Mapping(target = "date", source = "date")
     ExameResponse toResponse(ExameEntity exameEntity);
 
     @AfterMapping
