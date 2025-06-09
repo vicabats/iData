@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
 import { CommonModule } from '@angular/common';
-import { Exam, getExamTypeName } from '../../../../../shared/types/exams';
+import { Exam, getExamTypeName } from '../../../../../shared/types/exam';
 import { MyExamsService } from '../../../services/my-exams-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';

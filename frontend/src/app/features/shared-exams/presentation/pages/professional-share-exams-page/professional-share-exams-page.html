@@ -1,0 +1,23 @@
+<section class="professional-share-exams-page">
+  <app-loading *ngIf="isLoading" />
+
+  <ng-container *ngIf="!isLoading">
+    <nav class="breadcrumb">
+      <a (click)="goBackToMyHome()" class="breadcrumb-link">
+        ← Voltar para Minhas Funcionalidades
+      </a>
+    </nav>
+
+    <h2 class="professional-share-exams-title">Exames compartilhados comigo</h2>
+    <p class="professional-share-exams-description">
+      Visualize os exames que seus pacientes compartilharam com você.
+    </p>
+
+    <ng-container *ngIf="sharedExams && sharedExams.length === 0">
+      <p class="no-exams-message">
+        Seus pacientes ainda não compartilharam nenhum exame com você ou os
+        exames que você tinha acesso expiraram.
+      </p>
+    </ng-container>
+  </ng-container>
+</section>

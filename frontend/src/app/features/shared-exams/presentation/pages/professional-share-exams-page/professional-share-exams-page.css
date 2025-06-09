@@ -1,0 +1,41 @@
+.professional-share-exams-page {
+  padding: 5rem 20rem;
+  padding-bottom: 10rem;
+}
+
+.breadcrumb {
+  margin-bottom: var(--spacing-xl);
+}
+
+.breadcrumb-link {
+  color: var(--darker-blue);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: text-decoration 0.2s;
+}
+
+.breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
+.professional-share-exams-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--dark-gray);
+  margin-bottom: var(--spacing-sm);
+}
+
+.professional-share-exams-description {
+  font-size: var(--font-size-sm);
+  color: var(--dark-gray);
+  margin-bottom: var(--spacing-xl);
+}
+
+.no-exams-message {
+  margin-top: var(--spacing-lg, 2rem);
+  color: var(--dark-gray, #555);
+  text-align: center;
+  font-size: var(--font-size-md, 1rem);
+}
