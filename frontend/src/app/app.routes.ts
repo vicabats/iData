@@ -83,12 +83,12 @@ export const routes: Routes = [
   {
     path: 'my-exams/exam/:examId/edit',
     component: EditExamPage,
-    canActivate: [RedirectIfNotProfessionalUserGuardService],
+    canActivate: [RedirectIfNotPersonalUserGuardService],
   },
   {
     path: 'shared-exams',
     component: ProfessionalShareExamsPage,
-    canActivate: [RedirectIfLoggedOutGuardService],
+    canActivate: [RedirectIfNotProfessionalUserGuardService],
   },
   { path: 'about-us', component: AboutUsPage },
   {
