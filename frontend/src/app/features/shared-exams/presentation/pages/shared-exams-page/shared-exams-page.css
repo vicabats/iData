@@ -1,0 +1,88 @@
+.professional-share-exams-page {
+  padding: 5rem 20rem;
+  padding-bottom: 10rem;
+}
+
+.breadcrumb {
+  margin-bottom: var(--spacing-xl);
+}
+
+.breadcrumb-link {
+  color: var(--darker-blue);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: text-decoration 0.2s;
+}
+
+.breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
+.professional-share-exams-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--dark-gray);
+  margin-bottom: var(--spacing-sm);
+}
+
+.professional-share-exams-description {
+  font-size: var(--font-size-sm);
+  color: var(--dark-gray);
+  margin-bottom: var(--spacing-xl);
+}
+
+.no-exams-message {
+  margin-top: var(--spacing-lg, 2rem);
+  color: var(--dark-gray, #555);
+  text-align: center;
+  font-size: var(--font-size-md, 1rem);
+}
+
+.shared-exams-table-wrapper {
+  overflow-x: auto;
+  margin-top: 2rem;
+}
+
+.shared-exams-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.shared-exams-table th,
+.shared-exams-table td {
+  padding: 1rem 0.8rem;
+  text-align: left;
+}
+
+.shared-exams-table th {
+  background: #f5f7fa;
+  color: #333;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.shared-exam-row {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.shared-exam-row:hover,
+.shared-exam-row:focus {
+  background: #e3f2fd;
+}
+
+.exam-type-chip {
+  display: inline-block;
+  background: var(--light-green, #e0f7fa);
+  color: var(--blue, #1976d2);
+  border-radius: 16px;
+  padding: 0.3rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}

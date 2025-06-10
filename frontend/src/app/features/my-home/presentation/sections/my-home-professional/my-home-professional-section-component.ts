@@ -10,11 +10,7 @@ import { Router } from '@angular/router';
 export class MyHomeProfessionalSectionComponent {
   constructor(private router: Router) {}
 
-  public redirectToLogs(): void {
-    this.router.navigate(['logs']);
-  }
-
-  public redirectToInProgress(): void {
-    this.router.navigate(['in-progress']);
+  public redirectToSharedExams(): void {
+    this.router.navigate(['shared-exams']);
   }
 }

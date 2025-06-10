@@ -1,0 +1,58 @@
+<section class="professional-share-exams-page">
+  <app-loading *ngIf="isLoading" />
+
+  <ng-container *ngIf="!isLoading">
+    <nav class="breadcrumb">
+      <a (click)="goBackToMyHome()" class="breadcrumb-link">
+        ← Voltar para Minhas Funcionalidades
+      </a>
+    </nav>
+
+    <h2 class="professional-share-exams-title">Exames compartilhados comigo</h2>
+
+    <ng-container *ngIf="sharedExams && sharedExams.length === 0">
+      <p class="no-exams-message">
+        Seus pacientes ainda não compartilharam nenhum exame com você ou os
+        exames que você tinha acesso expiraram.
+      </p>
+    </ng-container>
+
+    <ng-container *ngIf="sharedExams && sharedExams.length > 0">
+      <p class="professional-share-exams-description">
+        Estes são os exames que seus pacientes compartilharam com você.
+        Lembre-se de que eles expiram após 24 horas.
+      </p>
+      <div class="shared-exams-table-wrapper">
+        <table class="shared-exams-table">
+          <thead>
+            <tr>
+              <th>Paciente</th>
+              <th>CPF</th>
+              <th>Exame</th>
+              <th>Data de Compartilhamento</th>
+              <th>Tipo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let exam of sharedExams"
+              (click)="navigateToExamDetails(exam)"
+              class="shared-exam-row"
+              tabindex="0"
+            >
+              <td>{{ exam.personal.name | capitalize }}</td>
+              <td>{{ exam.personal.cpf }}</td>
+              <td>{{ exam.exam.title | capitalize }}</td>
+              <td>{{ exam.sharingDate | date: 'dd/MM/yyyy' }}</td>
+              <td>
+                <span class="exam-type-chip">
+                  {{ getExamTypeName(exam.exam.type) }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+  </ng-container>
+</section>

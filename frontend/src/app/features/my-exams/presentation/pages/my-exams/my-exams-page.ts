@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
 import { User } from '../../../../../shared/types/user';
-import { Exam, getExamTypeName } from '../../../../../shared/types/exams';
+import { Exam, getExamTypeName } from '../../../../../shared/types/exam';
 import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
 import { CapitalizePipe } from '../../../../../shared/pipes/capitalize-pipe';
 

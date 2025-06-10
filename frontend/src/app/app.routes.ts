@@ -21,6 +21,8 @@ import { MyExamsPage } from './features/my-exams/presentation/pages/my-exams/my-
 import { AddExamsPage } from './features/my-exams/presentation/pages/upload-exam/add-exams-page';
 import { ViewExamPage } from './features/my-exams/presentation/pages/view-exam/view-exam-page';
 import { EditExamPage } from './features/my-exams/presentation/pages/edit-exam/edit-exam-page';
+import { SharedExamsPage } from './features/shared-exams/presentation/pages/shared-exams-page/shared-exams-page';
+import { RedirectIfNotProfessionalUserGuardService } from './guards/redirect-if-not-professional-user-guard/redirect-if-not-professional-user-guard.service';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -82,6 +84,11 @@ export const routes: Routes = [
     path: 'my-exams/exam/:examId/edit',
     component: EditExamPage,
     canActivate: [RedirectIfNotPersonalUserGuardService],
+  },
+  {
+    path: 'shared-exams',
+    component: SharedExamsPage,
+    canActivate: [RedirectIfNotProfessionalUserGuardService],
   },
   { path: 'about-us', component: AboutUsPage },
   {
