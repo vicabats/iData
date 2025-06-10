@@ -9,10 +9,17 @@
     </nav>
 
     <h2 class="my-exams-title">Meus exames</h2>
-    <p class="my-exams-description">
-      Visualize, gerencie, adicione e compartilhe seus exames e laudos médicos
-    </p>
+
+    <ng-container *ngIf="exams && exams.length === 0">
+      <p class="no-exams-message">
+        Você ainda não adicionou nenhum exame ao seu repositório de saúde.
+      </p>
+    </ng-container>
+
     <ng-container *ngIf="exams && exams.length > 0">
+      <p class="my-exams-description">
+        Visualize, gerencie, adicione e compartilhe seus exames e laudos médicos
+      </p>
       <ul class="exam-list">
         <li
           *ngFor="let exam of exams"
@@ -24,12 +31,6 @@
           <span class="exam-date">{{ exam.date | date: 'dd/MM/yyyy' }}</span>
         </li>
       </ul>
-    </ng-container>
-
-    <ng-container *ngIf="exams && exams.length === 0">
-      <p class="no-exams-message">
-        Você ainda não adicionou nenhum exame ao seu repositório de saúde.
-      </p>
     </ng-container>
 
     <div class="add-exam-section">

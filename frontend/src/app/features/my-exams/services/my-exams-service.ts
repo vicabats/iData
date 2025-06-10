@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { PersonalUser } from '../../../shared/types/personal_user';
-import { Exam } from '../../../shared/types/exams';
+import { Exam } from '../../../shared/types/exam';
 import { User } from '../../../shared/types/user';
 import { map } from 'rxjs/operators';
 

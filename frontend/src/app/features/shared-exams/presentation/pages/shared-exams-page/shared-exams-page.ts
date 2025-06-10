@@ -1,37 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-
-import { CommonModule } from '@angular/common';
 import { UserSessionService } from '../../../../../core/services/user-session/user-session.service';
-import {
-  MyExamsResponse,
-  MyExamsService,
-} from '../../../services/my-exams-service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
+import {
+  SharedExamsResponse,
+  SharedExamsServices,
+} from '../../../services/shared-exams-service';
 import { User } from '../../../../../shared/types/user';
-import { Exam, getExamTypeName } from '../../../../../shared/types/exam';
+import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
+import { CommonModule } from '@angular/common';
+import { SharedExam } from '../../../../../shared/types/shared_exam';
 import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
 import { CapitalizePipe } from '../../../../../shared/pipes/capitalize-pipe';
 
 @Component({
-  selector: 'app-my-exams-page',
+  selector: 'app-shared-exams-page',
   imports: [LoadingComponent, CommonModule, CapitalizePipe],
-  templateUrl: './my-exams-page.html',
-  styleUrl: './my-exams-page.css',
+  templateUrl: './shared-exams-page.html',
+  styleUrl: './shared-exams-page.css',
 })
-export class MyExamsPage implements OnInit {
+export class SharedExamsPage implements OnInit {
   public user: User | null = null;
 
   public isLoading = true;
 
-  public exams: Exam[] = [];
-
-  public getExamTypeName = getExamTypeName;
+  public sharedExams: SharedExam[] = [];
 
   constructor(
     private userSessionService: UserSessionService,
-    private myExamsService: MyExamsService,
+    private sharedExamsServices: SharedExamsServices,
     private router: Router,
     private snackBar: MatSnackBar
   ) {}
@@ -39,22 +36,31 @@ export class MyExamsPage implements OnInit {
   ngOnInit(): void {
     this.userSessionService.user$.subscribe((user) => {
       this.user = user;
-    });
-    this.myExamsService.getExamsList({ user: this.user as User }).subscribe({
-      next: (response) => this.handleGetExamsListSuccess(response),
-      error: (error) => this.handleGetExamsListFailure(error.message),
+      if (this.user) {
+        this.loadSharedExams();
+      }
     });
   }
 
-  private handleGetExamsListSuccess(response: MyExamsResponse): void {
-    this.exams = response.exams ?? [];
+  private loadSharedExams(): void {
+    this.sharedExamsServices
+      .getSharedExamsList({ userId: this.user?.id as string })
+      .subscribe({
+        next: (response) => this.handleGetSharedExamsSuccess(response),
+        error: (error) => this.handleGetSharedExamsFailure(error.message),
+      });
+  }
+
+  private handleGetSharedExamsSuccess(response: SharedExamsResponse): void {
+    this.sharedExams = response.sharedExams;
     this.isLoading = false;
   }
 
-  private handleGetExamsListFailure(errorMessage: string): void {
+  private handleGetSharedExamsFailure(errorMessage: string): void {
     const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
       data: {
-        message: errorMessage,
+        message: 'Erro ao compartilhar exames carregados com você:',
+        errorMessage,
         type: 'error',
       },
       duration: 3000,
@@ -69,17 +75,9 @@ export class MyExamsPage implements OnInit {
     });
   }
 
-  public goBackToMyHome(): void {
-    this.router.navigate(['my-home']);
-  }
-
-  public navigateToExamDetails(exam: Exam): void {
-    this.router.navigate(['my-exams', 'exam', exam.id], {
+  public navigateToExamDetails(exam: SharedExam): void {
+    this.router.navigate(['shared-exams', 'exam', exam.id], {
       state: { userId: this.user?.id },
     });
-  }
-
-  public navigateToAddExamPage(): void {
-    this.router.navigate(['my-exams', 'add']);
   }
 }

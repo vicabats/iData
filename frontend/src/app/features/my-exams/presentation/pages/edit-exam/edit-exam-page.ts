@@ -5,7 +5,7 @@ import {
   ExamType,
   ExamTypeNames,
   normalizeExamType,
-} from '../../../../../shared/types/exams';
+} from '../../../../../shared/types/exam';
 import {
   FormBuilder,
   FormGroup,
