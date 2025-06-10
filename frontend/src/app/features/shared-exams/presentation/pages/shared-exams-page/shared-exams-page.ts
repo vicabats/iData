@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { SharedExam } from '../../../../../shared/types/shared_exam';
 import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
 import { CapitalizePipe } from '../../../../../shared/pipes/capitalize-pipe';
+import { getExamTypeName } from '../../../../../shared/types/exam';
 
 @Component({
   selector: 'app-shared-exams-page',
@@ -25,6 +26,8 @@ export class SharedExamsPage implements OnInit {
   public isLoading = true;
 
   public sharedExams: SharedExam[] = [];
+
+  public getExamTypeName = getExamTypeName;
 
   constructor(
     private userSessionService: UserSessionService,
