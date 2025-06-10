@@ -11,10 +11,19 @@ export interface SharedExamsResponse {
   sharedExams: SharedExam[];
 }
 
+interface GetSharedExamByIdParams {
+  userId: string;
+  sharedExamId: string;
+}
+
+export interface GetSharedExamByIdResponse {
+  sharedExam: SharedExam;
+}
+
 @Injectable({
   providedIn: 'root',
 })
-export class SharedExamsServices {
+export class SharedExamsService {
   constructor(private http: HttpClient) {}
 
   public getSharedExamsList({
@@ -23,6 +32,19 @@ export class SharedExamsServices {
     const apiUrl = `http://localhost:8080/api/user/${userId}/shared-exams`;
 
     return this.http.get<SharedExamsResponse>(apiUrl).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error.error);
+      })
+    );
+  }
+
+  public getSharedExamById({
+    userId,
+    sharedExamId,
+  }: GetSharedExamByIdParams): Observable<GetSharedExamByIdResponse> {
+    const apiUrl = `http://localhost:8080/api/user/${userId}/shared-exams/${sharedExamId}`;
+
+    return this.http.get<GetSharedExamByIdResponse>(apiUrl).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error.error);
       })

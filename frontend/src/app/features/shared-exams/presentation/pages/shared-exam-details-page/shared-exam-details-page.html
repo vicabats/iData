@@ -1,0 +1,62 @@
+<section class="shared-exam-details-page">
+  <app-loading *ngIf="isLoading" />
+
+  <ng-container *ngIf="!isLoading && sharedExam">
+    <nav class="breadcrumb">
+      <a (click)="goBackToSharedExamsList()" class="breadcrumb-link">
+        ← Voltar para Exames Compartilhados Comigo
+      </a>
+    </nav>
+
+    <div class="exam-wrapper">
+      <div class="exam-infos">
+        <div>
+          <div class="exam-header">
+            <h2 class="view-exam-title">
+              {{ sharedExam.exam.title | capitalize }}
+            </h2>
+            <span class="exam-type-chip"
+              >{{ getExamTypeName(sharedExam.exam.type) }}</span
+            >
+          </div>
+          <div class="exam-meta">
+            <p>
+              <strong>Paciente:</strong> {{ sharedExam.personal.name |
+              capitalize }}
+            </p>
+            <p><strong>CPF:</strong> {{ sharedExam.personal.cpf }}</p>
+            <p>
+              <strong>Data do exame:</strong>
+              {{ sharedExam.exam.date | date: 'dd/MM/yyyy' }}
+            </p>
+            <p>
+              <strong>Data de compartilhamento:</strong>
+              {{ sharedExam.sharingDate | date: 'dd/MM/yyyy HH:mm' }}
+            </p>
+            <p>
+              <strong>Descrição:</strong>
+              {{ sharedExam.exam.description }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="exam-file-viewer">
+        <ng-container *ngIf="sharedExam.exam.fileContent">
+          <pdf-viewer
+            [src]="'data:application/pdf;base64,' + sharedExam.exam.fileContent"
+            [render-text]="true"
+            style="display: block; width: 100%; height: 600px"
+            [original-size]="false"
+            [show-all]="true"
+            [zoom]="1.0"
+            [autoresize]="true"
+          ></pdf-viewer>
+        </ng-container>
+        <ng-container *ngIf="!sharedExam.exam.fileContent">
+          <p>Arquivo não disponível.</p>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</section>

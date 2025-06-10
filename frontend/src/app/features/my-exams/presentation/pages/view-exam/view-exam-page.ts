@@ -29,8 +29,8 @@ export class ViewExamPage implements OnInit {
   public isLoading = true;
 
   public exam: Exam | null = null;
-
   public examId: string | undefined;
+
   private userId: string | undefined = undefined;
 
   public getExamTypeName = getExamTypeName;

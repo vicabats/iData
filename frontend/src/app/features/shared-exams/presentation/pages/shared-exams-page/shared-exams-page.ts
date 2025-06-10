@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SharedExamsResponse,
-  SharedExamsServices,
+  SharedExamsService,
 } from '../../../services/shared-exams-service';
 import { User } from '../../../../../shared/types/user';
 import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
@@ -31,7 +31,7 @@ export class SharedExamsPage implements OnInit {
 
   constructor(
     private userSessionService: UserSessionService,
-    private sharedExamsServices: SharedExamsServices,
+    private sharedExamsServices: SharedExamsService,
     private router: Router,
     private snackBar: MatSnackBar
   ) {}
@@ -78,8 +78,8 @@ export class SharedExamsPage implements OnInit {
     });
   }
 
-  public navigateToExamDetails(exam: SharedExam): void {
-    this.router.navigate(['shared-exams', 'exam', exam.id], {
+  public navigateToExamDetails(sharedExam: SharedExam): void {
+    this.router.navigate(['shared-exams', 'shared-exam', sharedExam.exam.id], {
       state: { userId: this.user?.id },
     });
   }

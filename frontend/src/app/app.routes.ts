@@ -23,6 +23,7 @@ import { ViewExamPage } from './features/my-exams/presentation/pages/view-exam/v
 import { EditExamPage } from './features/my-exams/presentation/pages/edit-exam/edit-exam-page';
 import { SharedExamsPage } from './features/shared-exams/presentation/pages/shared-exams-page/shared-exams-page';
 import { RedirectIfNotProfessionalUserGuardService } from './guards/redirect-if-not-professional-user-guard/redirect-if-not-professional-user-guard.service';
+import { SharedExamDetailsPage } from './features/shared-exams/presentation/pages/shared-exam-details-page/shared-exam-details-page';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -88,6 +89,11 @@ export const routes: Routes = [
   {
     path: 'shared-exams',
     component: SharedExamsPage,
+    canActivate: [RedirectIfNotProfessionalUserGuardService],
+  },
+  {
+    path: 'shared-exams/shared-exam/:sharedExamId',
+    component: SharedExamDetailsPage,
     canActivate: [RedirectIfNotProfessionalUserGuardService],
   },
   { path: 'about-us', component: AboutUsPage },

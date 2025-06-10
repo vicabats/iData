@@ -70,7 +70,7 @@ public class SharedExamController {
         try {
             SharedExamResponse sharedExam = sharedExamService.getSharedExamById(userId, examId);
             Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put(SHARED_EXAMS, sharedExam);
+            responseBody.put("sharedExam", sharedExam);
             return ResponseEntity.ok(responseBody);
         } catch (ExameManagementException e) {
             LOGGER.error("Erro ao buscar exame compartilhado ID: {} para profissional ID: {}. Detalhes: {}", 
