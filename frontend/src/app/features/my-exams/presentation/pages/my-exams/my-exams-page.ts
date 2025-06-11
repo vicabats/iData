@@ -13,10 +13,12 @@ import { User } from '../../../../../shared/types/user';
 import { Exam, getExamTypeName } from '../../../../../shared/types/exam';
 import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
 import { CapitalizePipe } from '../../../../../shared/pipes/capitalize-pipe';
+import { getExamTypeChipColor } from '../../../../../shared/helpers/get-exam-type-chip-color';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-my-exams-page',
-  imports: [LoadingComponent, CommonModule, CapitalizePipe],
+  imports: [LoadingComponent, CommonModule, CapitalizePipe, FormsModule],
   templateUrl: './my-exams-page.html',
   styleUrl: './my-exams-page.css',
 })
@@ -28,6 +30,9 @@ export class MyExamsPage implements OnInit {
   public exams: Exam[] = [];
 
   public getExamTypeName = getExamTypeName;
+  public getExamTypeChipColor = getExamTypeChipColor;
+
+  public searchTerm: string = '';
 
   constructor(
     private userSessionService: UserSessionService,
@@ -39,10 +44,12 @@ export class MyExamsPage implements OnInit {
   ngOnInit(): void {
     this.userSessionService.user$.subscribe((user) => {
       this.user = user;
-    });
-    this.myExamsService.getExamsList({ user: this.user as User }).subscribe({
-      next: (response) => this.handleGetExamsListSuccess(response),
-      error: (error) => this.handleGetExamsListFailure(error.message),
+      if (this.user) {
+        this.myExamsService.getExamsList({ user: this.user }).subscribe({
+          next: (response) => this.handleGetExamsListSuccess(response),
+          error: (error) => this.handleGetExamsListFailure(error.message),
+        });
+      }
     });
   }
 
@@ -81,5 +88,17 @@ export class MyExamsPage implements OnInit {
 
   public navigateToAddExamPage(): void {
     this.router.navigate(['my-exams', 'add']);
+  }
+
+  public filteredExams(): Exam[] {
+    if (!this.searchTerm?.trim()) {
+      return this.exams;
+    }
+    const term = this.searchTerm.trim().toLowerCase();
+    return this.exams.filter(
+      (exam) =>
+        exam.title.toLowerCase().includes(term) ||
+        exam.description?.toLowerCase().includes(term)
+    );
   }
 }

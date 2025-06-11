@@ -4,7 +4,6 @@ import { AboutUsPage } from './features/institutional/about-us-page/about-us-pag
 import { ForgotPasswordPage } from './features/forgot-password/pages/forgot-password-page/forgot-password-page';
 import { LoginPage } from './features/login/presentation/pages/login-page/login-page';
 import { VerifyCodePage } from './features/verify-code/presentation/pages/verify-code/verify-code-page';
-import { MedicalRecordsPage } from './features/medical-records/medical-records';
 import { InProgressPage } from './features/in-progress/in-progress-page';
 import { RegisterPage } from './features/register/presentation/pages/register-page/register-page';
 import { MyHomePage } from './features/my-home/presentation/pages/my-home-page';
@@ -102,6 +101,5 @@ export const routes: Routes = [
     component: ForgotPasswordPage,
     canActivate: [RedirectIfLoggedInGuardService],
   },
-  { path: 'medical-records', component: MedicalRecordsPage },
   { path: 'in-progress', component: InProgressPage },
 ];

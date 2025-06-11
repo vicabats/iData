@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { SharedExam } from '../../../shared/types/shared_exam';
 
 interface SharedExamsParams {
@@ -32,6 +32,13 @@ export class SharedExamsService {
     const apiUrl = `http://localhost:8080/api/user/${userId}/shared-exams`;
 
     return this.http.get<SharedExamsResponse>(apiUrl).pipe(
+      map((response) => ({
+        sharedExams: response.sharedExams.sort(
+          (a, b) =>
+            new Date(b.sharingDate).getTime() -
+            new Date(a.sharingDate).getTime()
+        ),
+      })),
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error.error);
       })

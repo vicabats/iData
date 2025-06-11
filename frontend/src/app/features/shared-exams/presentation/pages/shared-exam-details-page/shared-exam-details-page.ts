@@ -11,10 +11,12 @@ import {
 import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
 import { CommonModule } from '@angular/common';
 import { CapitalizePipe } from '../../../../../shared/pipes/capitalize-pipe';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { getExamTypeChipColor } from '../../../../../shared/helpers/get-exam-type-chip-color';
 
 @Component({
   selector: 'app-shared-exam-details-page',
-  imports: [LoadingComponent, CommonModule, CapitalizePipe],
+  imports: [LoadingComponent, CommonModule, CapitalizePipe, PdfViewerModule],
   templateUrl: './shared-exam-details-page.html',
   styleUrl: './shared-exam-details-page.css',
 })
@@ -27,6 +29,7 @@ export class SharedExamDetailsPage implements OnInit {
   private userId: string | undefined = undefined;
 
   public getExamTypeName = getExamTypeName;
+  public getExamTypeChipColor = getExamTypeChipColor;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,9 +44,6 @@ export class SharedExamDetailsPage implements OnInit {
       this.sharedExamId = params.get('sharedExamId') || '';
 
       this.userId = history.state.userId;
-
-      console.log('Shared Exam ID:', this.sharedExamId);
-      console.log('User ID from history state:', this.userId);
 
       if (!this.userId) {
         this.userSessionService.user$.subscribe((user) => {
@@ -62,8 +62,6 @@ export class SharedExamDetailsPage implements OnInit {
       return;
     }
 
-    console.log('Loading shared exam with ID:', this.sharedExamId);
-
     this.sharedExamsService
       .getSharedExamById({
         userId: this.userId,
@@ -78,7 +76,6 @@ export class SharedExamDetailsPage implements OnInit {
   private handleGetSharedExamSuccess(
     response: GetSharedExamByIdResponse
   ): void {
-    console.log('Shared exam loaded successfully:', response);
     this.sharedExam = response.sharedExam;
     this.isLoading = false;
   }
@@ -96,5 +93,20 @@ export class SharedExamDetailsPage implements OnInit {
     this.router.navigate(['shared-exams'], {
       state: { userId: this.userId },
     });
+  }
+
+  public getTimeLeft(sharingDate: string): string {
+    const sharedAt = new Date(sharingDate);
+    const expiresAt = new Date(sharedAt.getTime() + 24 * 60 * 60 * 1000);
+    const now = new Date();
+    const diffMs = expiresAt.getTime() - now.getTime();
+
+    if (diffMs <= 0) {
+      return 'Expirado';
+    }
+
+    const hours = Math.floor(diffMs / (1000 * 60 * 60));
+    const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours}h ${minutes}min`;
   }
 }

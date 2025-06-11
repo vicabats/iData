@@ -171,7 +171,6 @@ export class EditExamPage implements OnInit {
     });
 
     snackBarRef.afterDismissed().subscribe(() => {
-      console.log(updatedExam);
       const examId = updatedExam.exams.id;
       this.isLoading = false;
       this.router.navigate(['my-exams', 'exam', examId], {

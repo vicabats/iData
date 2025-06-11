@@ -11,6 +11,7 @@ import { UserSessionService } from '../../../../../core/services/user-session/us
 import { CapitalizePipe } from '../../../../../shared/pipes/capitalize-pipe';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { FormsModule } from '@angular/forms';
+import { getExamTypeChipColor } from '../../../../../shared/helpers/get-exam-type-chip-color';
 
 @Component({
   selector: 'app-view-exam',
@@ -34,6 +35,7 @@ export class ViewExamPage implements OnInit {
   private userId: string | undefined = undefined;
 
   public getExamTypeName = getExamTypeName;
+  public getExamTypeChipColor = getExamTypeChipColor;
 
   public showConfirmDeleteExamModal = false;
 

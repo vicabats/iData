@@ -22,6 +22,16 @@
         Estes são os exames que seus pacientes compartilharam com você.
         Lembre-se de que eles expiram após 24 horas.
       </p>
+
+      <div class="shared-exams-search-wrapper">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Buscar por nome ou CPF do paciente"
+          class="shared-exams-search-input"
+        />
+      </div>
+
       <div class="shared-exams-table-wrapper">
         <table class="shared-exams-table">
           <thead>
@@ -35,7 +45,7 @@
           </thead>
           <tbody>
             <tr
-              *ngFor="let exam of sharedExams"
+              *ngFor="let exam of filteredSharedExams()"
               (click)="navigateToExamDetails(exam)"
               class="shared-exam-row"
               tabindex="0"
@@ -45,8 +55,11 @@
               <td>{{ exam.exam.title | capitalize }}</td>
               <td>{{ exam.sharingDate | date: 'dd/MM/yyyy' }}</td>
               <td>
-                <span class="exam-type-chip">
-                  {{ getExamTypeName(exam.exam.type) }}
+                <span
+                  class="exam-type-chip"
+                  [ngStyle]="{ 'background-color': getExamTypeChipColor(sharedExam.exam.type) }"
+                >
+                  {{ getExamTypeName(sharedExam.exam.type) }}
                 </span>
               </td>
             </tr>
