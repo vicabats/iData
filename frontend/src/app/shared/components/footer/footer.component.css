@@ -88,16 +88,3 @@
   max-width: 60px;
   margin-bottom: var(--spacing-xs);
 }
-
-/* Variáveis CSS */
-:root {
-  --light-green: #e0f2e9;
-  --darker-blue: #1a3c34;
-  --primary-color: #28a745;
-  --spacing-sm: 16px;
-  --spacing-md: 24px;
-  --spacing-xs: 8px;
-  --font-size-sm: 14px;
-  --font-size-md: 16px;
-  --font-size-xs: 12px;
-}

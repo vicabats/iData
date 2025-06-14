@@ -5,7 +5,11 @@
 
   <p *ngIf="message" class="message">{{ message }}</p>
 
-  <form [formGroup]="codeForm" (ngSubmit)="submitCode()">
+  <form
+    class="delete-account-form"
+    [formGroup]="codeForm"
+    (ngSubmit)="submitCode()"
+  >
     <label for="code">Digite o código de 6 dígitos:</label>
     <input
       id="code"

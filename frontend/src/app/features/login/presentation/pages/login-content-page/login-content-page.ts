@@ -134,11 +134,7 @@ export class LoginContentPage implements OnInit {
     const control = this.loginForm.get(controlName);
 
     if (control && control.touched && control.invalid) {
-      if (control.errors?.['pattern']) {
-        return 'Formato inválido. Siga o padrão: ' + placeholder;
-      } else if (control.errors?.['required']) {
-        return 'Este campo não pode ficar em branco';
-      }
+      return 'Este campo não pode ficar em branco';
     }
     return '';
   }

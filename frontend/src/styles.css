@@ -34,7 +34,7 @@ router-outlet + * {
 
 /* Material style overrides */
 .mat-datepicker-toggle .mat-icon-button {
-  background-color: red;
+  background-color: var(--warning);
 }
 
 .mat-calendar {
@@ -75,10 +75,10 @@ router-outlet + * {
 .custom-snackbar {
   z-index: 10000 !important;
 
-  color: white;
+  color: var(--white);
   font-weight: bold;
   text-align: center;
-  padding: 16px;
+  padding: var(--spacing-sm);
   border-radius: 4px;
 }
 
@@ -92,14 +92,14 @@ router-outlet + * {
 
 .mat-mdc-snack-bar-container.success-snackbar {
   --mdc-snackbar-container-color: var(--success);
-  --mat-mdc-snack-bar-button-color: #fff;
-  --mdc-snackbar-supporting-text-color: #fff;
+  --mat-mdc-snack-bar-button-color: var(--white);
+  --mdc-snackbar-supporting-text-color: var(--white);
 }
 
 .mat-mdc-snack-bar-container.error-snackbar {
   --mdc-snackbar-container-color: var(--warning);
-  --mat-mdc-snack-bar-button-color: #fff;
-  --mdc-snackbar-supporting-text-color: #fff;
+  --mat-mdc-snack-bar-button-color: var(--white);
+  --mdc-snackbar-supporting-text-color: var(--white);
 }
 
 .mat-mdc-snack-bar-container.centered-snackbar {

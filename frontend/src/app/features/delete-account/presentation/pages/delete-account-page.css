@@ -3,81 +3,80 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: white;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-  margin: 80px auto;
+  padding: 5rem 20rem;
+  padding-bottom: 10rem;
 }
 
 h2 {
-  font-size: 24px;
+  font-size: var(--font-size-lg);
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: var(--spacing-xs);
 }
 
 .message {
-  color: green;
+  color: var(--success);
   font-weight: bold;
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
+}
+
+.delete-account-form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 label {
-  font-size: 14px;
-  color: #333;
+  font-size: var(--font-size-md);
+  color: var(--darker-gray);
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: var(--spacing-sm);
 }
 
 input[type="text"] {
-  font-size: 18px;
-  padding: 10px;
-  width: 100%;
+  font-size: var(--font-size-md);
+  padding: var(--spacing-sm);
   text-align: center;
   letter-spacing: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--gray);
   border-radius: 8px;
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
 }
 
 .submit-button {
-  margin-top: 1rem;
+  margin-top: var(--spacing-md);
   cursor: not-allowed;
-  font-size: var(--font-size-md, 16px);
-  padding: var(--spacing-sm, 12px);
-  background-color: #ccc;
-  color: var(--white, #fff);
+  font-size: var(--font-size-md);
+  padding: var(--spacing-sm);
+  background-color: var(--gray);
+  color: var(--white);
   border-radius: 5px;
   width: 100%;
 }
 
 .submit-button-enabled {
-  background-color: var(--blue, #007bff);
-  color: var(--white, #fff);
+  background-color: var(--darker-blue);
+  color: var(--white);
   cursor: pointer;
-  padding: var(--spacing-sm, 12px);
+  padding: var(--spacing-sm);
 }
 
 .divider-with-text {
   display: flex;
   align-items: center;
   text-align: center;
-  margin: 20px 0;
+  margin: var(--spacing-md);
 }
 
 .mat-divider {
   flex: 1;
-  border-top-color: #ccc;
+  border-top-color: var(--gray);
   border-top-width: 1px;
 }
 
 .divider-text {
-  padding: 0 10px;
-  font-size: 14px;
-  color: #666;
+  padding: 0 var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--darker-gray);
 }
 
 .resend-code {
@@ -92,11 +91,11 @@ input[type="text"] {
 }
 
 .resend-code:hover {
-  color: #0056b3;
+  color: var(--darker-blue);
 }
 
 .error {
-  color: red;
-  font-size: 12px;
-  margin-top: 6px;
+  color: var(--warning);
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-xs);
 }
