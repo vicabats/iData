@@ -54,12 +54,13 @@
               <td>{{ exam.personal.cpf }}</td>
               <td>{{ exam.exam.title | capitalize }}</td>
               <td>{{ exam.sharingDate | date: 'dd/MM/yyyy' }}</td>
+
               <td>
                 <span
                   class="exam-type-chip"
-                  [ngStyle]="{ 'background-color': getExamTypeChipColor(sharedExam.exam.type) }"
+                  [ngStyle]="{ 'background-color': getExamTypeChipColor(exam.exam.type) }"
                 >
-                  {{ getExamTypeName(sharedExam.exam.type) }}
+                  {{ getExamTypeName(exam.exam.type) }}
                 </span>
               </td>
             </tr>

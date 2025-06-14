@@ -104,4 +104,8 @@ export class SharedExamsPage implements OnInit {
       return nameMatch || cpfMatch;
     });
   }
+
+  public goBackToMyHome(): void {
+    this.router.navigate(['my-home']);
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { filter, Observable, switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { UserSessionService } from '../../../../core/services/user-session/user-session.service';
 import { User } from '../../../../shared/types/user';
@@ -27,15 +27,25 @@ export class MyHomePage implements OnInit {
 
   public userTypeEnum = UserType;
 
+  public isLoading = true;
+
   constructor(private userSessionService: UserSessionService) {}
 
   ngOnInit(): void {
-    this.userSessionService.user$.subscribe((user) => {
-      this.user = user;
-    });
+    this.userSessionService.user$
+      .pipe(
+        filter((user) => !!user),
+        switchMap((user) => {
+          this.user = user;
+          return this.userSessionService.userType$;
+        })
+      )
+      .subscribe((userType) => {
+        this.userType = userType;
+      });
 
-    this.userSessionService.userType$.subscribe((userType) => {
-      this.userType = userType;
-    });
+    if (this.user && this.userType) {
+      this.isLoading = false;
+    }
   }
 }

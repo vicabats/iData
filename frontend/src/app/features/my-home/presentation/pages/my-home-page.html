@@ -1,11 +1,17 @@
 <section *ngIf="user" class="my_home-page">
-  <h2 class="my_home-username">Olá, {{user.name}}</h2>
-
-  <ng-container *ngIf="userType === userTypeEnum.personal">
-    <app-my-home-personal-section-component />
+  <ng-container *ngIf="isLoading">
+    <app-loading />
   </ng-container>
 
-  <ng-container *ngIf="userType === userTypeEnum.professional">
-    <app-my-home-professional-section-component />
+  <ng-container *ngIf="!isLoading && user">
+    <h2 class="my_home-username">Olá, {{user.name}}</h2>
+
+    <ng-container *ngIf="userType === userTypeEnum.personal">
+      <app-my-home-personal-section-component />
+    </ng-container>
+
+    <ng-container *ngIf="userType === userTypeEnum.professional">
+      <app-my-home-professional-section-component />
+    </ng-container>
   </ng-container>
 </section>

@@ -13,6 +13,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarComponent } from '../../../../../shared/components/snack-bar/snack-bar.component';
 import { Router } from '@angular/router';
+import { filter, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-edit-account-page',
@@ -40,13 +41,17 @@ export class EditAccountPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userSessionService.user$.subscribe((user) => {
-      this.user = user;
-    });
-
-    this.userSessionService.userType$.subscribe((userType) => {
-      this.userType = userType;
-    });
+    this.userSessionService.user$
+      .pipe(
+        filter((user) => !!user),
+        switchMap((user) => {
+          this.user = user;
+          return this.userSessionService.userType$;
+        })
+      )
+      .subscribe((userType) => {
+        this.userType = userType;
+      });
 
     if (this.user && this.userType) {
       this.isLoading = false;
