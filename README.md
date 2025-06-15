@@ -64,10 +64,17 @@
   <li>Logs de acesso</li>
 </ul>
 
-<h2>🏗️ Arquitetura</h2>
+<h2>🏗️ Arquitetura Backend</h2>
 <ul>
-  <li><strong>Backend:</strong> Padrões MVC e DAO, com MongoDB não relacional</li>
-  <li><strong>Frontend:</strong> Aplicação Angular otimizada para Google Chrome</li>
+  <li>Padrões MVC e DAO, com MongoDB não relacional</li>
+</ul>
+
+<h2> Arquitetura Frontend</h2>
+<ul>
+  <li>Estrutura modular (cada feature pertence a um módulo, com seus próprios componente, serviços e páginas)</li>
+  <li>Componentização e criação de tokens de design system</li>
+  <li>Comunicação com backend de forma encapsulada através de classes de serviço, que fazem as requisições HTTP</li>
+  <li>Gerenciamento de estado realizado por classes Singleton, que mantém o estado do usuário. O estado é exposto via Observables, o que permite que classes se inscrevam a eles e reajam a mudanças de estado de forma reativa</li>
 </ul>
 
 <h2>▶️ Como Executar</h2>
@@ -124,12 +131,6 @@ ng serve
 </code></pre>
 
 <p>Interface disponível em <a href="http://localhost:4200">http://localhost:4200</a></p>
-
-<h2>🧪 Testes</h2>
-<ul>
-  <li><strong>Backend:</strong> Testes unitários com Spring Test</li>
-  <li><strong>Frontend:</strong> Testes unitários com Karma</li>
-</ul>
 
 <h2>🔗 Links</h2>
 <ul>
