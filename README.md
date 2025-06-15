@@ -13,8 +13,6 @@
 </ul>
 
 <h2>🛠️ Funcionalidades</h2>
-
-<h3>✅ Implementadas</h3>
 <ul>
   <li>Cadastro e gerenciamento de usuários: usuário paciente e usuário profissional de saúde</li>
   <li>Login com autenticação em dois fatores (2FA)</li>
@@ -29,8 +27,8 @@
   <li>Usuários pacientes podem criar, editar, visualizar e deletar exames/prontuários; usuários profissionais apenas visualizam</li>
   <li>Suporte a exames nos formatos PDF</li>
   <li>Compartilhamento de dados somente com consentimento explícito do usuário</li>
-  <li>Exames compartilhados expiram após 24 horas</li>
-  <li></li>
+  <li>Exames compartilhados persistem no banco de dados, porém sua visualização por parte de profissionais de saúde expira após 24 horas</li>
+  <li>Cada vez que um profissional de saúde visualiza um exame compartilhado de um usuário paciente, um log é gerado no banco de dados</li>
 </ul>
 
 <h2>🧰 Tecnologias</h2>
@@ -49,7 +47,6 @@
 <ul>
   <li>Angular 19.2.0</li>
   <li>TypeScript</li>
-  <li>Bootstrap</li>
   <li>RxJS</li>
 </ul>
 
@@ -59,11 +56,10 @@
   <li>GitHub Actions (CI/CD)</li>
 </ul>
 
-<h2>🔐 Segurança (Planejada)</h2>
+<h2>🔐 Segurança </h2>
 <ul>
-  <li>Autenticação com 2FA</li>
-  <li>Criptografia de senhas</li>
-  <li>HTTPS</li>
+  <li>Autenticação em 2FA para logar</li>
+  <li>Autenticação em 2FA para deletar exame</li>
   <li>Conformidade com LGPD</li>
   <li>Logs de acesso</li>
 </ul>
