@@ -13,6 +13,8 @@ import com.fatecipiranga.idata.infrastructure.repository.CompartilhamentoExameRe
 import com.fatecipiranga.idata.infrastructure.repository.ExameRepository;
 import com.fatecipiranga.idata.infrastructure.repository.ProfessionalRepository;
 import com.fatecipiranga.idata.infrastructure.repository.UsuarioRepository;
+import com.fatecipiranga.idata.infrastructure.repository.ShareExamViewedLogRepository;
+import com.fatecipiranga.idata.infrastructure.entity.ShareExamViewedLogEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -36,17 +38,20 @@ public class SharedExamService {
     private final ProfessionalRepository professionalRepository;
     private final UsuarioRepository usuarioRepository;
     private final SharedExamMapper sharedExamMapper;
+    private final ShareExamViewedLogRepository shareExamViewedLogRepository;
 
     public SharedExamService(CompartilhamentoExameRepository compartilhamentoExameRepository,
                              ExameRepository exameRepository,
                              ProfessionalRepository professionalRepository,
                              UsuarioRepository usuarioRepository,
-                             SharedExamMapper sharedExamMapper) {
+                             SharedExamMapper sharedExamMapper,
+                             ShareExamViewedLogRepository shareExamViewedLogRepository) {
         this.compartilhamentoExameRepository = compartilhamentoExameRepository;
         this.exameRepository = exameRepository;
         this.professionalRepository = professionalRepository;
         this.usuarioRepository = usuarioRepository;
         this.sharedExamMapper = sharedExamMapper;
+        this.shareExamViewedLogRepository = shareExamViewedLogRepository;
     }
 
         public void shareExam(String userId, String examId, ShareExamRequest request) {
@@ -143,6 +148,12 @@ public class SharedExamService {
                 .orElseThrow(() -> new ExameManagementException(
                         "Usuário ID: " + exame.getUserId() + NOT_FOUND_SUFFIX,
                         USER_NOT_FOUND_CODE));
+
+        ShareExamViewedLogEntity log = new ShareExamViewedLogEntity();
+        log.setSharedExamId(compartilhamento.getId());
+        log.setProfessionalId(professionalId);
+        log.setViewedAt(LocalDateTime.now());
+        shareExamViewedLogRepository.save(log);
 
         return sharedExamMapper.toResponse(compartilhamento, exame, personal);
     }
