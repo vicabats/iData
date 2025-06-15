@@ -1,7 +1,7 @@
 <h1>🩺 iData</h1>
 
 <p>
-  <strong>iData</strong> é uma plataforma web para gerenciamento seguro de dados clínicos pessoais, como exames médicos e prontuários, com controle de contatos de segurança e compartilhamento com profissionais de saúde autorizados.
+  <strong>iData</strong> é uma plataforma web que oferece o serviço de gerenciamento de documentos clínicos pessoais (como exames e laudos médicos, por exemplo) e compartilhamento dos mesmos com profissionais de saúde, priorizando sempre a segurança dos dados e seguindo os padrões da LGPD.
 </p>
 
 <hr />
@@ -16,26 +16,21 @@
 
 <h3>✅ Implementadas</h3>
 <ul>
-  <li>Cadastro e gerenciamento de usuários: usuário final, contato de segurança e profissional de saúde</li>
-</ul>
-
-<h3>🚧 Em Desenvolvimento</h3>
-<ul>
-  <li>Login com autenticação e 2FA</li>
-  <li>Armazenamento e compartilhamento de prontuários/exames</li>
-  <li>Relacionamento de contatos de segurança</li>
-  <li>Visualização de históricos clínicos</li>
-  <li>Conformidade com LGPD (termos e condições)</li>
+  <li>Cadastro e gerenciamento de usuários: usuário paciente e usuário profissional de saúde</li>
+  <li>Login com autenticação em dois fatores (2FA)</li>
+  <li>Cadastro e gerenciamento de Exames (ex.: prontuários ou laudos)</li>
+  <li>Compartilhamento de Exames entre usuário paciente e usuário profissional de saúde</li>
+  <li>Registro de cada visualização que um profissional de saúde fizer a um exame compartilhado consigo</li>
 </ul>
 
 <h2>📋 Regras de Negócio</h2>
 <ul>
   <li>Unicidade de e-mail e CPF (exceto profissionais com CRM ou registro profissional)</li>
-  <li>Usuários finais podem editar exames/prontuários; contatos de segurança e profissionais apenas visualizam</li>
-  <li>Cada usuário pode ter no máximo três contatos de segurança</li>
-  <li>Validação de registro profissional obrigatória para profissionais de saúde</li>
-  <li>Suporte a exames nos formatos PDF e JPEG</li>
+  <li>Usuários pacientes podem criar, editar, visualizar e deletar exames/prontuários; usuários profissionais apenas visualizam</li>
+  <li>Suporte a exames nos formatos PDF</li>
   <li>Compartilhamento de dados somente com consentimento explícito do usuário</li>
+  <li>Exames compartilhados expiram após 24 horas</li>
+  <li></li>
 </ul>
 
 <h2>🧰 Tecnologias</h2>
