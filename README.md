@@ -1,7 +1,7 @@
 <h1>🩺 iData</h1>
 
 <p>
-  <strong>iData</strong> é uma plataforma web para gerenciamento seguro de dados clínicos pessoais, como exames médicos e prontuários, com controle de contatos de segurança e compartilhamento com profissionais de saúde autorizados.
+  <strong>iData</strong> é uma plataforma web que oferece o serviço de gerenciamento de documentos clínicos pessoais (como exames e laudos médicos, por exemplo) e compartilhamento dos mesmos com profissionais de saúde, priorizando sempre a segurança dos dados e seguindo os padrões da LGPD.
 </p>
 
 <hr />
@@ -13,29 +13,22 @@
 </ul>
 
 <h2>🛠️ Funcionalidades</h2>
-
-<h3>✅ Implementadas</h3>
 <ul>
-  <li>Cadastro e gerenciamento de usuários: usuário final, contato de segurança e profissional de saúde</li>
-</ul>
-
-<h3>🚧 Em Desenvolvimento</h3>
-<ul>
-  <li>Login com autenticação e 2FA</li>
-  <li>Armazenamento e compartilhamento de prontuários/exames</li>
-  <li>Relacionamento de contatos de segurança</li>
-  <li>Visualização de históricos clínicos</li>
-  <li>Conformidade com LGPD (termos e condições)</li>
+  <li>Cadastro e gerenciamento de usuários: usuário paciente e usuário profissional de saúde</li>
+  <li>Login com autenticação em dois fatores (2FA)</li>
+  <li>Cadastro e gerenciamento de Exames (ex.: prontuários ou laudos)</li>
+  <li>Compartilhamento de Exames entre usuário paciente e usuário profissional de saúde</li>
+  <li>Registro de cada visualização que um profissional de saúde fizer a um exame compartilhado consigo</li>
 </ul>
 
 <h2>📋 Regras de Negócio</h2>
 <ul>
   <li>Unicidade de e-mail e CPF (exceto profissionais com CRM ou registro profissional)</li>
-  <li>Usuários finais podem editar exames/prontuários; contatos de segurança e profissionais apenas visualizam</li>
-  <li>Cada usuário pode ter no máximo três contatos de segurança</li>
-  <li>Validação de registro profissional obrigatória para profissionais de saúde</li>
-  <li>Suporte a exames nos formatos PDF e JPEG</li>
+  <li>Usuários pacientes podem criar, editar, visualizar e deletar exames/prontuários; usuários profissionais apenas visualizam</li>
+  <li>Suporte a exames nos formatos PDF</li>
   <li>Compartilhamento de dados somente com consentimento explícito do usuário</li>
+  <li>Exames compartilhados persistem no banco de dados, porém sua visualização por parte de profissionais de saúde expira após 24 horas</li>
+  <li>Cada vez que um profissional de saúde visualiza um exame compartilhado de um usuário paciente, um log é gerado no banco de dados</li>
 </ul>
 
 <h2>🧰 Tecnologias</h2>
@@ -54,7 +47,6 @@
 <ul>
   <li>Angular 19.2.0</li>
   <li>TypeScript</li>
-  <li>Bootstrap</li>
   <li>RxJS</li>
 </ul>
 
@@ -64,19 +56,25 @@
   <li>GitHub Actions (CI/CD)</li>
 </ul>
 
-<h2>🔐 Segurança (Planejada)</h2>
+<h2>🔐 Segurança </h2>
 <ul>
-  <li>Autenticação com 2FA</li>
-  <li>Criptografia de senhas</li>
-  <li>HTTPS</li>
+  <li>Autenticação em 2FA para logar</li>
+  <li>Autenticação em 2FA para deletar exame</li>
   <li>Conformidade com LGPD</li>
   <li>Logs de acesso</li>
 </ul>
 
-<h2>🏗️ Arquitetura</h2>
+<h2>🏗️ Arquitetura Backend</h2>
 <ul>
-  <li><strong>Backend:</strong> Padrões MVC e DAO, com MongoDB não relacional</li>
-  <li><strong>Frontend:</strong> Aplicação Angular otimizada para Google Chrome</li>
+  <li>Padrões MVC e DAO, com MongoDB não relacional</li>
+</ul>
+
+<h2> Arquitetura Frontend</h2>
+<ul>
+  <li>Estrutura modular (cada feature pertence a um módulo, com seus próprios componente, serviços e páginas)</li>
+  <li>Componentização e criação de tokens de design system</li>
+  <li>Comunicação com backend de forma encapsulada através de classes de serviço, que fazem as requisições HTTP</li>
+  <li>Gerenciamento de estado realizado por classes Singleton, que mantém o estado do usuário. O estado é exposto via Observables, o que permite que classes se inscrevam a eles e reajam a mudanças de estado de forma reativa</li>
 </ul>
 
 <h2>▶️ Como Executar</h2>
@@ -133,12 +131,6 @@ ng serve
 </code></pre>
 
 <p>Interface disponível em <a href="http://localhost:4200">http://localhost:4200</a></p>
-
-<h2>🧪 Testes</h2>
-<ul>
-  <li><strong>Backend:</strong> Testes unitários com Spring Test</li>
-  <li><strong>Frontend:</strong> Testes unitários com Karma</li>
-</ul>
 
 <h2>🔗 Links</h2>
 <ul>
