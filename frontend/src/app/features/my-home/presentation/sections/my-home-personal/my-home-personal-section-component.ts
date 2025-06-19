@@ -10,19 +10,7 @@ import { Router } from '@angular/router';
 export class MyHomePersonalSectionComponent {
   constructor(private router: Router) {}
 
-  public redirectToMedicalRecords(): void {
-    this.router.navigate(['medical-records']);
-  }
-
   public redirectToExams(): void {
     this.router.navigate(['my-exams']);
-  }
-
-  public redirectToSafetyContact(): void {
-    this.router.navigate(['safety-contact']);
-  }
-
-  public redirectToInProgress(): void {
-    this.router.navigate(['in-progress']);
   }
 }
