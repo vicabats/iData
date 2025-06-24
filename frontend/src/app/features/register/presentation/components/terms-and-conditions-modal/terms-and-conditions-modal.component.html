@@ -7,16 +7,19 @@
       </button>
     </div>
 
-    <div>
+    
+    <div class="modal-body">
       <p class="modal-message">
-        Ao prosseguir com o cadastro, você declara estar ciente de que as
-        informações médicas pessoais serão armazenadas na plataforma iData de
-        forma segura e criptografada, em conformidade com a Lei Geral de
-        Proteção de Dados (LGPD). Você autoriza o uso desses dados
-        exclusivamente para fins de gerenciamento e compartilhamento com
-        profissionais de saúde e confidencialidade, conforme seu consentimento.
-        O controle sobre o acesso e uso de informações permanece sempre sob sua
-        responsabilidade.
+        Ao prosseguir com o cadastro, você declara estar ciente de que seus dados pessoais e, quando aplicável, informações médicas sensíveis, serão armazenados de forma segura e criptografada na plataforma iData, em conformidade com a Lei Geral de Proteção de Dados Pessoais (LGPD).
+      </p>
+      <p class="modal-message">
+        Usuários com perfil Paciente poderão armazenar e compartilhar seus exames com Profissionais de Saúde cadastrados na plataforma. O acesso a cada exame compartilhado será temporário, com validade máxima de 24 horas após o envio, sendo automaticamente revogado após esse período.
+      </p>
+      <p class="modal-message">
+        Usuários com perfil Profissional de Saúde poderão visualizar apenas os exames que lhes forem compartilhados, e cada acesso será registrado pelo sistema, incluindo a identificação do profissional, o exame acessado, a data e o horário da visualização.
+      </p>
+      <p class="modal-message">
+        Esses registros garantem transparência, rastreabilidade e segurança no tratamento das informações. O controle sobre o compartilhamento e o acesso às informações permanece sempre sob responsabilidade do usuário titular dos dados.
       </p>
     </div>
     <mat-checkbox [(ngModel)]="termsAccepted"
